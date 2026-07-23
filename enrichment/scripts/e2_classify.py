@@ -118,9 +118,37 @@ exercise_id, start_position, requires_floor_transition, requires_standing,
 requires_balance, single_leg_support, overhead_position, grip_required,
 axial_spinal_load, spinal_flexion, spinal_extension, spinal_rotation,
 impact_level, joint_stress, laterality, movement_pattern, difficulty,
-rom_demand, contraindications, cautions, safe_for, confidence
+rom_demand, orthostatic_load, position_change, head_below_heart,
+valsalva_risk, sustained_isometric, metabolic_intensity, joint_laxity_risk,
+pelvic_floor_load, temperature_load, grip_duration,
+contraindications, cautions, safe_for, confidence
 
-joint_stress debe incluir SIEMPRE las 8 articulaciones."""
+joint_stress debe incluir SIEMPRE las 8 articulaciones.
+head_below_heart es booleano. difficulty es entero 1-5. confidence es 0.0-1.0.
+El resto de los campos nuevos usan la escala none|low|moderate|high.
+
+## Los campos fisiologicos (v1.2) - leer con atencion
+
+Son los que permiten filtrar condiciones que NO dependen de que articulacion se
+carga. Sin ellos la app no puede atender disautonomia, fatiga cronica ni
+hipermovilidad. No los dejes en null.
+
+- orthostatic_load: cuestion de VERTICALIDAD DEL TORSO, no de "no estar acostado".
+  En cuadrupedia o plancha la cabeza queda a la altura del corazon: eso es none.
+  Reclinado/cuadrupedia/plancha = none. Sentado/arrodillado = low.
+  Colgado = moderate. De pie = moderate, o high si hay brazos elevados o impacto.
+
+- metabolic_intensity: demanda cardiometabolica global. Un curl de biceps es low
+  aunque sea pesado; burpees son high. Critico para fatiga cronica.
+
+- valsalva_risk: probabilidad de que la persona aguante la respiracion bajo carga.
+  Sube con carga axial y con dificultad. Sentadilla pesada = high, estiramiento = none.
+
+- joint_laxity_risk: riesgo de trabajar en rango final con articulacion inestable.
+  Alto en estiramientos profundos y en posiciones de maxima apertura.
+
+- pelvic_floor_load: presion intraabdominal descendente. Alta en bisagra de cadera
+  con carga, impacto, y trabajo de core intenso."""
 
 
 def build_user_message(batch, e1_map):
@@ -211,11 +239,29 @@ def validate_record(rec, taxonomy):
         ("laterality", e["laterality"]),
         ("movement_pattern", e["movement_pattern"]),
         ("rom_demand", e["level"]),
+        # v1.2 - campos fisiologicos
+        ("orthostatic_load", e["level"]),
+        ("position_change", e["level"]),
+        ("valsalva_risk", e["level"]),
+        ("sustained_isometric", e["level"]),
+        ("metabolic_intensity", e["level"]),
+        ("joint_laxity_risk", e["level"]),
+        ("pelvic_floor_load", e["level"]),
+        ("temperature_load", e["level"]),
+        ("grip_duration", e["level"]),
     ]
     for field, allowed in checks:
         v = rec.get(field)
         if v is not None and v not in allowed:
             problems.append(f"{field}={v!r} fuera de enum")
+
+    # Los campos fisiologicos son la razon de ser de v1.2: si vienen en null,
+    # las condiciones tipo disautonomia quedan sin poder filtrar. Se marca.
+    for f in ["orthostatic_load", "metabolic_intensity", "valsalva_risk"]:
+        if rec.get(f) is None:
+            problems.append(f"{f} en null (campo fisiologico requerido)")
+    if rec.get("head_below_heart") is not None and not isinstance(rec["head_below_heart"], bool):
+        problems.append("head_below_heart no es booleano")
 
     js = rec.get("joint_stress")
     if not isinstance(js, dict):
