@@ -146,3 +146,65 @@ Estas correcciones ahora están en el gold, así que E2 aprende a no repetirlas.
 *Implicancia:* E2 los va a clasificar idénticos porque no tiene con qué distinguirlos.
 Cuatro de ellos se anotaron a mano en el gold usando el nombre real del ejercicio,
 no el texto. El resto queda como cola prioritaria de E3.
+
+---
+
+### D-012 · El gold se divide en few-shot y validación
+**2026-07-23**
+
+14 ejemplos van dentro del prompt de E2 (`FEWSHOT_IDS`); los otros 40 quedan
+reservados para `--validate`.
+
+*Por qué:* medir el acuerdo del modelo contra los mismos ejemplos que le diste
+no mide nada. Además el prompt bajó de 16.800 a 5.500 tokens, y con eso la
+corrida completa de USD 9,13 a USD 5,50 (USD 2,75 si se usa Batch API).
+
+---
+
+### D-013 · Motor de filtrado construido y validado sobre el gold
+**2026-07-23** · `enrichment/scripts/engine.py`
+
+El motor corre antes de que exista E2, usando los 54 ejemplos anotados a mano
+como catálogo. Cuando `e2_output.json` exista, lo detecta y lo usa sin cambios.
+
+*Por qué:* es el hito que valida el producto. Si el motor no produce resultados
+sensatos sobre datos reales, ninguna UI lo salva. Probarlo con 54 alcanza para
+verificar la lógica.
+
+Resultados sobre los 54:
+
+| Perfil | Disponibles |
+|---|---|
+| Sin restricciones | 53 (98%) |
+| Hernia discal lumbar | 31 (57%) |
+| Silla de ruedas | 21 (39%) |
+| Pinzamiento de hombro | 20 (37%) |
+| Movilidad reducida | 15 (28%) |
+| Embarazo 2do trimestre | 42 (78%) + 12 con advertencia |
+
+---
+
+### D-014 · La degradación nunca afloja la Capa A
+**2026-07-23**
+
+Si el perfil deja el catálogo vacío, el motor relaja en orden: primero
+equipamiento, después umbral de lesión. **Nunca la Capa A.**
+
+*Por qué:* si alguien no se puede parar, no se puede parar. Eso no se negocia
+por falta de opciones. El equipamiento se puede conseguir y el umbral de lesión
+se puede revisar con criterio; la restricción de movilidad es un hecho físico.
+
+Toda relajación se informa explícitamente al usuario.
+
+---
+
+## Decisiones abiertas (actualizado)
+
+| # | Pregunta | Bloquea |
+|---|---|---|
+| A-01 | ¿Stack definitivo? Propuesto: Vite + React + Supabase | esquema y app |
+| A-02 | ¿Cuántos perfiles familiares y con qué condiciones reales? | onboarding |
+| A-03 | ¿Onboarding largo o mínimo (3 preguntas) + refinamiento por uso? | UX |
+| A-04 | ¿El índice de filtrado va en cliente (bitmask) o en Supabase? | motor |
+| A-05 | ¿Nombre definitivo? "AdaptaFit" es provisorio | — |
+| **A-06** | **¿`wheelchair` debe excluir las posiciones de banco?** Hoy no las excluye: se asume que la persona puede transferirse a un banco. Puede ser optimista. | taxonomía |

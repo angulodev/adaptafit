@@ -38,7 +38,7 @@ GOLD = os.path.join(BASE, "gold", "gold_examples.json")
 OUT = os.path.join(BASE, "output", "e2_output.json")
 CKPT = os.path.join(BASE, "output", "e2_checkpoint.json")
 
-MODEL = "claude-sonnet-4-6"
+MODEL = "claude-sonnet-5"
 BATCH_SIZE = 8   # reducido de 16: menos riesgo de truncado en respuestas largas
 MAX_RETRIES = 3
 
@@ -53,9 +53,35 @@ EQUIPMENT_FILTER = {
 # Prompt
 # --------------------------------------------------------------------------
 
-def build_system_prompt(taxonomy, gold):
+# Ejemplos que van DENTRO del prompt como few-shot. El resto del gold queda
+# reservado como set de validacion: medir el acuerdo contra ejemplos que el
+# modelo ya vio no mide nada. Elegidos para cubrir el espacio de posturas y
+# patrones con el minimo de tokens.
+FEWSHOT_IDS = [
+    "0025",  # bench_supine  · horizontal_push · hombro alto
+    "0043",  # standing      · squat           · carga axial maxima
+    "1460",  # standing      · lunge           · unipodal, equilibrio alto
+    "0651",  # hanging       · vertical_pull   · agarre como restriccion dura
+    "0084",  # kneeling      · anti-extension  · doble restriccion Capa A
+    "1712",  # side_lying    · isolation       · safe_for amplio
+    "0372",  # seated_machine· isolation       · el mas seguro del catalogo
+    "0049",  # bench_prone   · horizontal_pull · postura rara, corrige a E1
+    "3360",  # quadruped     · cardio          · unica cuadrupedia
+    "1604",  # half_kneeling · movilidad       · difficulty 2 vs rom_demand high
+    "0493",  # bench_incline · regresion de push-up para cannot_get_on_floor
+    "0514",  # standing      · pliometrico     · impact high
+    "3016",  # supine        · core_flexion    · regresion segura
+    "0126",  # seated        · el equipo cambia el riesgo del mismo movimiento
+]
+
+
+def build_system_prompt(taxonomy, gold, fewshot_only=True):
+    pool = gold["examples"]
+    if fewshot_only:
+        sel = [g for g in pool if g["exercise_id"] in FEWSHOT_IDS]
+        pool = sel if len(sel) >= 8 else pool[:14]
     ex_blocks = []
-    for g in gold["examples"]:
+    for g in pool:
         payload = {k: v for k, v in g.items() if not k.startswith("_")}
         ex_blocks.append(
             f"Ejercicio: {g['_name']}\n"
@@ -228,7 +254,14 @@ def call_api(client, system, user):
             resp = client.messages.create(
                 model=MODEL,
                 max_tokens=8000,
-                system=system,
+                # El system prompt (~4.200 tokens con la taxonomia y los 54
+                # ejemplos) es identico en los 112 lotes. Cachearlo baja el
+                # costo del input cacheado un 90%.
+                system=[{
+                    "type": "text",
+                    "text": system,
+                    "cache_control": {"type": "ephemeral"},
+                }],
                 messages=[{"role": "user", "content": user}],
             )
             return "".join(b.text for b in resp.content if b.type == "text")
