@@ -1,5 +1,5 @@
 {
-  "_note": "Ejemplos anotados a mano. Sirven como few-shot para E2 y como set de validacion para medir la tasa de acuerdo del modelo. NO regenerar con IA. v1.1: se sumaron ejemplos de kneeling, lunge unilateral y walking lunge para cubrir la Capa A y el apoyo unipodal. | v1.2: +45 ejemplos anotados en conversacion, cubriendo el espacio start_position x movement_pattern y las posturas de Capa A (kneeling, half_kneeling, quadruped, prone, hanging).",
+  "_note": "Ejemplos anotados a mano. Sirven como few-shot para E2 y como set de validacion para medir la tasa de acuerdo del modelo. NO regenerar con IA. v1.1: se sumaron ejemplos de kneeling, lunge unilateral y walking lunge para cubrir la Capa A y el apoyo unipodal. | v1.2: +45 ejemplos anotados en conversacion, cubriendo el espacio start_position x movement_pattern y las posturas de Capa A (kneeling, half_kneeling, quadruped, prone, hanging). | v1.3: +10 atributos fisiologicos derivados por regla desde los atributos v1.1 (marcados _derived_v12). E2 los reclasifica desde el texto. | v1.3: +10 atributos fisiologicos derivados por regla desde los atributos v1.1 (marcados _derived_v12). E2 los reclasifica desde el texto.",
   "_annotated_by": "revision manual, sesion de diseno",
   "examples": [
     {
@@ -48,7 +48,18 @@
         "knee_injury"
       ],
       "confidence": 0.95,
-      "_reasoning": "Acostado en banco: sin carga axial ni transicion al suelo. Hombro en alta demanda por la abduccion bajo carga. Supino contraindicado en embarazo avanzado por compresion de vena cava. Piernas descargadas: seguro para rodilla y tobillo."
+      "_reasoning": "Acostado en banco: sin carga axial ni transicion al suelo. Hombro en alta demanda por la abduccion bajo carga. Supino contraindicado en embarazo avanzado por compresion de vena cava. Piernas descargadas: seguro para rodilla y tobillo.",
+      "orthostatic_load": "none",
+      "position_change": "low",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0043",
@@ -98,7 +109,18 @@
       ],
       "safe_for": [],
       "confidence": 0.96,
-      "_reasoning": "Barra sobre traps de pie = carga axial maxima, contraindicado en osteoporosis y hernia discal. Rango profundo exige movilidad de tobillo y cadera. safe_for vacio a proposito: es un ejercicio de alta demanda global, no hay condicion donde sea explicitamente recomendable."
+      "_reasoning": "Barra sobre traps de pie = carga axial maxima, contraindicado en osteoporosis y hernia discal. Rango profundo exige movilidad de tobillo y cadera. safe_for vacio a proposito: es un ejercicio de alta demanda global, no hay condicion donde sea explicitamente recomendable.",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "high",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "moderate",
+      "joint_laxity_risk": "high",
+      "pelvic_floor_load": "high",
+      "temperature_load": "moderate",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0652",
@@ -148,7 +170,18 @@
         "knee_injury"
       ],
       "confidence": 0.94,
-      "_reasoning": "Colgado del peso corporal: demanda maxima de agarre, muneca y codo. Traccion en descarga espinal (util para columna). Obesidad como contraindicacion no es por seguridad articular sino por inejecutabilidad practica. Tren inferior totalmente descargado."
+      "_reasoning": "Colgado del peso corporal: demanda maxima de agarre, muneca y codo. Traccion en descarga espinal (util para columna). Obesidad como contraindicacion no es por seguridad articular sino por inejecutabilidad practica. Tren inferior totalmente descargado.",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "moderate",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "moderate",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "moderate",
+      "grip_duration": "high",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0091",
@@ -198,7 +231,18 @@
         "knee_injury"
       ],
       "confidence": 0.93,
-      "_reasoning": "Sentado NO elimina la carga axial: el peso sigue comprimiendo la columna, incluso mas que de pie porque no hay amortiguacion de piernas. Overhead con carga eleva presion intracraneal e intraocular: contraindicado en hipertension y glaucoma. Tendencia a hiperextension lumbar."
+      "_reasoning": "Sentado NO elimina la carga axial: el peso sigue comprimiendo la columna, incluso mas que de pie porque no hay amortiguacion de piernas. Overhead con carga eleva presion intracraneal e intraocular: contraindicado en hipertension y glaucoma. Tendencia a hiperextension lumbar.",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "high",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "high",
+      "pelvic_floor_load": "high",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1712",
@@ -243,7 +287,18 @@
         "limited_balance"
       ],
       "confidence": 0.9,
-      "_reasoning": "Estiramiento pasivo sin carga: bajo riesgo general. Contraindicado en protesis de cadera por riesgo de luxacion en aduccion/rotacion. requires_floor_transition=true es la restriccion practica dominante: excluye a quien no puede bajar al suelo, no por peligro sino por imposibilidad."
+      "_reasoning": "Estiramiento pasivo sin carga: bajo riesgo general. Contraindicado en protesis de cadera por riesgo de luxacion en aduccion/rotacion. requires_floor_transition=true es la restriccion practica dominante: excluye a quien no puede bajar al suelo, no por peligro sino por imposibilidad.",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "none",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "none",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "3295",
@@ -291,7 +346,18 @@
       "cautions": [],
       "safe_for": [],
       "confidence": 0.92,
-      "_reasoning": "Ejercicio de calistenia avanzada, dificultad 5. Demanda extrema de hombro y core en anti-extension. La lista larga de contraindicaciones refleja que es inaccesible para casi cualquier perfil no atletico: el filtro por dificultad ya lo excluiria, pero se marca explicitamente."
+      "_reasoning": "Ejercicio de calistenia avanzada, dificultad 5. Demanda extrema de hombro y core en anti-extension. La lista larga de contraindicaciones refleja que es inaccesible para casi cualquier perfil no atletico: el filtro por dificultad ya lo excluiria, pero se marca explicitamente.",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "high",
+      "sustained_isometric": "high",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "high",
+      "grip_duration": "high",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1460",
@@ -340,7 +406,18 @@
         "shoulder_impingement",
         "wrist_injury"
       ],
-      "_reasoning": "Sin equipo pero equilibrio alto y apoyo unipodal en transito: es contraindicacion dura, no caution, para equilibrio limitado. La rodilla adelantada bajo carga corporal es el estres dominante."
+      "_reasoning": "Sin equipo pero equilibrio alto y apoyo unipodal en transito: es contraindicacion dura, no caution, para equilibrio limitado. La rodilla adelantada bajo carga corporal es el estres dominante.",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "low",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "low",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0651",
@@ -391,7 +468,18 @@
         "hip_replacement",
         "knee_injury"
       ],
-      "_reasoning": "Colgar todo el peso corporal hace del agarre y la muneca un requisito duro, no una precaucion. Excelente para quien no puede cargar piernas."
+      "_reasoning": "Colgar todo el peso corporal hace del agarre y la muneca un requisito duro, no una precaucion. Excelente para quien no puede cargar piernas.",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "high",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "high",
+      "grip_duration": "high",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0083",
@@ -438,7 +526,18 @@
         "hernia_abdominal"
       ],
       "safe_for": [],
-      "_reasoning": "Anti-extension: el riesgo NO es flexion lumbar sino hiperextension si el core cede. Por eso spinal_extension high y lumbar high. Arrodillado exige bajar al suelo."
+      "_reasoning": "Anti-extension: el riesgo NO es flexion lumbar sino hiperextension si el core cede. Por eso spinal_extension high y lumbar high. Arrodillado exige bajar al suelo.",
+      "orthostatic_load": "low",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "moderate",
+      "sustained_isometric": "high",
+      "metabolic_intensity": "moderate",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "moderate",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1018",
@@ -482,7 +581,18 @@
         "knee_injury"
       ],
       "_reasoning": "Encogimiento de hombros: carga directa sobre trapecio y cervical. Banda bajo los pies = carga axial baja pero real.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "low",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "none",
+      "joint_laxity_risk": "none",
+      "pelvic_floor_load": "low",
+      "temperature_load": "none",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1017",
@@ -527,7 +637,18 @@
         "knee_injury"
       ],
       "_reasoning": "La Y termina por encima de la cabeza: no_overhead es contraindicacion dura. Elevacion con brazo extendido es la posicion clasica de pinzamiento.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "high",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "low",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "low",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "3292",
@@ -572,7 +693,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Flexion de tronco sin apoyo. Aunque no hay peso externo, la columna sostiene el torso en voladizo: lumbar alto. Cabeza abajo => glaucoma e hipertension.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "moderate",
+      "head_below_heart": true,
+      "valsalva_risk": "high",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "high",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1471",
@@ -618,7 +750,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Transita de pie a plancha con las manos: exige bajar al suelo y cargar munecas. Doble restriccion de Capa A.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "high",
+      "head_below_heart": true,
+      "valsalva_risk": "none",
+      "sustained_isometric": "high",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1016",
@@ -663,7 +806,18 @@
         "lumbar_disc"
       ],
       "_reasoning": "Sentado, sin carga axial, sin equilibrio. Candidato ideal para perfil con movilidad muy reducida. Solo la muneca es relevante.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "none",
+      "joint_laxity_risk": "none",
+      "pelvic_floor_load": "none",
+      "temperature_load": "none",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0126",
@@ -708,7 +862,18 @@
         "limited_balance"
       ],
       "_reasoning": "Identico al anterior pero con barra: la muneca pasa de moderate a high y limited_grip se vuelve contraindicacion. Buen ejemplo de como el equipamiento cambia el perfil de riesgo del mismo movimiento.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "none",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "3533",
@@ -757,7 +922,18 @@
         "wrist_injury"
       ],
       "_reasoning": "Sentadilla sin peso: la regresion natural de la sentadilla con barra. Sin carga axial ni agarre, por eso es safe_for para todo el tren superior.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "low",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "low",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "3287",
@@ -803,7 +979,18 @@
         "lumbar_disc"
       ],
       "_reasoning": "El fondo en banco pone el hombro en extension e rotacion interna bajo carga: es la posicion de mayor riesgo de pinzamiento del catalogo.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0814",
@@ -848,7 +1035,18 @@
         "knee_injury"
       ],
       "_reasoning": "Mismo patron que elbow dips. Se anotan los dos a proposito: son duplicados funcionales y deben caer en el mismo substitute_group.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0639",
@@ -891,7 +1089,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Version a un brazo: todo el peso en una articulacion. Sube a difficulty 4 y la muneca pasa a high. E1 lo marco 'standing' por error - se corrige aca.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "moderate",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "moderate",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "moderate",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "2329",
@@ -936,7 +1145,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Rotacion lumbar bajo flexion: combinacion desaconsejada con disco. Sentado en el suelo, no en silla: exige bajar al suelo.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0689",
@@ -986,7 +1206,18 @@
         "shoulder_impingement"
       ],
       "_reasoning": "En banco, tren superior libre. Muy buen candidato para silla de ruedas si hay control de tronco. El psoas tracciona la lumbar: por eso no es safe_for lumbar.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0372",
@@ -1034,7 +1265,18 @@
         "lumbar_disc"
       ],
       "_reasoning": "Banco predicador: el brazo queda fijo, cero compensacion de tronco. Uno de los ejercicios mas seguros del catalogo para movilidad reducida. El codo en extension completa bajo carga es el unico riesgo real.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1004",
@@ -1082,7 +1324,18 @@
         "wrist_injury"
       ],
       "_reasoning": "La banda sobre las rodillas agrega resistencia lateral sin carga axial: por eso rodilla queda moderate y no high como en la sentadilla con barra.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "low",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "low",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0514",
@@ -1133,7 +1386,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Pliometrico: el aterrizaje multiplica la carga articular. impact high activa casi todas las contraindicaciones de tren inferior a la vez.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "high",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "moderate",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "high",
+      "temperature_load": "high",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0032",
@@ -1183,7 +1447,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Maxima carga axial del catalogo junto con la sentadilla. Bisagra de cadera con la columna en voladizo: cualquier patologia lumbar lo descarta.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "moderate",
+      "head_below_heart": true,
+      "valsalva_risk": "high",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "moderate",
+      "joint_laxity_risk": "high",
+      "pelvic_floor_load": "high",
+      "temperature_load": "moderate",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0499",
@@ -1230,7 +1505,18 @@
         "no_overhead"
       ],
       "_reasoning": "E1 lo marco standing: en realidad el cuerpo cuelga de la barra con los talones apoyados. Es la regresion accesible de la dominada - tiron horizontal sin carga sobre la columna.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "moderate",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0808",
@@ -1277,7 +1563,18 @@
         "no_overhead"
       ],
       "_reasoning": "Igual al inverted row pero con anclaje inestable: sube equilibrio y dificultad.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "moderate",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1008",
@@ -1328,7 +1625,18 @@
         "wrist_injury"
       ],
       "_reasoning": "Apoyo unipodal sobre plataforma elevada: equilibrio alto y riesgo de caida. limited_balance es contraindicacion dura, no precaucion.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "low",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "moderate",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "low",
+      "temperature_load": "moderate",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0685",
@@ -1377,7 +1685,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Impacto repetitivo. cardiac e hypertension son Capa C: advierten, no excluyen. Las protesis si excluyen: el impacto ciclico las compromete.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "high",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "none",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "high",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0997",
@@ -1426,7 +1745,18 @@
         "knee_injury"
       ],
       "_reasoning": "Press vertical de pie: el brazo sobre la cabeza transmite carga a la lumbar por compensacion. rom_demand alto - mucha gente no llega sin arquear la espalda.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "high",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "high",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "high",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0662",
@@ -1475,7 +1805,18 @@
         "limited_balance"
       ],
       "_reasoning": "La muneca en extension de 90 grados soportando peso corporal es el limitante real, mas que el hombro. Exige bajar al suelo.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "moderate",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1273",
@@ -1521,7 +1862,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Pliometrico de tren superior: el aterrizaje sobre las manos es impacto directo sobre muneca y codo. Progresion del push-up estandar.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "high",
+      "sustained_isometric": "moderate",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "high",
+      "temperature_load": "high",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0493",
@@ -1567,7 +1919,18 @@
         "obesity"
       ],
       "_reasoning": "Regresion clave del push-up: al elevar las manos baja la carga y NO exige bajar al suelo. Es la sustitucion natural para cannot_get_on_floor.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "none",
+      "joint_laxity_risk": "none",
+      "pelvic_floor_load": "none",
+      "temperature_load": "none",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "3301",
@@ -1612,7 +1975,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Calistenia avanzada. Todo el peso sobre munecas en maxima extension. difficulty 5: sirve como techo de la escala.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": true,
+      "valsalva_risk": "high",
+      "sustained_isometric": "high",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "high",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1014",
@@ -1659,7 +2033,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Flexion espinal completa bajo tension: contraindicado en disco y hernia. Supino desde 2do trimestre comprime la vena cava.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0001",
@@ -1706,7 +2091,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Manos detras de la cabeza => la gente tracciona el cuello: cervical high. Es el error de ejecucion mas comun del catalogo.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0260",
@@ -1752,7 +2148,18 @@
       ],
       "safe_for": [],
       "_reasoning": "ATENCION: el dataset le puso a este ejercicio el mismo texto que a 3/4 sit-up. La clasificacion se corrige segun el nombre real (cocoon = rodillas al pecho + elevacion de tronco), no segun el texto.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0641",
@@ -1798,7 +2205,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Sit-up con peso sostenido: la carga en las manos aumenta el brazo de palanca sobre la lumbar. Mismo problema de texto duplicado.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "3016",
@@ -1842,7 +2260,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Recorrido corto: es la regresion segura del sit-up. Lumbar baja de moderate a low precisamente porque no despega la zona lumbar del suelo.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "none",
+      "joint_laxity_risk": "none",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "none",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0073",
@@ -1893,7 +2322,18 @@
         "limited_balance"
       ],
       "_reasoning": "Flexion de hombro maxima con carga: rom_demand alto. La caja toracica se abre y arquea la lumbar. Cero demanda de tren inferior.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "low",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "moderate",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0308",
@@ -1943,7 +2383,18 @@
         "lumbar_disc"
       ],
       "_reasoning": "Apertura: el hombro llega a rotacion externa maxima bajo carga. rom_demand alto pese a ser un movimiento simple.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "low",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0057",
@@ -1992,7 +2443,18 @@
         "lumbar_disc"
       ],
       "_reasoning": "Rompecraneos: el codo es la articulacion critica, no el hombro. Ejemplo de que el estres no siempre cae donde esta el musculo objetivo.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "low",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0318",
@@ -2040,7 +2502,18 @@
         "lumbar_disc"
       ],
       "_reasoning": "El brazo colgando detras del cuerpo estira el biceps al maximo: rom_demand alto. Muy seguro para todo lo que no sea codo u hombro.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0316",
@@ -2089,7 +2562,18 @@
         "lumbar_disc"
       ],
       "_reasoning": "Inclinado, no supino: la cabeza queda elevada, por eso el embarazo es solo precaucion en 3er trimestre y no contraindicacion desde el 2do.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0049",
@@ -2141,7 +2625,18 @@
         "lumbar_disc"
       ],
       "_reasoning": "E1 lo marco bench_incline: en realidad va boca abajo sobre el banco. Es bench_prone. El pecho apoyado elimina toda carga lumbar - excelente remo para quien no puede cargar la columna.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "low",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "moderate",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1665",
@@ -2191,7 +2686,18 @@
         "lumbar_disc"
       ],
       "_reasoning": "Boca abajo: cero carga axial y cero equilibrio. cannot_lie_prone es la unica restriccion de Capa A que aplica.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "low",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1326",
@@ -2244,7 +2750,18 @@
         "limited_balance"
       ],
       "_reasoning": "Supinado carga mas el biceps y el codo que la dominada pronada. Cero demanda de tren inferior: opcion potente para lesion de rodilla o cadera.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "moderate",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "moderate",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "moderate",
+      "grip_duration": "high",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0631",
@@ -2291,7 +2808,18 @@
       ],
       "safe_for": [],
       "_reasoning": "La transicion sobre la barra es el momento de mayor riesgo de hombro del catalogo entero. difficulty 5.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "high",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "high",
+      "grip_duration": "high",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0638",
@@ -2336,7 +2864,18 @@
       ],
       "safe_for": [],
       "_reasoning": "E1 lo marco standing por la primera oracion ('Stand facing a pull-up bar'). Es hanging. Ejemplo de por que la ventana de texto puede enganar.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "high",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "high",
+      "grip_duration": "high",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0251",
@@ -2385,7 +2924,18 @@
         "knee_injury"
       ],
       "_reasoning": "Fondos en paralelas: hombro por debajo del codo en maxima flexion. Mucho mas exigente que el fondo en banco. E1 no resolvio la postura.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "none",
+      "head_below_heart": false,
+      "valsalva_risk": "moderate",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "moderate",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "moderate",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "3303",
@@ -2431,7 +2981,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Ejercicio de exhibicion. Se anota para fijar el extremo superior de la escala: si algo llega a difficulty 5, se parece a esto.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "moderate",
+      "position_change": "moderate",
+      "head_below_heart": true,
+      "valsalva_risk": "high",
+      "sustained_isometric": "high",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "high",
+      "grip_duration": "high",
+      "_derived_v12": true
     },
     {
       "exercise_id": "0084",
@@ -2480,7 +3041,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Anti-extension: el riesgo es que la lumbar ceda a hiperextension si el core falla. Doble restriccion de Capa A: arrodillarse y bajar al suelo.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "moderate",
+      "sustained_isometric": "high",
+      "metabolic_intensity": "moderate",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "moderate",
+      "temperature_load": "moderate",
+      "grip_duration": "low",
+      "_derived_v12": true
     },
     {
       "exercise_id": "3360",
@@ -2527,7 +3099,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Cuadrupedia con rodillas suspendidas: carga sostenida sobre munecas mientras se desplaza. Unico ejemplo de quadruped + cardio del gold set.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "none",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "high",
+      "joint_laxity_risk": "low",
+      "pelvic_floor_load": "low",
+      "temperature_load": "high",
+      "grip_duration": "none",
+      "_derived_v12": true
     },
     {
       "exercise_id": "1604",
@@ -2573,7 +3156,18 @@
       ],
       "safe_for": [],
       "_reasoning": "Movilidad, no fuerza: difficulty 2 pero rom_demand high. La distincion clave que el modelo suele confundir. Unico half_kneeling del gold set.",
-      "_annotated_in": "chat"
+      "_annotated_in": "chat",
+      "orthostatic_load": "low",
+      "position_change": "high",
+      "head_below_heart": false,
+      "valsalva_risk": "none",
+      "sustained_isometric": "none",
+      "metabolic_intensity": "low",
+      "joint_laxity_risk": "moderate",
+      "pelvic_floor_load": "none",
+      "temperature_load": "low",
+      "grip_duration": "none",
+      "_derived_v12": true
     }
   ]
 }

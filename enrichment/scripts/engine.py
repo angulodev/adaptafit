@@ -67,6 +67,21 @@ LAYER_A = {
         lambda a: LEVEL.get(a.get("requires_balance") or "none", 0) >= 2
                   or a.get("single_leg_support") is True,
         "exige equilibrio"),
+    "cannot_sit_unsupported": (
+        lambda a: a.get("start_position") == "seated"
+                  and LEVEL.get(a.get("requires_balance") or "none", 0) >= 1,
+        "exige sentarse sin respaldo"),
+    "cannot_transfer_to_bench": (
+        lambda a: str(a.get("start_position") or "").startswith("bench"),
+        "requiere subir a un banco"),
+    "one_arm_only": (
+        lambda a: a.get("laterality") == "bilateral"
+                  and a.get("grip_required") in {"firm", "hanging_bodyweight"},
+        "necesita los dos brazos"),
+    "visual_impairment": (
+        lambda a: LEVEL.get(a.get("requires_balance") or "none", 0) >= 3
+                  or LEVEL.get(a.get("impact_level") or "none", 0) >= 3,
+        "exige equilibrio o impacto alto sin referencia visual"),
     "wheelchair": (
         lambda a: a.get("requires_standing") is True
                   or a.get("requires_floor_transition") is True
@@ -88,6 +103,12 @@ CONDITION_TO_JOINT = {
     "shoulder_impingement": "shoulder", "rotator_cuff": "shoulder",
     "elbow_injury": "elbow", "wrist_injury": "wrist",
     "ankle_injury": "ankle",
+    # v1.2 - condiciones de dolor (mas leves que _injury, mismo eje articular)
+    "knee_pain": "knee", "shoulder_pain": "shoulder", "neck_pain": "cervical_spine",
+    "hip_pain": "hip", "sciatica": "lumbar_spine", "si_joint_pain": "lumbar_spine",
+    "plantar_fasciitis": "ankle", "tendinitis_elbow": "elbow",
+    "carpal_tunnel": "wrist", "osteoarthritis": "knee",
+    "rheumatoid_arthritis": "wrist",
 }
 
 JOINT_ES = {"knee": "rodilla", "hip": "cadera", "lumbar_spine": "espalda baja",
@@ -111,7 +132,118 @@ LAYER_C_ES = {
     "pregnancy_3rd": "embarazo (3er trimestre)",
     "vertigo": "vertigo", "glaucoma": "glaucoma",
     "obesity": "obesidad", "elderly_65plus": "65+ anos",
+    "dysautonomia": "disautonomia", "chronic_fatigue": "fatiga cronica (EM/SFC)",
+    "fibromyalgia": "fibromialgia", "hypermobility": "hipermovilidad",
+    "multiple_sclerosis": "esclerosis multiple", "asthma": "asma",
+    "diabetes": "diabetes", "epilepsy": "epilepsia", "migraine": "migrana",
+    "anemia": "anemia", "varicose_veins": "varices", "postpartum": "posparto",
+    "pelvic_floor_dysfunction": "suelo pelvico",
+    "recent_abdominal_surgery": "cirugia abdominal reciente",
+    "retinal_detachment_risk": "riesgo de desprendimiento de retina",
 }
+
+
+# ==========================================================================
+# Capa C-fisiologica — condiciones que NO se filtran por articulacion
+# ==========================================================================
+# Disautonomia, EM/SFC, hipermovilidad y compania no dependen de que
+# articulacion se carga sino de variables fisiologicas transversales.
+# Sin estas reglas, agregarlas al enum no haria absolutamente nada.
+#
+# Cada entrada: condicion -> (atributo, umbral, motivo legible)
+# Igual que el resto de la Capa C: ADVIERTE, no oculta.
+
+PHYSIOLOGIC_RULES = {
+    "dysautonomia": [
+        ("orthostatic_load", 2, "exige estar erguido de forma sostenida"),
+        ("position_change", 2, "implica cambios de posicion que pueden causar mareo"),
+        ("metabolic_intensity", 3, "intensidad alta"),
+        ("temperature_load", 3, "genera mucho calor corporal"),
+    ],
+    "chronic_fatigue": [
+        ("metabolic_intensity", 2, "puede superar el umbral de esfuerzo"),
+        ("orthostatic_load", 3, "carga ortostatica alta"),
+    ],
+    "fibromyalgia": [
+        ("metabolic_intensity", 3, "intensidad alta"),
+        ("impact_level", 2, "tiene impacto"),
+    ],
+    "hypermobility": [
+        ("joint_laxity_risk", 2, "trabaja en rango final de movimiento"),
+        ("rom_demand", 3, "exige rango de movimiento maximo"),
+    ],
+    "multiple_sclerosis": [
+        ("temperature_load", 2, "genera calor (fenomeno de Uhthoff)"),
+        ("requires_balance", 2, "exige equilibrio"),
+    ],
+    "hypertension": [
+        ("valsalva_risk", 2, "riesgo de maniobra de Valsalva"),
+        ("sustained_isometric", 3, "isometrica prolongada eleva la presion"),
+        ("head_below_heart", True, "la cabeza queda por debajo del corazon"),
+    ],
+    "glaucoma": [
+        ("head_below_heart", True, "la cabeza queda por debajo del corazon"),
+        ("valsalva_risk", 2, "aumenta la presion intraocular"),
+    ],
+    "retinal_detachment_risk": [
+        ("head_below_heart", True, "posicion invertida"),
+        ("impact_level", 2, "impacto"),
+        ("valsalva_risk", 3, "Valsalva intensa"),
+    ],
+    "pelvic_floor_dysfunction": [
+        ("pelvic_floor_load", 2, "aumenta la presion sobre el suelo pelvico"),
+        ("impact_level", 2, "impacto"),
+    ],
+    "postpartum": [
+        ("pelvic_floor_load", 2, "carga sobre el suelo pelvico"),
+        ("impact_level", 2, "impacto"),
+    ],
+    "recent_abdominal_surgery": [
+        ("pelvic_floor_load", 1, "presion intraabdominal"),
+        ("spinal_flexion", 2, "flexion de tronco"),
+    ],
+    "carpal_tunnel": [
+        ("grip_duration", 2, "agarre sostenido"),
+    ],
+    "rheumatoid_arthritis": [
+        ("grip_duration", 2, "agarre sostenido"),
+        ("impact_level", 2, "impacto"),
+    ],
+    "varicose_veins": [
+        ("orthostatic_load", 3, "de pie sostenido"),
+        ("sustained_isometric", 3, "isometrica prolongada"),
+    ],
+    "asthma": [
+        ("metabolic_intensity", 3, "intensidad alta"),
+    ],
+    "anemia": [
+        ("metabolic_intensity", 3, "intensidad alta"),
+        ("orthostatic_load", 3, "carga ortostatica alta"),
+    ],
+    "epilepsy": [
+        ("head_below_heart", True, "posicion invertida"),
+    ],
+    "cardiac": [
+        ("metabolic_intensity", 3, "intensidad alta"),
+        ("valsalva_risk", 2, "Valsalva"),
+        ("sustained_isometric", 3, "isometrica prolongada"),
+    ],
+}
+
+
+def physiologic_warnings(attrs, systemic):
+    """Advertencias fisiologicas. Devuelve lista de motivos legibles."""
+    out = []
+    for cond in systemic:
+        for field, threshold, reason in PHYSIOLOGIC_RULES.get(cond, []):
+            v = attrs.get(field)
+            if v is None:
+                continue
+            trig = (v is True) if threshold is True else (LEVEL.get(v, 0) >= threshold)
+            if trig:
+                out.append(f"{LAYER_C_ES.get(cond, cond)}: {reason}")
+                break
+    return out
 
 HOME_EQUIPMENT_PRESETS = {
     "sin_equipo": {"body weight"},
@@ -200,6 +332,8 @@ def filter_catalog(catalog, profile):
                 warns.append(f"desaconsejado con {LAYER_C_ES.get(cond, cond)}")
             elif cond in (a.get("cautions") or []):
                 warns.append(f"precaucion por {LAYER_C_ES.get(cond, cond)}")
+        # Reglas fisiologicas transversales (disautonomia, EM/SFC, etc.)
+        warns += physiologic_warnings(a, systemic)
         if warns:
             res.flagged.append((eid, name, warns))
 

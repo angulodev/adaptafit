@@ -208,3 +208,55 @@ Toda relajación se informa explícitamente al usuario.
 | A-04 | ¿El índice de filtrado va en cliente (bitmask) o en Supabase? | motor |
 | A-05 | ¿Nombre definitivo? "AdaptaFit" es provisorio | — |
 | **A-06** | **¿`wheelchair` debe excluir las posiciones de banco?** Hoy no las excluye: se asume que la persona puede transferirse a un banco. Puede ser optimista. | taxonomía |
+
+---
+
+### D-015 · Taxonomía v1.2 — atributos fisiológicos antes que condiciones
+**2026-07-23**
+
+Se agregaron **10 atributos** y **30 condiciones** (total: 30 campos, 62 condiciones).
+
+*Por qué los atributos primero:* agregar `dysautonomia` al enum no hace nada si el
+motor no tiene contra qué compararlo. La disautonomía no se filtra por articulación
+ni por postura inicial: se filtra por **carga ortostática**, cambios de posición y
+maniobra de Valsalva. Ninguno de esos ejes existía.
+
+Atributos nuevos: `orthostatic_load`, `position_change`, `head_below_heart`,
+`valsalva_risk`, `sustained_isometric`, `metabolic_intensity`, `joint_laxity_risk`,
+`pelvic_floor_load`, `temperature_load`, `grip_duration`.
+
+Condiciones nuevas destacadas: disautonomía/POTS, fatiga crónica (EM/SFC),
+hipermovilidad, esclerosis múltiple, dolor rotuliano, ciática, túnel carpiano,
+artrosis, artritis reumatoide, posparto, suelo pélvico.
+
+`PHYSIOLOGIC_RULES` en `engine.py` mapea 18 condiciones a umbrales sobre estos ejes.
+
+---
+
+### D-016 · Una advertencia en todo es una advertencia en nada
+**2026-07-23**
+
+La primera derivación de `orthostatic_load` marcaba `moderate` a casi todo, y el perfil
+de disautonomía terminaba con **36 de 42 ejercicios advertidos**. Inútil.
+
+*Corrección:* la carga ortostática es cuestión de **verticalidad del torso**, no de
+"no estar acostado". En cuadrupedia o en plancha la cabeza queda a la altura del
+corazón: eso no es carga ortostática. Ahora: reclinado y cuadrupedia = `none`,
+sentado y arrodillado = `low`, colgado = `moderate`, de pie = `moderate`/`high`.
+
+Resultado: 31 advertidos, **11 limpios** — y los 11 son exactamente los sentados y
+reclinados. La señal ahora discrimina.
+
+*Regla general para el proyecto:* si un filtro marca más del ~60% del catálogo,
+el filtro está mal calibrado, no el catálogo.
+
+---
+
+### D-017 · `cannot_transfer_to_bench` resuelve la decisión abierta A-06
+**2026-07-23**
+
+En vez de decidir si `wheelchair` excluye o no las posiciones de banco, se agregó una
+restricción de Capa A separada. La persona declara si puede transferirse o no.
+
+*Por qué:* asumir por ella era paternalista en un sentido u otro. Muchos usuarios de
+silla transfieren sin problema; otros no. Es un dato, no una inferencia.

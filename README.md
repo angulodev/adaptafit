@@ -16,7 +16,7 @@ los ejercicios de pie no aparecen. Nunca.
 | Fase | Qué es | Estado |
 |---|---|---|
 | Especificación | Modelo de datos, motor adaptativo, arquitectura | ✅ `docs/ESPECIFICACION.md` |
-| Taxonomía v1.1 | Contrato congelado: 32 condiciones en 3 capas | ✅ `enrichment/taxonomy/` |
+| Taxonomía v1.2 | 30 atributos · 62 condiciones en 3 capas | ✅ `enrichment/taxonomy/` |
 | Gold set | 9 ejercicios anotados a mano (few-shot + validación) | ✅ `enrichment/gold/` |
 | **E1** — pre-seed heurístico | Reglas sobre el texto. 94,6% de `start_position` | ✅ `enrichment/output/e1_output.json` |
 | **E2** — clasificación IA | Capa de seguridad completa. 895 ejercicios, 112 lotes | ⏳ **listo, sin ejecutar** |
