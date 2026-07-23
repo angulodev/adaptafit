@@ -1,0 +1,443 @@
+{
+  "_note": "Ejemplos anotados a mano. Sirven como few-shot para E2 y como set de validacion para medir la tasa de acuerdo del modelo. NO regenerar con IA. v1.1: se sumaron ejemplos de kneeling, lunge unilateral y walking lunge para cubrir la Capa A y el apoyo unipodal.",
+  "_annotated_by": "revision manual, sesion de diseno",
+  "examples": [
+    {
+      "exercise_id": "0025",
+      "_name": "barbell bench press",
+      "start_position": "bench_supine",
+      "requires_floor_transition": false,
+      "requires_standing": false,
+      "requires_balance": "low",
+      "single_leg_support": false,
+      "overhead_position": false,
+      "grip_required": "firm",
+      "axial_spinal_load": "none",
+      "spinal_flexion": "none",
+      "spinal_extension": "low",
+      "spinal_rotation": "none",
+      "impact_level": "none",
+      "joint_stress": {
+        "knee": "none",
+        "hip": "none",
+        "lumbar_spine": "low",
+        "cervical_spine": "low",
+        "shoulder": "high",
+        "elbow": "moderate",
+        "wrist": "moderate",
+        "ankle": "none"
+      },
+      "laterality": "bilateral",
+      "movement_pattern": "horizontal_push",
+      "difficulty": 3,
+      "rom_demand": "moderate",
+      "contraindications": [
+        "shoulder_impingement",
+        "rotator_cuff",
+        "pregnancy_2nd",
+        "pregnancy_3rd"
+      ],
+      "cautions": [
+        "hypertension",
+        "wrist_injury",
+        "elbow_injury"
+      ],
+      "safe_for": [
+        "knee_injury",
+        "ankle_injury",
+        "hip_replacement"
+      ],
+      "confidence": 0.95,
+      "_reasoning": "Acostado en banco: sin carga axial ni transicion al suelo. Hombro en alta demanda por la abduccion bajo carga. Supino contraindicado en embarazo avanzado por compresion de vena cava. Piernas descargadas: seguro para rodilla y tobillo."
+    },
+    {
+      "exercise_id": "0043",
+      "_name": "barbell full squat",
+      "start_position": "standing",
+      "requires_floor_transition": false,
+      "requires_standing": true,
+      "requires_balance": "moderate",
+      "single_leg_support": false,
+      "overhead_position": false,
+      "grip_required": "firm",
+      "axial_spinal_load": "high",
+      "spinal_flexion": "low",
+      "spinal_extension": "low",
+      "spinal_rotation": "none",
+      "impact_level": "none",
+      "joint_stress": {
+        "knee": "high",
+        "hip": "high",
+        "lumbar_spine": "high",
+        "cervical_spine": "low",
+        "shoulder": "moderate",
+        "elbow": "low",
+        "wrist": "moderate",
+        "ankle": "moderate"
+      },
+      "laterality": "bilateral",
+      "movement_pattern": "squat",
+      "difficulty": 4,
+      "rom_demand": "high",
+      "contraindications": [
+        "lumbar_disc",
+        "knee_injury",
+        "knee_replacement",
+        "osteoporosis",
+        "limited_balance",
+        "wheelchair",
+        "hernia_abdominal"
+      ],
+      "cautions": [
+        "hypertension",
+        "lumbar_pain",
+        "hip_replacement",
+        "elderly_65plus",
+        "ankle_injury",
+        "shoulder_impingement"
+      ],
+      "safe_for": [],
+      "confidence": 0.96,
+      "_reasoning": "Barra sobre traps de pie = carga axial maxima, contraindicado en osteoporosis y hernia discal. Rango profundo exige movilidad de tobillo y cadera. safe_for vacio a proposito: es un ejercicio de alta demanda global, no hay condicion donde sea explicitamente recomendable."
+    },
+    {
+      "exercise_id": "0652",
+      "_name": "pull-up",
+      "start_position": "hanging",
+      "requires_floor_transition": false,
+      "requires_standing": false,
+      "requires_balance": "none",
+      "single_leg_support": false,
+      "overhead_position": true,
+      "grip_required": "hanging_bodyweight",
+      "axial_spinal_load": "none",
+      "spinal_flexion": "none",
+      "spinal_extension": "low",
+      "spinal_rotation": "none",
+      "impact_level": "none",
+      "joint_stress": {
+        "knee": "none",
+        "hip": "none",
+        "lumbar_spine": "low",
+        "cervical_spine": "low",
+        "shoulder": "high",
+        "elbow": "high",
+        "wrist": "high",
+        "ankle": "none"
+      },
+      "laterality": "bilateral",
+      "movement_pattern": "vertical_pull",
+      "difficulty": 4,
+      "rom_demand": "moderate",
+      "contraindications": [
+        "shoulder_impingement",
+        "rotator_cuff",
+        "elbow_injury",
+        "wrist_injury",
+        "pregnancy_3rd",
+        "obesity"
+      ],
+      "cautions": [
+        "hypertension",
+        "elderly_65plus",
+        "cervical_injury"
+      ],
+      "safe_for": [
+        "knee_injury",
+        "ankle_injury",
+        "hip_replacement"
+      ],
+      "confidence": 0.94,
+      "_reasoning": "Colgado del peso corporal: demanda maxima de agarre, muneca y codo. Traccion en descarga espinal (util para columna). Obesidad como contraindicacion no es por seguridad articular sino por inejecutabilidad practica. Tren inferior totalmente descargado."
+    },
+    {
+      "exercise_id": "0091",
+      "_name": "barbell seated overhead press",
+      "start_position": "seated",
+      "requires_floor_transition": false,
+      "requires_standing": false,
+      "requires_balance": "low",
+      "single_leg_support": false,
+      "overhead_position": true,
+      "grip_required": "firm",
+      "axial_spinal_load": "high",
+      "spinal_flexion": "none",
+      "spinal_extension": "moderate",
+      "spinal_rotation": "none",
+      "impact_level": "none",
+      "joint_stress": {
+        "knee": "none",
+        "hip": "none",
+        "lumbar_spine": "moderate",
+        "cervical_spine": "moderate",
+        "shoulder": "high",
+        "elbow": "moderate",
+        "wrist": "moderate",
+        "ankle": "none"
+      },
+      "laterality": "bilateral",
+      "movement_pattern": "vertical_push",
+      "difficulty": 3,
+      "rom_demand": "high",
+      "contraindications": [
+        "shoulder_impingement",
+        "rotator_cuff",
+        "cervical_injury",
+        "hypertension",
+        "glaucoma"
+      ],
+      "cautions": [
+        "lumbar_pain",
+        "lumbar_disc",
+        "osteoporosis",
+        "elderly_65plus"
+      ],
+      "safe_for": [
+        "knee_injury",
+        "ankle_injury",
+        "hip_replacement"
+      ],
+      "confidence": 0.93,
+      "_reasoning": "Sentado NO elimina la carga axial: el peso sigue comprimiendo la columna, incluso mas que de pie porque no hay amortiguacion de piernas. Overhead con carga eleva presion intracraneal e intraocular: contraindicado en hipertension y glaucoma. Tendencia a hiperextension lumbar."
+    },
+    {
+      "exercise_id": "1712",
+      "_name": "assisted side lying adductor stretch",
+      "start_position": "side_lying",
+      "requires_floor_transition": true,
+      "requires_standing": false,
+      "requires_balance": "none",
+      "single_leg_support": false,
+      "overhead_position": false,
+      "grip_required": "none",
+      "axial_spinal_load": "none",
+      "spinal_flexion": "none",
+      "spinal_extension": "none",
+      "spinal_rotation": "low",
+      "impact_level": "none",
+      "joint_stress": {
+        "knee": "low",
+        "hip": "moderate",
+        "lumbar_spine": "low",
+        "cervical_spine": "none",
+        "shoulder": "none",
+        "elbow": "none",
+        "wrist": "none",
+        "ankle": "none"
+      },
+      "laterality": "unilateral",
+      "movement_pattern": "mobility_stretch",
+      "difficulty": 1,
+      "rom_demand": "high",
+      "contraindications": [
+        "hip_replacement"
+      ],
+      "cautions": [
+        "pregnancy_3rd"
+      ],
+      "safe_for": [
+        "hypertension",
+        "cardiac",
+        "elderly_65plus",
+        "limited_balance",
+        "knee_injury"
+      ],
+      "confidence": 0.9,
+      "_reasoning": "Estiramiento pasivo sin carga: bajo riesgo general. Contraindicado en protesis de cadera por riesgo de luxacion en aduccion/rotacion. requires_floor_transition=true es la restriccion practica dominante: excluye a quien no puede bajar al suelo, no por peligro sino por imposibilidad."
+    },
+    {
+      "exercise_id": "3295",
+      "_name": "front lever reps",
+      "start_position": "hanging",
+      "requires_floor_transition": false,
+      "requires_standing": false,
+      "requires_balance": "none",
+      "single_leg_support": false,
+      "overhead_position": true,
+      "grip_required": "hanging_bodyweight",
+      "axial_spinal_load": "none",
+      "spinal_flexion": "low",
+      "spinal_extension": "none",
+      "spinal_rotation": "none",
+      "impact_level": "none",
+      "joint_stress": {
+        "knee": "none",
+        "hip": "low",
+        "lumbar_spine": "moderate",
+        "cervical_spine": "low",
+        "shoulder": "high",
+        "elbow": "high",
+        "wrist": "high",
+        "ankle": "none"
+      },
+      "laterality": "bilateral",
+      "movement_pattern": "core_antiextension",
+      "difficulty": 5,
+      "rom_demand": "moderate",
+      "contraindications": [
+        "shoulder_impingement",
+        "rotator_cuff",
+        "elbow_injury",
+        "wrist_injury",
+        "lumbar_disc",
+        "hernia_abdominal",
+        "pregnancy_1st",
+        "pregnancy_2nd",
+        "pregnancy_3rd",
+        "elderly_65plus",
+        "obesity",
+        "hypertension"
+      ],
+      "cautions": [],
+      "safe_for": [],
+      "confidence": 0.92,
+      "_reasoning": "Ejercicio de calistenia avanzada, dificultad 5. Demanda extrema de hombro y core en anti-extension. La lista larga de contraindicaciones refleja que es inaccesible para casi cualquier perfil no atletico: el filtro por dificultad ya lo excluiria, pero se marca explicitamente."
+    },
+    {
+      "exercise_id": "1460",
+      "_name": "walking lunge",
+      "start_position": "standing",
+      "requires_floor_transition": false,
+      "requires_standing": true,
+      "requires_balance": "high",
+      "single_leg_support": true,
+      "overhead_position": false,
+      "grip_required": "none",
+      "axial_spinal_load": "low",
+      "spinal_flexion": "none",
+      "spinal_extension": "none",
+      "spinal_rotation": "none",
+      "impact_level": "low",
+      "joint_stress": {
+        "knee": "high",
+        "hip": "moderate",
+        "lumbar_spine": "low",
+        "cervical_spine": "none",
+        "shoulder": "none",
+        "elbow": "none",
+        "wrist": "none",
+        "ankle": "moderate"
+      },
+      "laterality": "alternating",
+      "movement_pattern": "lunge",
+      "chain": "closed",
+      "difficulty": 2,
+      "rom_demand": "moderate",
+      "setup_complexity": "trivial",
+      "contraindications": [
+        "cannot_stand",
+        "limited_balance",
+        "knee_injury_active",
+        "post_op_knee"
+      ],
+      "cautions": [
+        "age_65_plus",
+        "vertigo",
+        "pregnancy_3rd"
+      ],
+      "safe_for": [
+        "shoulder_injury",
+        "wrist_injury",
+        "limited_grip"
+      ],
+      "_reasoning": "Sin equipo pero equilibrio alto y apoyo unipodal en transito: es contraindicacion dura, no caution, para equilibrio limitado. La rodilla adelantada bajo carga corporal es el estres dominante."
+    },
+    {
+      "exercise_id": "0651",
+      "_name": "pull up (neutral grip)",
+      "start_position": "hanging",
+      "requires_floor_transition": false,
+      "requires_standing": false,
+      "requires_balance": "none",
+      "single_leg_support": false,
+      "overhead_position": true,
+      "grip_required": "hanging_bodyweight",
+      "axial_spinal_load": "none",
+      "spinal_flexion": "none",
+      "spinal_extension": "low",
+      "spinal_rotation": "none",
+      "impact_level": "none",
+      "joint_stress": {
+        "knee": "none",
+        "hip": "none",
+        "lumbar_spine": "low",
+        "cervical_spine": "low",
+        "shoulder": "high",
+        "elbow": "high",
+        "wrist": "high",
+        "ankle": "none"
+      },
+      "laterality": "bilateral",
+      "movement_pattern": "vertical_pull",
+      "chain": "closed",
+      "difficulty": 5,
+      "rom_demand": "high",
+      "setup_complexity": "simple",
+      "contraindications": [
+        "limited_grip",
+        "no_overhead",
+        "shoulder_injury_active",
+        "elbow_injury_active",
+        "wrist_injury_active",
+        "post_op_shoulder"
+      ],
+      "cautions": [
+        "hypertension",
+        "age_65_plus"
+      ],
+      "safe_for": [
+        "knee_injury",
+        "ankle_injury",
+        "hip_injury",
+        "cannot_stand"
+      ],
+      "_reasoning": "Colgar todo el peso corporal hace del agarre y la muneca un requisito duro, no una precaucion. Excelente para quien no puede cargar piernas."
+    },
+    {
+      "exercise_id": "0083",
+      "_name": "barbell rollerout from bench",
+      "start_position": "kneeling",
+      "requires_floor_transition": true,
+      "requires_standing": false,
+      "requires_balance": "moderate",
+      "single_leg_support": false,
+      "overhead_position": false,
+      "grip_required": "firm",
+      "axial_spinal_load": "none",
+      "spinal_flexion": "none",
+      "spinal_extension": "high",
+      "spinal_rotation": "none",
+      "impact_level": "none",
+      "joint_stress": {
+        "knee": "moderate",
+        "hip": "low",
+        "lumbar_spine": "high",
+        "cervical_spine": "low",
+        "shoulder": "high",
+        "elbow": "moderate",
+        "wrist": "moderate",
+        "ankle": "low"
+      },
+      "laterality": "bilateral",
+      "movement_pattern": "core_antiextension",
+      "chain": "closed",
+      "difficulty": 4,
+      "rom_demand": "moderate",
+      "setup_complexity": "simple",
+      "contraindications": [
+        "cannot_kneel",
+        "cannot_get_on_floor",
+        "lumbar_disc",
+        "spondylolisthesis",
+        "shoulder_injury_active",
+        "pregnancy_any"
+      ],
+      "cautions": [
+        "diastasis_recti",
+        "age_65_plus"
+      ],
+      "safe_for": [],
+      "_reasoning": "Anti-extension: el riesgo NO es flexion lumbar sino hiperextension si el core cede. Por eso spinal_extension high y lumbar high. Arrodillado exige bajar al suelo."
+    }
+  ]
+}

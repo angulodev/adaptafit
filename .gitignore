@@ -1,0 +1,34 @@
+# --- Media con licencia ajena: NUNCA commitear ---
+# Las imagenes y GIFs son (c) Gym visual. Ver docs/LICENCIAS.md
+media/
+*.gif
+*.mp4
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# --- Node / Vite ---
+node_modules/
+dist/
+.vite/
+*.local
+
+# --- Secretos ---
+.env
+.env.*
+!.env.example
+
+# --- Salidas intermedias del enriquecimiento ---
+# e2_output.json y e3_reviewed.json SI se commitean: son el activo del proyecto.
+# Solo se ignora el checkpoint de corrida.
+enrichment/output/e2_checkpoint.json
+enrichment/output/*.tmp
+
+# --- Sistema / editor ---
+.DS_Store
+.claude/
+.idea/
+.vscode/
