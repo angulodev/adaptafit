@@ -113,3 +113,36 @@ anónimo, lesionan a alguien de la familia. El sesgo conservador se mantiene.
 | A-03 | ¿Onboarding largo o mínimo (3 preguntas) + refinamiento por uso? | UX |
 | A-04 | ¿El índice de filtrado va en cliente (bitmask) o en Supabase? | motor |
 | A-05 | ¿Nombre definitivo? "AdaptaFit" es provisorio | — |
+
+---
+
+### D-010 · El gold set se expandió en chat, no por API
+**2026-07-23**
+
+Se anotaron 45 ejercicios adicionales en conversación (total: 54), cubriendo el espacio
+`start_position × movement_pattern` y todas las posturas de Capa A.
+
+*Por qué:* clasificar los 895 en chat no es viable (~500K tokens de salida). Pero el
+cuello de botella de E2 no es el modelo, son los ejemplos. Pasar de 9 a 54 ejemplos
+de calidad humana mejora los 895 de forma pareja. Mismo esfuerzo, aplicado donde rinde.
+
+Correcciones de E1 detectadas al anotar:
+- `0499 inverted row` y `0638 one arm chin-up`: E1 los marcó `standing`, son `hanging`
+- `0049 barbell incline row`: E1 lo marcó `bench_incline`, es `bench_prone`
+- `0639 one arm dip`: E1 lo marcó `standing`, es `seated`
+- `0251 chest dip`: E1 no lo resolvió, es `hanging`
+
+Estas correcciones ahora están en el gold, así que E2 aprende a no repetirlas.
+
+---
+
+### D-011 · 43 ejercicios comparten texto de instrucciones
+**2026-07-23**
+
+17 grupos con instrucciones idénticas, 43 ejercicios afectados (3,2%). El peor caso:
+10 ejercicios abdominales distintos con el mismo texto (`3/4 sit-up`, `cocoons`,
+`curl-up`, `half sit-up`, `janda sit-up`, `negative crunch`...).
+
+*Implicancia:* E2 los va a clasificar idénticos porque no tiene con qué distinguirlos.
+Cuatro de ellos se anotaron a mano en el gold usando el nombre real del ejercicio,
+no el texto. El resto queda como cola prioritaria de E3.
