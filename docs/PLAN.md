@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 3 completado
+**Última actualización:** 2026-07-23 · lote 4 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   ████░░░░░░░░░░░░░░░░░░░░░░░░░░   108 / 895   (12,1%)
+Clasificación manual   ████░░░░░░░░░░░░░░░░░░░░░░░░░░   126 / 895   (14,1%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ████░░░░░░░░░░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 3 de ~12** |
+| **Clasificación manual** | 🔄 **en curso — lote 4 de ~12** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -42,7 +42,7 @@ punto, lo hecho es lo más útil.
 | **01** | 2026-07-23 | 18 | 72 | 8,0% | 2 | `batch_manual_01.py` |
 | **02** | 2026-07-23 | 18 | 90 | 10,1% | 4 | `batch_manual_02.py` |
 | **03** | 2026-07-23 | 18 | 108 | 12,1% | 3 | `batch_manual_03.py` |
-| 04 | — | — | — | — | — | pendiente |
+| **04** | 2026-07-23 | 18 | 126 | 14,1% | 3 | `batch_manual_04.py` |
 | 05 | — | — | — | — | — | pendiente |
 | 06 | — | — | — | — | — | pendiente |
 | 07 | — | — | — | — | — | pendiente |
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) |
-|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | **50** |
-| Silla de ruedas | 21 | — | 47 | **60** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | **35** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) |
+|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | **62** |
+| Silla de ruedas | 21 | — | 47 | 60 | **72** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | **46** |
 
 ---
 
@@ -91,6 +91,9 @@ sistemática cuando la primera oración describe el montaje en vez de la posici�
 | dumbbell tate press | seated | bench_supine | 03 |
 | dumbbell incline y-raise | bench_incline | bench_prone | 03 |
 | dumbbell incline t-raise | bench_incline | bench_prone | 03 |
+| crab twist toe touch | seated | plank invertido (manos+pies) | 04 |
+| dumbbell one arm reverse grip press | seated | bench_supine | 04 |
+| bodyweight incline side plank | bench_incline | side_lying | 04 |
 
 **Patrón:** `bench_incline` vs `bench_prone` es el error más frecuente. Cuando el
 pecho queda apoyado contra el respaldo inclinado, la posición es prona, no
@@ -105,9 +108,12 @@ inclinada. Importa porque `bench_prone` excluye a quien no puede ponerse boca ab
 inclinarse la cabeza baja del corazón. Activa glaucoma, riesgo retinal y
 disautonomía. Igual en `dumbbell one arm reverse fly` y `decline shrug`.
 
-**Duplicados funcionales.** Cuatro variantes del mismo fondo en banco
-(`triceps dip`, `elbow dips`, `bench dip on floor`, `triceps dips floor`) y dos
-elevaciones laterales con texto idéntico (`0396` / `0395`). E4 los colapsa.
+**Duplicados funcionales — el problema es peor de lo estimado.** Ya van **seis**
+variantes del mismo fondo en banco (`triceps dip`, `elbow dips`, `bench dip on
+floor`, `triceps dips floor`, `weighted bench dip`, `weighted tricep dips`), dos
+elevaciones laterales idénticas (`0396`/`0395`) y dos Arnold press idénticos
+(`2137`/`0287`). El sufijo `v. 2` del dataset casi nunca implica una diferencia
+real. E4 los colapsa en `substitute_group`.
 
 **43 ejercicios comparten texto de instrucciones** (17 grupos, 3,2% del dataset).
 El peor: 10 abdominales distintos con el mismo texto. Cola prioritaria de E3.
