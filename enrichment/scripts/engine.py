@@ -365,9 +365,17 @@ def load_catalog():
     src = json.load(open(os.path.join(BASE, "source", "exercises.json"), encoding="utf-8"))
     meta = {x["id"]: x for x in src}
 
+    MANUAL = os.path.join(BASE, "output", "manual_classified.json")
     if os.path.exists(E2):
         recs = json.load(open(E2, encoding="utf-8"))
         origin = "e2_output.json"
+    elif os.path.exists(MANUAL):
+        # gold + lo clasificado a mano en chat
+        recs = json.load(open(GOLD, encoding="utf-8"))["examples"]
+        seen = {r["exercise_id"] for r in recs}
+        recs += [r for r in json.load(open(MANUAL, encoding="utf-8"))
+                 if r["exercise_id"] not in seen]
+        origin = f"gold + manual ({len(recs)} clasificados a mano)"
     else:
         recs = json.load(open(GOLD, encoding="utf-8"))["examples"]
         origin = "gold_examples.json (54 anotados a mano)"
