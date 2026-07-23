@@ -10,23 +10,26 @@ los ejercicios de pie no aparecen. Nunca.
 
 ## Estado actual
 
-**Fase:** enriquecimiento de datos (E2 pendiente de ejecutar)
-**Última actualización:** 2026-07-18
+**Fase:** clasificación manual en curso — **108 de 895 (12,1%)** · lote 3 de ~12
+**Última actualización:** 2026-07-23
+
+📋 Plan detallado y registro de lotes: [`docs/PLAN.md`](docs/PLAN.md)
 
 | Fase | Qué es | Estado |
 |---|---|---|
 | Especificación | Modelo de datos, motor adaptativo, arquitectura | ✅ `docs/ESPECIFICACION.md` |
 | Taxonomía v1.2 | 30 atributos · 62 condiciones en 3 capas | ✅ `enrichment/taxonomy/` |
-| Gold set | 9 ejercicios anotados a mano (few-shot + validación) | ✅ `enrichment/gold/` |
+| Gold set | 54 ejercicios anotados a mano (14 few-shot + 40 validación) | ✅ `enrichment/gold/` |
 | **E1** — pre-seed heurístico | Reglas sobre el texto. 94,6% de `start_position` | ✅ `enrichment/output/e1_output.json` |
-| **E2** — clasificación IA | Capa de seguridad completa. 895 ejercicios, 112 lotes | ⏳ **listo, sin ejecutar** |
+| **Clasificación manual** | 108 de 895, lotes de 18, cola priorizada por valor | 🔄 **en curso** |
+| **E2** — clasificación IA | Alternativa: 895 de una. USD 7,79 (3,89 con Batch API) | ⏸ listo, opcional |
+| **Motor de filtrado** | Capas A/B/C + degradación. Probado sobre 108 | ✅ `engine.py` |
 | **E3** — revisión humana | Baja confianza + todo lo que toque contraindicaciones | ⬜ |
 | **E4** — grafo de sustituciones | Regresiones, progresiones, equivalencias | ⬜ |
-| Motor de filtrado | Probado en consola, sin UI | ⬜ |
 | Esquema Supabase | Tablas `gym_*` | ⬜ |
 | App | Vite + React | ⬜ |
 
-**Siguiente acción concreta:** ejecutar E2 (ver `enrichment/README.md`).
+**Siguiente acción concreta:** lote 4 de clasificación (`workqueue.py --next 18`).
 
 ---
 
