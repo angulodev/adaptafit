@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 11 completado
+**Última actualización:** 2026-07-23 · lote 12 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   ███████████░░░░░░░░░░░░░░░░░░░   252 / 895   (28,2%)
+Clasificación manual   ████████████░░░░░░░░░░░░░░░░░░   270 / 895   (30,2%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ███████████░░░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 11 de ~14** |
+| **Clasificación manual** | 🔄 **en curso — lote 12 de ~14** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -50,7 +50,7 @@ punto, lo hecho es lo más útil.
 | **09** | 2026-07-23 | 18 | 216 | 24,1% | 1 | `batch_manual_09.py` |
 | **10** | 2026-07-23 | 18 | 234 | 26,1% | 1 | `batch_manual_10.py` |
 | **11** | 2026-07-23 | 18 | 252 | 28,2% | 0 | `batch_manual_11.py` |
-| 12 | — | — | — | — | — | pendiente |
+| **12** | 2026-07-24 | 18 | 270 | 30,2% | 2 | `batch_manual_12.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | **119** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | **143** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | **93** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | **127** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | **153** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | **97** |
 
 ---
 
@@ -99,6 +99,8 @@ sistemática cuando la primera oración describe el montaje en vez de la posici�
 | dumbbell close grip press | seated | bench_supine | 08 |
 | lower back curl | supine | prone ('lie on your stomach') | 09 |
 | barbell reverse preacher curl | seated | bench_prone | 10 |
+| dumbbell reverse preacher curl | seated | bench_prone | 12 |
+| side lying floor stretch | supine | side_lying | 12 |
 | inverse leg curl (pull-up cable) | overhead + hanging grip | isolation prono | 07 |
 
 **Patrón:** `bench_incline` vs `bench_prone` es el error más frecuente. Cuando el
@@ -300,3 +302,26 @@ patrón sigue siendo el punto débil estructural del catálogo para perfiles sen
 Conclusión de producto: la app debe declarar la limitación explícitamente. Una
 rutina de tren inferior para movilidad reducida se construye con aislamiento y
 puente de glúteo, no con patrones compuestos, y eso hay que decirlo.
+
+
+---
+
+## Regla confirmada: flexionar el codo es una regresión (lote 12)
+
+Tercera aparición del mismo principio, ya con evidencia suficiente para tratarlo
+como regla general del grafo E4:
+
+| Ejercicio (brazo recto) | Regresión (brazo flexionado) | Efecto |
+|---|---|---|
+| `dumbbell fly` | — | `laxity` alto |
+| elevación lateral (`0396`) | `bent arm lateral raise` (`2317`) | hombro high → moderate |
+| `barbell pullover` (`0073`) | `bent arm pullover` (`1316`) | `laxity` high → moderate |
+
+Acortar el brazo de palanca reduce el torque sobre la articulación sin cambiar el
+patrón de movimiento. Junto con el eje del agarre (lote 10), son las dos
+transformaciones mecánicas que E4 puede aplicar de forma sistemática para generar
+sustituciones válidas en vez de buscarlas caso por caso.
+
+**Confirmación del eje de agarre:** `barbell reverse grip skullcrusher` repite
+exactamente el patrón del lote 10 — el agarre invertido desplaza carga del hombro
+hacia muñeca y codo. Ya son cuatro casos independientes.
