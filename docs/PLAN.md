@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 7 completado
+**Última actualización:** 2026-07-23 · lote 8 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   ███████░░░░░░░░░░░░░░░░░░░░░░░   180 / 895   (20,1%)
+Clasificación manual   ████████░░░░░░░░░░░░░░░░░░░░░░   198 / 895   (22,1%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ███████░░░░░░░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 7 de ~12** |
+| **Clasificación manual** | 🔄 **en curso — lote 8 de ~12** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -46,7 +46,7 @@ punto, lo hecho es lo más útil.
 | **05** | 2026-07-23 | 18 | 144 | 16,1% | 1 | `batch_manual_05.py` |
 | **06** | 2026-07-23 | 18 | 162 | 18,1% | 0 | `batch_manual_06.py` |
 | **07** | 2026-07-23 | 18 | 180 | 20,1% | 2 | `batch_manual_07.py` |
-| 08 | — | — | — | — | — | pendiente |
+| **08** | 2026-07-23 | 18 | 198 | 22,1% | 1 | `batch_manual_08.py` |
 | 09 | — | — | — | — | — | pendiente |
 | 10 | — | — | — | — | — | pendiente |
 | 11 | — | — | — | — | — | pendiente |
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) |
-|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | **90** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | **108** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | **69** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) |
+|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | **98** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | **118** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | **76** |
 
 ---
 
@@ -96,6 +96,7 @@ sistemática cuando la primera oración describe el montaje en vez de la posici�
 | bodyweight incline side plank | bench_incline | side_lying | 04 |
 | dumbbell incline rear lateral raise | bench_incline | bench_prone | 05 |
 | barbell lying preacher curl | seated | bench_prone | 07 |
+| dumbbell close grip press | seated | bench_supine | 08 |
 | inverse leg curl (pull-up cable) | overhead + hanging grip | isolation prono | 07 |
 
 **Patrón:** `bench_incline` vs `bench_prone` es el error más frecuente. Cuando el
@@ -189,3 +190,31 @@ porque "son fáciles".
 **Decisión pendiente:** si en algún momento se quieren los 895 completos,
 `e2_classify.py` está listo (USD 7,79 con caching, 3,89 con Batch API). Lo
 clasificado a mano queda como referencia de calidad y set de validación.
+
+
+---
+
+## Comportamiento de la severidad (verificado en lote 8)
+
+La severidad declarada en Capa B modula el umbral de `joint_stress`:
+
+| Pinzamiento de hombro | Disponibles (de 198) |
+|---|---|
+| molestia | 116 |
+| lesión | 73 |
+| postoperatorio | 55 |
+
+**Pero la lista explícita de `contraindications` es absoluta**, independiente de la
+severidad. Consecuencia concreta: con pinzamiento de hombro, aunque sea leve,
+**ningún ejercicio de `vertical_push` sobrevive** — los diez presses clasificados
+listan `shoulder_impingement` como contraindicación.
+
+Clínicamente es correcto: el press por encima de la cabeza con pinzamiento se evita
+en cualquier grado. Pero deja un patrón de movimiento entero sin cubrir, y eso
+**es exactamente el problema que E4 tiene que resolver**: ofrecer alternativas que
+trabajen el hombro sin posición overhead, en vez de dejar la zona sin entrenar.
+
+*Decisión abierta A-07:* ¿debería `molestia` degradar las contraindicaciones
+explícitas a advertencia, en vez de bloquearlas? Argumento a favor: dar opciones con
+alerta. Argumento en contra: una contraindicación explícita significa "no hagas esto
+con esta condición", y relajarla por autodiagnóstico de gravedad es riesgoso.
