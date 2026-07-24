@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 5 completado
+**Última actualización:** 2026-07-23 · lote 6 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   █████░░░░░░░░░░░░░░░░░░░░░░░░░   144 / 895   (16,1%)
+Clasificación manual   ██████░░░░░░░░░░░░░░░░░░░░░░░░   162 / 895   (18,1%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   █████░░░░░░░░░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 5 de ~12** |
+| **Clasificación manual** | 🔄 **en curso — lote 6 de ~12** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -44,7 +44,7 @@ punto, lo hecho es lo más útil.
 | **03** | 2026-07-23 | 18 | 108 | 12,1% | 3 | `batch_manual_03.py` |
 | **04** | 2026-07-23 | 18 | 126 | 14,1% | 3 | `batch_manual_04.py` |
 | **05** | 2026-07-23 | 18 | 144 | 16,1% | 1 | `batch_manual_05.py` |
-| 06 | — | — | — | — | — | pendiente |
+| **06** | 2026-07-23 | 18 | 162 | 18,1% | 0 | `batch_manual_06.py` |
 | 07 | — | — | — | — | — | pendiente |
 | 08 | — | — | — | — | — | pendiente |
 | 09 | — | — | — | — | — | pendiente |
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) |
-|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | **73** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | **86** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | **53** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) |
+|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | **80** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | **95** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | **59** |
 
 ---
 
@@ -123,6 +123,20 @@ pero tiene barra sobre la espalda, flexión de tronco, `axial_spinal_load` alto,
 `valsalva_risk` alto y `head_below_heart`. Es el ejercicio más riesgoso del lote 5.
 Confirma que filtrar solo por `start_position` sería insuficiente — que es
 exactamente por lo que existen las otras 29 dimensiones.
+
+**Validación fuerte del motor (lote 6).** Con 162 clasificados, al filtrar por
+hernia discal lumbar sobreviven **exactamente dos** ejercicios de core:
+`curl-up` y `dead bug`. Son precisamente los dos que la práctica clínica
+recomienda para esa condición. El motor llegó ahí solo, por umbrales sobre
+atributos — nadie codificó "para hernia usar dead bug".
+
+**La dirección del movimiento importa más que la zona.** `sphinx` carga la
+columna lumbar, pero en **extensión** — y en hernia discal la extensión suele
+aliviar mientras la flexión agrava (principio del método McKenzie). Por eso
+`lumbar_disc` es precaución en sphinx y contraindicación en los crunches,
+aunque ambos "carguen la espalda baja". Un modelo que solo mirara
+`joint_stress.lumbar_spine` no podría hacer esa distinción: hacen falta
+`spinal_flexion` y `spinal_extension` por separado.
 
 **43 ejercicios comparten texto de instrucciones** (17 grupos, 3,2% del dataset).
 El peor: 10 abdominales distintos con el mismo texto. Cola prioritaria de E3.
