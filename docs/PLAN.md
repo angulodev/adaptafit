@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ██████████████░░░░░░░░░░░░░░░░   396 / 895   (44,2%)
+Clasificación manual   ██████████████░░░░░░░░░░░░░░░░   432 / 895   (48,3%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 19** |
+| **Clasificación manual** | 🔄 **en curso — lote 21** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -58,6 +58,8 @@ punto, lo hecho es lo más útil.
 | **17** | 2026-07-24 | 18 | 360 | 40,2% | 1 | `batch_manual_17.py` |
 | **18** | 2026-07-24 | 18 | 378 | 42,2% | 1 | `batch_manual_18.py` |
 | **19** | 2026-07-24 | 18 | 396 | 44,2% | 1 | `batch_manual_19.py` |
+| **20** | 2026-07-24 | 18 | 414 | 46,3% | 2 | `batch_manual_20.py` |
+| **21** | 2026-07-24 | 18 | 432 | 48,3% | 2 | `batch_manual_21.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -69,11 +71,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | **176** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | **209** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | **125** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | **181** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | **214** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | **127** |
 
 ---
 
@@ -832,3 +834,125 @@ python3 enrichment/scripts/e2_classify.py --dry-run   # auditar el prompt, grati
 python3 enrichment/scripts/e2_classify.py             # ~USD 8, o la mitad con Batch
 python3 enrichment/scripts/e2_validate.py             # medir contra los 396
 ```
+
+---
+
+## `resistance band seated biceps curl` — nuevo máximo de accesibilidad (lote 21)
+
+`3123` cerró con **17 `safe_for` y 2 contraindicaciones**, superando a
+`standing calves` del lote 18.
+
+Tres cosas lo explican, y las tres son replicables:
+
+1. **Banda elástica**: la resistencia desaparece en el punto de menor tensión, así
+   que no hay carga excéntrica de golpe. `valsalva_risk: none`, `difficulty: 1`.
+2. **El texto dice *"sit on a chair or bench"***. Eso saca
+   `cannot_transfer_to_bench` de las contraindicaciones — no exige un banco de
+   gimnasio. Es un detalle de redacción con consecuencia real en el filtrado.
+3. No hay columna cargada, ni brazos sobre la cabeza, ni agarre firme.
+
+Ranking de accesibilidad actualizado:
+
+| id | ejercicio | `safe_for` | contra |
+|---|---|---|---|
+| 3123 | resistance band seated biceps curl | 17 | 2 |
+| 1397 | standing calves | 16 | 3 |
+| 0002 | 45° side bend | 16 | 4 |
+| 0284 | donkey calf raise | 15 | 3 |
+| 0659 | push-up (wall) | 15 | 2 |
+
+**Lección para E2 y E4:** el equipamiento con banda es sistemáticamente el más
+accesible del catálogo. Vale priorizar esas entradas en la cola restante.
+
+---
+
+## `push-up plus` — la única excepción de la familia de flexiones
+
+`3145` es el **único push-up del proyecto con `shoulder_impingement` y
+`rotator_cuff` en `safe_for`**.
+
+El "plus" es protracción escapular al final del empuje, que activa el serrato
+anterior. Es un ejercicio prescrito en rehabilitación de discinesia escapular —
+justamente la causa mecánica de buena parte de los pinzamientos. El agregado no
+lo hace más duro: lo hace terapéutico.
+
+Segundo caso del proyecto donde un ejercicio entra en `safe_for` de la condición
+que su familia contraindica, después de `side bridge v. 2` con hernia discal.
+**Ambos son ejercicios de rehabilitación reconocidos.** Vale revisar la cola
+restante buscando específicamente este patrón: son los que más valor aportan a un
+catálogo adaptativo.
+
+---
+
+## Un centímetro de trayectoria cambia la capa de filtrado
+
+| id | ejercicio | la barra baja hacia | `no_overhead` |
+|---|---|---|---|
+| 0060 | barbell lying triceps extension | la frente | precaución |
+| 1720 | barbell lying back of the head extension | detrás de la cabeza | **contraindicación** |
+
+Mismo implemento, misma postura, mismo músculo. La diferencia es hacia dónde baja
+la barra, y eso mueve el ejercicio de una capa a otra. `joint_stress.shoulder`
+sube de `moderate` a `high`.
+
+---
+
+## Espejo de impacto: `plyo push up` vs `ski step`
+
+| id | ejercicio | `impact_level` | apto para | contraindicado para |
+|---|---|---|---|---|
+| 1306 | plyo push up | `high` | rodilla, tobillo | muñeca, codo, hombro |
+| 3671 | ski step | `high` | hombro, muñeca, codo | rodilla, tobillo |
+
+Los dos son pliométricos de impacto alto y sus listas son casi complementarias.
+Para un perfil con lesión de miembro superior, `ski step` es la sustitución
+directa de `plyo push up` manteniendo el estímulo — y al revés.
+
+---
+
+## Hallazgo sistémico: descripciones inventadas en calistenia avanzada
+
+Se acumularon seis entradas cuyo texto **no describe el ejercicio que nombran**:
+
+| id | ejercicio | qué dice el texto |
+|---|---|---|
+| 3298 | straddle planche | una flexión inclinada con piernas abiertas |
+| 3291 | stalder press | una sentadilla con brazos arriba |
+| 3315 | full maltese | una bisagra de pie con brazos en cruz |
+| 3012 | scapula dips | una bisagra de pie con empuje |
+| 0816 | triceps press | mecánicamente incoherente |
+| 3211 | kneeling push-up | una flexión completa, no de rodillas |
+
+Todas quedaron con `confidence` entre 0,50 y 0,55 y van a E3 como bloque.
+
+**`3211` es el más importante de los seis.** Si el nombre es el correcto y el
+texto está mal, el catálogo está perdiendo la regresión accesible del push-up —
+la que necesita cualquier principiante o persona con poca fuerza de tren
+superior. Vale verificarlo a mano contra otra fuente antes de E4.
+
+---
+
+## Duplicados detectados en los lotes 20 y 21
+
+Para colapsar en E4:
+
+- `2188` ≡ `2189` (extensión de tríceps sentada) — clasificación idéntica
+- `1680` ≡ `0422` (curl de pie apoyado en banco) — clasificación idéntica
+- `0474` ≡ `0475` (elevación de piernas colgado) — difieren sólo en el límite del recorrido
+- `2298` ≈ `2300` (remo invertido) — banco vs barra, mismo perfil
+
+---
+
+## Correcciones a E1 en los lotes 20 y 21
+
+| id | ejercicio | E1 dijo | Correcto |
+|---|---|---|---|
+| 1331 | dumbbell reverse grip incline bench two arm row | `bench_incline` | `bench_prone` |
+| 1680 | dumbbell standing one arm curl over incline bench | `bench_incline` | `standing` |
+| 0422 | dumbbell standing one arm curl (over incline bench) | `bench_incline` | `standing` |
+| 0467 | gorilla chin | `standing` | `hanging` |
+
+**Patrón confirmado de E1:** si aparece la palabra *bench* en el nombre, asume
+postura de banco sin leer el texto. Ya son cinco casos contando `1330` del lote 19
+y `1317` del 18. Es la corrección más frecuente del proyecto y ya está reflejada
+como regla explícita en el prompt de E2.
