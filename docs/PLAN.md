@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 13 completado
+**Última actualización:** 2026-07-23 · lote 14 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   █████████████░░░░░░░░░░░░░░░░░   288 / 895   (32,2%)
+Clasificación manual   ██████████████░░░░░░░░░░░░░░░░   306 / 895   (34,2%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   █████████████░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 13** |
+| **Clasificación manual** | 🔄 **en curso — lote 14** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | **138** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | **166** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | **103** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | **147** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | **176** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | **108** |
 
 ---
 
@@ -369,3 +369,36 @@ popular" equivale a "más accesible".
 Los tres comparten el mismo perfil: isométrica máxima colgado o invertido,
 con `valsalva` alto. Confirma que el eje `sustained_isometric` × `valsalva_risk`
 identifica bien el extremo de riesgo cardiovascular.
+
+
+---
+
+## Cadena completa de elevación de piernas (lote 14)
+
+Segundo patrón con progresión cerrada de punta a punta, y el más útil para la app
+porque la accesibilidad varía en cada peldaño:
+
+| Dif. | Ejercicio | Postura | Accesible para |
+|---|---|---|---|
+| 5 | `hanging pike` | colgado | — |
+| 4 | `hanging leg raise` | colgado | sin uso de piernas |
+| 3 | `captains chair straight leg raise` | vertical con apoyo | sin uso de piernas |
+| 2 | `lying leg raise flat bench` | banco supino | no puede pararse |
+| 2 | `seated leg raise` | sentado | no puede bajar al suelo |
+| 2 | `barbell sitted alternate leg raise` | sentado | + agarre limitado |
+
+Cada escalón no solo baja la dificultad: **cambia el conjunto de restricciones que
+tolera**. Eso es lo que E4 debe explotar — no basta ordenar por `difficulty`, hay
+que elegir el peldaño según el perfil.
+
+## El filtro cervical funciona (verificado en lote 14)
+
+Con lesión cervical, el motor deja 37 ejercicios de core disponibles y excluye
+exactamente la familia de "manos detrás de la cabeza" — crunches, sit-ups,
+`air bike`, `elbow-to-knee`, `oblique crunches`. Es el error de ejecución más común
+del catálogo y el motor lo aísla correctamente.
+
+**Hallazgo del lote:** `alternate heel touchers` es el primer abdominal con rotación
+donde los brazos van a los costados en vez de detrás de la cabeza. `cervical` baja
+de `high` a `low`. Es la regresión correcta de `oblique crunches` y de toda la
+familia de rotación en suelo.
