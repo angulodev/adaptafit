@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 9 completado
+**Última actualización:** 2026-07-23 · lote 10 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   █████████░░░░░░░░░░░░░░░░░░░░░   216 / 895   (24,1%)
+Clasificación manual   ██████████░░░░░░░░░░░░░░░░░░░░   234 / 895   (26,1%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   █████████░░░░░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 9 de ~12** |
+| **Clasificación manual** | 🔄 **en curso — lote 10 de ~12** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -48,7 +48,7 @@ punto, lo hecho es lo más útil.
 | **07** | 2026-07-23 | 18 | 180 | 20,1% | 2 | `batch_manual_07.py` |
 | **08** | 2026-07-23 | 18 | 198 | 22,1% | 1 | `batch_manual_08.py` |
 | **09** | 2026-07-23 | 18 | 216 | 24,1% | 1 | `batch_manual_09.py` |
-| 10 | — | — | — | — | — | pendiente |
+| **10** | 2026-07-23 | 18 | 234 | 26,1% | 1 | `batch_manual_10.py` |
 | 11 | — | — | — | — | — | pendiente |
 | 12 | — | — | — | — | — | pendiente |
 
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | **106** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | **127** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | **83** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | **110** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | **131** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | **86** |
 
 ---
 
@@ -98,6 +98,7 @@ sistemática cuando la primera oración describe el montaje en vez de la posici�
 | barbell lying preacher curl | seated | bench_prone | 07 |
 | dumbbell close grip press | seated | bench_supine | 08 |
 | lower back curl | supine | prone ('lie on your stomach') | 09 |
+| barbell reverse preacher curl | seated | bench_prone | 10 |
 | inverse leg curl (pull-up cable) | overhead + hanging grip | isolation prono | 07 |
 
 **Patrón:** `bench_incline` vs `bench_prone` es el error más frecuente. Cuando el
@@ -235,3 +236,36 @@ que es la respuesta correcta a A-07 en la práctica.
 - Más restringido: `handstand` — **18 contraindicaciones duras**. Inversión completa
   con todo el peso en muñecas: `head_below_heart`, `valsalva` alto, equilibrio alto
   y `orthostatic_load` alto a la vez.
+
+
+---
+
+## El agarre como eje de sustitución (lote 10)
+
+Tres variantes del mismo movimiento, distinto agarre, distinto perfil de riesgo:
+
+| Agarre | Hombro | Muñeca | Codo | Sirve para |
+|---|---|---|---|---|
+| Pronado (estándar) | **alto** | moderado | moderado | sin restricciones |
+| Neutro / paralelo | moderado | bajo | moderado | **hombro comprometido** |
+| Invertido / supinado | moderado | **alto** | **alto** | hombro comprometido, muñeca sana |
+
+Esto no es cosmético: es la base de un eje de sustitución que E4 puede explotar.
+Cuando el motor excluye un empuje por pinzamiento de hombro, la variante de agarre
+neutro suele sobrevivir. Con 234 clasificados, un perfil con pinzamiento leve
+conserva **17 empujes** — el hueco del lote 8 quedó cerrado del todo.
+
+**Contraejemplo útil:** el curl zottman rota la muñeca bajo carga y la lleva a
+`high`, siendo la versión *menos* apta para túnel carpiano — frente al curl
+predicador con mancuerna, que es de las más seguras. Mismo músculo, extremos
+opuestos del espectro de riesgo.
+
+---
+
+## Primer caso de `visual_impairment` (lote 10)
+
+`balance board` es el primer ejercicio donde la discapacidad visual es
+contraindicación dura: el equilibrio unipodal sobre superficie inestable depende de
+referencia visual. Tiene una paradoja que conviene que la app maneje con cuidado —
+es un ejercicio *de* equilibrio, así que quien más lo necesitaría es justamente
+quien no puede hacerlo sin supervisión.
