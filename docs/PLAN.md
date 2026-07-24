@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ████████████████░░░░░░░░░░░░░░   342 / 895   (38,2%)
+Clasificación manual   █████████████░░░░░░░░░░░░░░░░░   378 / 895   (42,2%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ████████████████░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 16** |
+| **Clasificación manual** | 🔄 **en curso — lote 18** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -51,6 +51,12 @@ punto, lo hecho es lo más útil.
 | **10** | 2026-07-23 | 18 | 234 | 26,1% | 1 | `batch_manual_10.py` |
 | **11** | 2026-07-23 | 18 | 252 | 28,2% | 0 | `batch_manual_11.py` |
 | **12** | 2026-07-24 | 18 | 270 | 30,2% | 2 | `batch_manual_12.py` |
+| **13** | 2026-07-24 | 18 | 288 | 32,2% | — | `batch_manual_13.py` |
+| **14** | 2026-07-24 | 18 | 306 | 34,2% | — | `batch_manual_14.py` |
+| **15** | 2026-07-24 | 18 | 324 | 36,2% | — | `batch_manual_15.py` |
+| **16** | 2026-07-24 | 18 | 342 | 38,2% | — | `batch_manual_16.py` |
+| **17** | 2026-07-24 | 18 | 360 | 40,2% | 1 | `batch_manual_17.py` |
+| **18** | 2026-07-24 | 18 | 378 | 42,2% | 1 | `batch_manual_18.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -62,11 +68,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | **163** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | **196** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | **114** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | **173** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | **206** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | **124** |
 
 ---
 
@@ -461,3 +467,188 @@ importa registrar que **el umbral de `joint_stress` es más restrictivo que la l
 de contraindicaciones**, y que las dos vías de exclusión pueden discrepar. La lección
 para E4: no alcanza con marcar `cautions` para que algo sobreviva — hay que revisar
 que el `joint_stress` sea coherente con esa intención.
+
+---
+
+## `push-up (wall)` — el mejor caso de degradación del dataset (lote 17)
+
+`0659 push-up (wall)` salió con **2 contraindicaciones de 62** y **15 `safe_for`**,
+el array más largo clasificado hasta ahora. Es un empuje horizontal que no exige
+suelo, ni banco, ni agarre, ni carga espinal, ni posición overhead.
+
+Importa porque resuelve un hueco conocido: cuando el filtro deja sin pecho a un
+perfil que no puede bajar al suelo ni transferirse a un banco, **este es el
+ejercicio que queda**. Debe entrar en la cadena de sustitución de E4 como el
+piso absoluto del patrón `horizontal_push`:
+
+```
+barbell bench press → dumbbell press → incline push-up → push-up (wall)
+```
+
+Segundo caso del mismo tipo en el lote: `2706 dumbbell lying supination on floor`,
+con 13 `safe_for` y `difficulty` 1. El único filtro real es llegar al suelo.
+
+---
+
+## Dos `safe_for` vacíos en el mismo lote
+
+`0558 kipping muscle up` y `0471 handstand push-up` quedaron con `safe_for = []`,
+aplicando la regla de dejar el array vacío ante duda. Son los dos primeros del
+proyecto en no tener **ni una sola** condición para la que se pueda afirmar
+seguridad con certeza alta.
+
+No es una clasificación floja: es el resultado esperado de un catálogo que se
+diseñó para excluir. Sirven como el extremo superior de la escala de riesgo,
+contra el que calibrar el resto.
+
+---
+
+## Limitación del enum `start_position` detectada en `handstand push-up`
+
+`0471` es una **inversión completa bajo carga**: `head_below_heart`,
+`position_change: high`, `valsalva_risk: high`, `cervical_spine: high`. La
+taxonomía no tiene un valor de `start_position` que lo represente. Quedó como
+`standing` (el texto arranca de pie) con `requires_floor_transition: true`.
+
+Es una limitación del enum, no de la anotación. **Candidato concreto para v1.3:**
+agregar `inverted` a `start_position`. Afecta a handstands, headstands y
+variantes de pino contra pared.
+
+---
+
+## Conflicto nombre vs. texto: `scapular pull-up`
+
+Tercer caso de nomenclatura rota en el dataset. Un scapular pull-up real es solo
+retracción y depresión escapular, sin flexión de codo. El texto fuente describe
+una dominada completa.
+
+Se aplicó la regla de la taxonomía —mandan las instrucciones— y se clasificó como
+`vertical_pull`, **con `confidence` bajada a 0.60**. Es el primer uso del
+mecanismo de confianza baja para señalar ambigüedad de la fuente, no del
+anotador. Debe entrar en la cola de E3 como revisión prioritaria.
+
+Confianzas reducidas en este lote:
+
+| id | ejercicio | confidence | motivo |
+|---|---|---|---|
+| 0688 | scapular pull-up | 0,60 | nombre y descripción son ejercicios distintos |
+| 0696 | self assisted inverse leg curl | 0,70 | descripción anatómicamente incoherente |
+| 0471 | handstand push-up | 0,75 | `start_position` sin enum adecuado |
+
+---
+
+## Corrección a E1 en el lote 17
+
+| id | ejercicio | E1 dijo | Correcto | Motivo |
+|---|---|---|---|---|
+| 0408 | dumbbell side lying one hand raise | `supine` | `side_lying` | el texto dice literalmente *"lie on your side"* |
+
+Es el mismo patrón de error que E1 viene cometiendo: colapsa cualquier posición
+horizontal a `supine`. Primer `side_lying` clasificado del proyecto.
+
+---
+
+## Nota de mantenimiento
+
+La barra de progreso en *Estado global* estaba descalibrada (16/30 de bloques
+llenos para un 38,2%). Se recalibró a proporción real: 12/30 para 40,2%. El
+número siempre fue correcto; la barra no.
+
+---
+
+## Dos pares que demuestran por qué no se clasifica por músculo (lote 18)
+
+El lote trajo dos comparaciones directas que conviene dejar registradas como
+casos de referencia para E4.
+
+**Par 1 — el codo decide, no el implemento.**
+
+| id | ejercicio | codo | `joint_stress.shoulder` | pinzamiento |
+|---|---|---|---|---|
+| 1624 | dumbbell reverse bench press (L17) | abierto a los lados | `high` | contraindicación |
+| 0352 | dumbbell neutral grip bench press | pegado al cuerpo | `moderate` | precaución |
+
+Mismo patrón, mismo implemento, misma posición del cuerpo. Lo único que cambia
+es la trayectoria del codo, y eso mueve el ejercicio de excluido a disponible
+para un perfil con pinzamiento. **`0352` es la sustitución directa de `1624`** y
+debe entrar como arista del grafo.
+
+**Par 2 — mismo músculo, resultados opuestos.**
+
+| id | ejercicio | `spinal_flexion` | `pelvic_floor_load` | hernia discal |
+|---|---|---|---|---|
+| 0705 | side bridge v. 2 | `none` | `low` | **`safe_for`** |
+| 0832 | weighted crunch | `high` | `high` | contraindicación |
+
+Los dos son abdomen, los dos en el suelo. El puente lateral estabiliza sin
+flexionar ni rotar; el crunch cargado hace exactamente lo contrario.
+
+---
+
+## Primer core con `lumbar_disc` en `safe_for`
+
+`0705 side bridge v. 2` es el primer ejercicio de core del proyecto que entra en
+`safe_for` de hernia discal. No es una concesión: el puente lateral es parte del
+*Big-3* de McGill, prescrito en rehabilitación lumbar precisamente porque genera
+rigidez sin cargar el disco.
+
+Se clasificó `joint_stress.lumbar_spine` en `low` de forma deliberada, para que
+el motor no lo corte por umbral. Es la aplicación práctica de la lección
+registrada en el lote 16: **no alcanza con la lista de condiciones, el
+`joint_stress` tiene que ser coherente con la intención**.
+
+---
+
+## `standing calves` — nuevo máximo de accesibilidad
+
+`1397 standing calves` cerró con **16 `safe_for` y 3 contraindicaciones**,
+superando a `push-up (wall)` del lote 17. Sin agarre, sin brazos, sin carga
+espinal, sin suelo.
+
+Todo el filtro cae sobre un único eje: hay que poder pararse. Es el caso más
+limpio del dataset de un ejercicio que un solo atributo de Capa A elimina por
+completo — y para quien sí puede pararse, es casi universalmente apto.
+
+Ranking de accesibilidad hasta ahora:
+
+| id | ejercicio | `safe_for` | contra |
+|---|---|---|---|
+| 1397 | standing calves | 16 | 3 |
+| 0659 | push-up (wall) | 15 | 2 |
+| 2706 | dumbbell lying supination on floor | 13 | 6 |
+
+---
+
+## Tercer `safe_for` vacío: `barbell guillotine bench press`
+
+`0045` baja la barra sobre el **cuello** con los codos abiertos a 90°: abducción
+y rotación externa máximas, el arco exacto del pinzamiento, sin margen de error
+mecánico.
+
+Novedad en el criterio: `epilepsy` y `vertigo` entraron como **contraindicación
+por consecuencia**, no por carga. El ejercicio no exige nada del sistema
+vestibular — pero una pérdida momentánea de control con una barra sobre la
+tráquea es catastrófica. Es el primer uso de este razonamiento en el proyecto y
+debería aplicarse hacia atrás a cualquier ejercicio con carga sobre cabeza o
+cuello.
+
+---
+
+## Corrección a E1 en el lote 18
+
+| id | ejercicio | E1 dijo | Correcto | Motivo |
+|---|---|---|---|---|
+| 1317 | barbell reverse grip incline bench row | `bench_incline` | `bench_prone` | *"sit facing the backrest with your chest against it"* |
+
+Con el pecho apoyado la columna no sostiene carga, por eso `1317` quedó con
+`lumbar_disc` **y** `sciatica` en `safe_for`: es el remo más seguro del catálogo
+para espalda lesionada. La corrección no era cosmética — con `bench_incline` el
+motor lo habría tratado como un remo con torso libre.
+
+Confianzas reducidas en este lote:
+
+| id | ejercicio | confidence | motivo |
+|---|---|---|---|
+| 1415 | dumbbell one arm seated neutral wrist curl | 0,70 | el nombre dice neutro, el texto dice supinado |
+| 1733 | dumbbell incline two arm extension | 0,65 | el texto describe un press, no una extensión |
+| 1274 | deep push up | 0,65 | el texto omite las mancuernas que definen el ejercicio |
