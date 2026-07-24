@@ -766,3 +766,69 @@ Confianzas reducidas en este lote:
 |---|---|---|---|
 | 0397 | dumbbell seated neutral wrist curl | 0,65 | tercer conflicto nombre/texto de la familia de muñeca |
 | 3298 | straddle planche | 0,65 | el texto no describe una planche real |
+
+---
+
+## Auditoría del prompt de E2 (tras el lote 19)
+
+Se revisó `e2_classify.py` contra la taxonomía v1.2. El prompt se **arma dinámico**
+desde el JSON, así que enums, `field_definitions` y `classification_rules` ya
+seguían la versión actual. La preocupación registrada al inicio era infundada.
+
+Pero aparecieron dos huecos reales:
+
+**1. Las capas no llegaban al prompt.** `condition_layers` y `layer_semantics`
+existían en la taxonomía y `build_system_prompt` nunca los incluía. El modelo iba
+a clasificar 895 ejercicios sin saber que la Capa A es filtro duro y la C sólo
+advierte — precisamente lo que determina cuán conservador debe ser al asignar
+contraindicaciones. **Corregido.**
+
+**2. Los 342 registros manuales con `_reasoning` no se usaban.** El few-shot salía
+sólo del gold de 54. Todas las reglas aprendidas entre los lotes 12 y 19 quedaban
+fuera. Se agregó `MANUAL_FEWSHOT_IDS` con seis casos elegidos por poder didáctico,
+no por cobertura de posturas:
+
+| id | qué enseña |
+|---|---|
+| 1275 | clasificar mecánica, no músculo objetivo |
+| 0352 | los codos pegados bajan el pinzamiento a precaución |
+| 1330 | *"bend at the waist"* → torso en voladizo, contra para hernia |
+| 1317 | mismo patrón con pecho apoyado → apto para hernia |
+| 0045 | `safe_for` vacío + contraindicación por consecuencia |
+| 0659 | máxima accesibilidad (15 `safe_for`) |
+
+Y un bloque de **nueve reglas destiladas** de los 396 ejercicios anotados.
+
+Costo: el system prompt pasó de ~8.700 a ~11.700 tokens. Va con `cache_control`,
+así que el aumento se paga una vez por sesión, no por lote.
+
+---
+
+## `e2_validate.py` — decidir con números si E2 sirve
+
+Los 396 clasificados a mano dejan de ser sólo catálogo: son un **set de validación**.
+El script mide el acuerdo entre `e2_output.json` y la clasificación manual,
+excluyendo los ejercicios que el modelo vio como few-shot.
+
+Umbrales de decisión:
+
+| Métrica | Umbral | Por qué |
+|---|---|---|
+| Campos estructurales | ≥ 90 % | acuerdo global aceptable |
+| Recall de contraindicaciones | ≥ 95 % | cada una perdida es un ejercicio peligroso ofrecido |
+| Falsos «seguro» | ≤ 2 % | el único error que puede lesionar a alguien |
+
+El tercero es el que manda. Un falso *seguro* —`safe_for` sobre una condición que
+el manual contraindica— se reporta ejercicio por ejercicio y va a E3 sin excepción.
+
+Probado en las dos direcciones: 100 % con datos idénticos, y rechaza correctamente
+una salida degradada a propósito (recall 94,1 %, 10,1 % de falsos seguro).
+
+**Flujo que queda disponible:**
+
+```bash
+export ANTHROPIC_API_KEY=...
+python3 enrichment/scripts/e2_classify.py --dry-run   # auditar el prompt, gratis
+python3 enrichment/scripts/e2_classify.py             # ~USD 8, o la mitad con Batch
+python3 enrichment/scripts/e2_validate.py             # medir contra los 396
+```

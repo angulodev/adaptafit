@@ -37,6 +37,7 @@ TAX = os.path.join(BASE, "taxonomy", "taxonomy_v1.json")
 GOLD = os.path.join(BASE, "gold", "gold_examples.json")
 OUT = os.path.join(BASE, "output", "e2_output.json")
 CKPT = os.path.join(BASE, "output", "e2_checkpoint.json")
+MANUAL = os.path.join(BASE, "output", "manual_classified.json")
 
 MODEL = "claude-sonnet-5"
 BATCH_SIZE = 8   # reducido de 16: menos riesgo de truncado en respuestas largas
@@ -74,12 +75,29 @@ FEWSHOT_IDS = [
     "0126",  # seated        · el equipo cambia el riesgo del mismo movimiento
 ]
 
+# Segundo bloque de few-shot, tomado de la clasificacion manual (no del gold).
+# Estos no cubren espacio de posturas: cubren las REGLAS dificiles, los casos
+# donde el texto engana. e2_validate.py los excluye del set de validacion.
+MANUAL_FEWSHOT_IDS = [
+    "1275",  # pectorales contraindicado para rodilla — mecanica > musculo objetivo
+    "0352",  # codos pegados: pinzamiento baja de contra a caution
+    "1330",  # "bend at the waist": torso en voladizo, contra para hernia discal
+    "1317",  # pecho apoyado en el banco: MISMO patron, apto para hernia discal
+    "0045",  # safe_for vacio + contraindicacion por consecuencia
+    "0659",  # maxima accesibilidad: 15 safe_for, 2 contra
+]
 
-def build_system_prompt(taxonomy, gold, fewshot_only=True):
+
+def build_system_prompt(taxonomy, gold, fewshot_only=True, manual=None):
     pool = gold["examples"]
     if fewshot_only:
         sel = [g for g in pool if g["exercise_id"] in FEWSHOT_IDS]
         pool = sel if len(sel) >= 8 else pool[:14]
+
+    # Casos dificiles tomados de la clasificacion manual, en el orden de la lista.
+    if manual:
+        by_id = {r["exercise_id"]: r for r in manual}
+        pool = pool + [by_id[i] for i in MANUAL_FEWSHOT_IDS if i in by_id]
     ex_blocks = []
     for g in pool:
         payload = {k: v for k, v in g.items() if not k.startswith("_")}
@@ -104,6 +122,69 @@ Este trabajo tiene consecuencias reales: las personas que usan la app dependen d
 ## Reglas de clasificacion
 
 {chr(10).join("- " + r for r in taxonomy["classification_rules"])}
+
+## Las tres capas de condiciones
+
+Cada condicion pertenece a una capa, y la capa determina que hace el motor con ella.
+Clasificar sin saber esto produce errores graves en las dos direcciones.
+
+{chr(10).join(f"- Capa {k}: {v}" for k, v in taxonomy["layer_semantics"].items())}
+
+{json.dumps(taxonomy["condition_layers"], ensure_ascii=False, indent=1)}
+
+Consecuencia practica:
+- Capa A: son hechos objetivos sobre el cuerpo, no juicios medicos. Si el ejercicio
+  exige pararse, `cannot_stand` va en contraindications, sin matices.
+- Capa B: el motor aplica un umbral segun la severidad que declara el usuario. Por eso
+  `joint_stress` tiene que ser COHERENTE con la lista de condiciones: si pones una
+  lesion articular en cautions pero el `joint_stress` de esa articulacion es high, el
+  motor la excluye igual y tu caution no sirve de nada.
+- Capa C: nunca oculta, solo advierte y degrada el ranking. Podes ser generoso
+  marcando condiciones sistemicas en cautions: el costo de un falso positivo es una
+  advertencia de mas, no un ejercicio perdido.
+
+## Lecciones de 396 ejercicios clasificados a mano
+
+Estas reglas salieron de anotar el catalogo real. Son los errores que mas se repiten.
+
+- CLASIFICA MECANICA, NO MUSCULO OBJETIVO. `drop push up` figura como ejercicio de
+  pectorales y esta contraindicado para rodilla, porque el texto dice "drop your knees
+  to the ground": impacto rotuliano repetido. Lee que hace el cuerpo, no que musculo
+  dice el dataset.
+
+- EL NOMBRE MIENTE MAS QUE EL TEXTO. Hay ejercicios llamados "wrist curl" cuyo texto
+  describe un curl de codo, "planche" que describen una flexion, y "stretch" que son
+  rotacion lumbar cargada. Ante conflicto mandan las instrucciones, y baja el
+  confidence por debajo de 0.7.
+
+- LA POSICION DEL CODO DECIDE EL HOMBRO. Mismo press con mancuernas: codos abiertos =
+  pinzamiento contraindicado; codos pegados al cuerpo = pinzamiento en cautions. Busca
+  "elbows flare out" vs "elbows close to your body" en el texto.
+
+- EL APOYO DEL TORSO DECIDE LA LUMBAR. Un remo con el pecho apoyado en el banco es apto
+  para hernia discal; el mismo remo con el torso en voladizo esta contraindicado. Si el
+  texto dice "bend at the waist", la columna sostiene carga.
+
+- UNA PROGRESION PUEDE INVERTIR EL VEREDICTO. El puente de gluteo simple es apto para
+  protesis de cadera (extension pura); agregarle la marcha lleva la rodilla al pecho,
+  supera los 90 grados y pasa a contraindicado. Clasifica el movimiento completo, no
+  la posicion inicial.
+
+- CONTRAINDICACION POR CONSECUENCIA. Si una perdida momentanea de control es
+  catastrofica (barra sobre el cuello o la cara, inversion con carga), marca `epilepsy`
+  y `vertigo` en contraindications aunque el ejercicio no exija nada vestibular.
+
+- HEAD_BELOW_HEART APARECE DONDE NO SE ESPERA. Banco declinado, torso paralelo al suelo
+  en kickbacks, prono con el pecho fuera del banco. No es solo inversiones.
+
+- GRIP_DURATION NO ES GRIP_REQUIRED. Artritis y tunel carpiano toleran fuerza breve
+  pero no sostenida. Una barra que se sostiene toda la serie es `high` aunque el peso
+  sea bajo.
+
+- SAFE_FOR VACIO ES UNA RESPUESTA VALIDA. En ejercicios muy agresivos (muscle up,
+  handstand push-up, guillotine press) no existe ninguna condicion para la que se pueda
+  afirmar seguridad. Dejarlo vacio es correcto; inventar entradas es el peor error.
+
 
 ## Ejemplos de referencia
 
@@ -347,7 +428,9 @@ def main():
     if args.limit:
         exercises = exercises[:args.limit]
 
-    system = build_system_prompt(taxonomy, gold)
+    manual = (json.load(open(MANUAL, encoding="utf-8"))
+              if os.path.exists(MANUAL) else [])
+    system = build_system_prompt(taxonomy, gold, manual=manual)
 
     # Checkpoint
     done = {}
