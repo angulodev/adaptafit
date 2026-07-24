@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 14 completado
+**Última actualización:** 2026-07-23 · lote 15 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   ██████████████░░░░░░░░░░░░░░░░   306 / 895   (34,2%)
+Clasificación manual   ███████████████░░░░░░░░░░░░░░░   324 / 895   (36,2%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 14** |
+| **Clasificación manual** | 🔄 **en curso — lote 15** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | **147** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | **176** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | **108** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | **156** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | **188** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | **112** |
 
 ---
 
@@ -402,3 +402,32 @@ del catálogo y el motor lo aísla correctamente.
 donde los brazos van a los costados en vez de detrás de la cabeza. `cervical` baja
 de `high` a `low`. Es la regresión correcta de `oblique crunches` y de toda la
 familia de rotación en suelo.
+
+
+---
+
+## El burpee justifica la taxonomía entera (lote 15)
+
+`burpee` es el ejercicio con más ejes en rojo simultáneos del catálogo:
+`impact_level` alto · `metabolic_intensity` alto · `orthostatic_load` alto ·
+`temperature_load` alto · `position_change` alto · `pelvic_floor_load` alto.
+Resultado: **14 contraindicaciones duras y 10 precauciones.**
+
+Es el mejor argumento para los ejes fisiológicos de v1.2. Con solo
+`start_position`, un burpee es "un ejercicio de pie" — indistinguible de un curl
+de bíceps parado. Las seis dimensiones en rojo son las que hacen que el motor lo
+excluya para disautonomía, fatiga crónica, suelo pélvico y osteoporosis a la vez.
+
+## Nuevos abdominales aptos con lesión cervical
+
+`reverse crunch` tiene `cervical` en **none** — brazos a los costados, la flexión
+viene de la pelvis y no del cuello. Junto con `alternate heel touchers` (lote 14),
+`pelvic tilt`, `dead bug` y `curl-up`, ya son cinco opciones de core para lesión
+cervical. La familia "manos detrás de la cabeza" queda completamente sustituible.
+
+## Segundo error de nomenclatura en la misma familia
+
+`self assisted inverse leg curl` aparece **dos veces con textos distintos**:
+`0697` describe rodillas al pecho (core), `1766` describe curl femoral en máquina.
+Mismo nombre, ejercicios diferentes. Clasificados por texto, no por nombre.
+Ambos a la cola prioritaria de E3.
