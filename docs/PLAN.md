@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ██████████████░░░░░░░░░░░░░░░░   432 / 895   (48,3%)
+Clasificación manual   ███████████████░░░░░░░░░░░░░░░   450 / 895   (50,3%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 21** |
+| **Clasificación manual** | 🔄 **en curso — lote 22** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -60,6 +60,7 @@ punto, lo hecho es lo más útil.
 | **19** | 2026-07-24 | 18 | 396 | 44,2% | 1 | `batch_manual_19.py` |
 | **20** | 2026-07-24 | 18 | 414 | 46,3% | 2 | `batch_manual_20.py` |
 | **21** | 2026-07-24 | 18 | 432 | 48,3% | 2 | `batch_manual_21.py` |
+| **22** | 2026-07-24 | 18 | 450 | 50,3% | 1 | `batch_manual_22.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -71,11 +72,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | **181** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | **214** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | **127** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | **184** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | **217** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | **131** |
 
 ---
 
@@ -956,3 +957,98 @@ Para colapsar en E4:
 postura de banco sin leer el texto. Ya son cinco casos contando `1330` del lote 19
 y `1317` del 18. Es la corrección más frecuente del proyecto y ya está reflejada
 como regla explícita en el prompt de E2.
+
+---
+
+## Cruzamos el 50 % (lote 22)
+
+450 de 895. Es el umbral que se venía señalando como punto razonable para
+congelar el dataset y arrancar la UI: el motor ya entrega 184 ejercicios al
+perfil de movilidad reducida y 217 al de silla de ruedas.
+
+---
+
+## `neck side stretch` — nuevo máximo absoluto de accesibilidad
+
+`1403` cerró con **28 `safe_for` y una sola contraindicación** (`cervical_injury`).
+Supera ampliamente a `standing calves` (16) del lote 18.
+
+Es el **primer ejercicio del proyecto con `wheelchair` en `safe_for`**, y también
+el primero apto en los tres trimestres de embarazo. El texto dice *"stand **or**
+sit"*, así que `requires_standing` es `false` y quedó como `seated` para que
+llegue a usuarios de silla de ruedas.
+
+Ranking de accesibilidad actualizado:
+
+| id | ejercicio | `safe_for` | contra |
+|---|---|---|---|
+| 1403 | neck side stretch | 28 | 1 |
+| 1427 | straight leg outer hip abductor | 17 | 3 |
+| 1405 | back pec stretch | 17 | 3 |
+| 1397 | standing calves | 16 | 3 |
+| 0659 | push-up (wall) | 15 | 2 |
+
+---
+
+## `push-up on lower arms` — empuje horizontal sin carga de muñeca
+
+`1467` apoya en los antebrazos en vez de las manos. Eso mueve `wrist_injury` y
+`carpal_tunnel` de contraindicación —lo habitual en **toda** la familia de
+flexiones— a `safe_for`. Todo el costo se traslada al codo, que sube a `high`.
+
+Es la sustitución directa de cualquier push-up para quien tiene problemas de
+muñeca, y completa un hueco que venía abierto: hasta ahora el patrón
+`horizontal_push` no tenía ninguna variante compatible con túnel carpiano.
+
+---
+
+## Segunda limitación del enum: la flexión lateral
+
+`0407 dumbbell side bend` es **flexión lateral de columna**, plano frontal. La
+taxonomía sólo tiene `spinal_flexion` (sagital) y `spinal_rotation` (transversal).
+Quedó como `core_rotation` con `spinal_flexion: moderate`, pero **ninguno de los
+dos campos describe lo que hace el ejercicio**.
+
+Es la segunda limitación estructural detectada, después de `inverted` para
+inversiones (lote 17). Ambas van juntas a la propuesta de v1.3:
+
+| propuesta | campo | motivo |
+|---|---|---|
+| `inverted` | valor de `start_position` | handstands, headstands, pino contra pared |
+| `spinal_lateral_flexion` | campo nuevo, escala `none..high` | side bends, molinos, inclinaciones cargadas |
+
+---
+
+## La familia del puente, completa
+
+Tercera y última entrada: `1409 barbell glute bridge`.
+
+| id | ejercicio | carga | `pelvic_floor_load` | prótesis de cadera | embarazo |
+|---|---|---|---|---|---|
+| 0668 | rear decline bridge | ninguna | `moderate` | `safe_for` | sólo 3er trim. |
+| 3561 | glute bridge march | ninguna | `moderate` | contraindicado | 2º y 3er trim. |
+| 1409 | barbell glute bridge | barra | `high` | precaución | los tres |
+
+Tres ejercicios del mismo patrón con tres perfiles de seguridad distintos. En
+`3561` lo que cambia es el **movimiento** (rodilla al pecho); en `1409` lo que
+cambia es la **carga**. Son ejes independientes, y el grafo de E4 los necesita
+separados.
+
+---
+
+## Corrección a E1 en el lote 22
+
+| id | ejercicio | E1 dijo | Correcto | Motivo |
+|---|---|---|---|---|
+| 0678 | rocky pull-up pulldown | `standing` | `hanging` | el texto arranca de pie pero el ejercicio se ejecuta colgado |
+
+Mismo criterio que se aplicó a `0688` en el lote 17: `start_position` es la
+posición **de ejecución**, no la de partida. Vale revisar si E1 comete este error
+de forma sistemática en toda la familia de suspensión.
+
+Confianzas reducidas:
+
+| id | ejercicio | confidence | motivo |
+|---|---|---|---|
+| 0984 | band lying hip internal rotation | 0,65 | el nombre dice rotación interna, el texto describe externa |
+| 0678 | rocky pull-up pulldown | 0,70 | el nombre promete una variante que el texto no describe |
