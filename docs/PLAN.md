@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ███████████████░░░░░░░░░░░░░░░   450 / 895   (50,3%)
+Clasificación manual   ████████████████░░░░░░░░░░░░░░   486 / 895   (54,3%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ███████████████░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 22** |
+| **Clasificación manual** | 🔄 **en curso — lote 24** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -61,6 +61,8 @@ punto, lo hecho es lo más útil.
 | **20** | 2026-07-24 | 18 | 414 | 46,3% | 2 | `batch_manual_20.py` |
 | **21** | 2026-07-24 | 18 | 432 | 48,3% | 2 | `batch_manual_21.py` |
 | **22** | 2026-07-24 | 18 | 450 | 50,3% | 1 | `batch_manual_22.py` |
+| **23** | 2026-07-24 | 18 | 468 | 52,3% | 2 | `batch_manual_23.py` |
+| **24** | 2026-07-24 | 18 | 486 | 54,3% | 1 | `batch_manual_24.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -72,11 +74,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | **184** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | **217** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | **131** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | **188** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | **221** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | **138** |
 
 ---
 
@@ -1052,3 +1054,142 @@ Confianzas reducidas:
 |---|---|---|---|
 | 0984 | band lying hip internal rotation | 0,65 | el nombre dice rotación interna, el texto describe externa |
 | 0678 | rocky pull-up pulldown | 0,70 | el nombre promete una variante que el texto no describe |
+
+---
+
+## Cadenas de progresión completas (lotes 23-24)
+
+Dos familias quedaron cerradas de punta a punta. Son aristas listas para el grafo
+de sustitución de E4.
+
+**Dominadas — cuatro escalones.**
+
+| id | variante | diff | cambio clave |
+|---|---|---|---|
+| 0970 | con banda | 2 | añade `limited_balance` (hay que pararse sobre la banda) |
+| 1763 / 0678 / 0720 | libre | 4 | tres nombres distintos, **mismo ejercicio** |
+| 0841 | lastrada | 5 | `valsalva` a `high` → arrastra glaucoma y retina |
+
+**Elevación de piernas colgado — tres escalones.**
+
+| id | variante | diff | cambio clave |
+|---|---|---|---|
+| 1761 | con rotación | 4 | añade `si_joint_pain` y `lumbar_pain` a contra |
+| 1764 | rodillas flexionadas | 4 | punto medio |
+| 2333 | piernas rectas | 5 | `pelvic_floor_load` a `high` |
+| 0826 | en barras paralelas | 4 | **`no_overhead` en `safe_for`** |
+
+`0826` es el hallazgo de la familia: apoyado en barras paralelas el hombro
+sostiene por debajo en vez de estar en suspensión, así que deja de exigir
+posición overhead. Es la sustitución para hombros que no toleran los brazos
+sobre la cabeza.
+
+---
+
+## El criterio que ordena toda la familia rompecráneos
+
+Con `1748` quedó explícito: lo que decide la contraindicación de hombro es
+**a dónde baja la barra**.
+
+| destino | ejemplo | `shoulder_impingement` |
+|---|---|---|
+| a la frente | `0056` | precaución |
+| detrás de la cabeza | `1748`, `0337` | contraindicación |
+
+La frase a buscar en el texto es *"to the forehead"* frente a *"behind the head"*.
+Aplica a las nueve entradas de la familia clasificadas hasta ahora.
+
+---
+
+## `pelvic tilt into bridge` — primer `lumbar_pain` en `safe_for`
+
+`1422` es la quinta y más suave entrada de la familia del puente: `difficulty` 1,
+`rom_demand` `low`, sin carga, sólo dos contraindicaciones (ambas de acceso al
+suelo).
+
+Es el **primer ejercicio del proyecto con `lumbar_pain` en `safe_for`**. La
+basculación pélvica es el ejercicio de rehabilitación lumbar más prescrito que
+existe; excluirlo por dolor lumbar sería exactamente al revés. `lumbar_disc` queda
+en precauciones por sesgo conservador.
+
+Familia del puente, completa:
+
+| id | variante | diff | carga | prótesis cadera | lumbar |
+|---|---|---|---|---|---|
+| 1422 | basculación pélvica | 1 | — | `safe_for` | **`lumbar_pain` safe** |
+| 0668 | puente simple | 2 | — | `safe_for` | precaución |
+| 3561 | con marcha | 3 | — | **contra** | precaución |
+| 1409 | con barra | 3 | barra | precaución | precaución |
+
+---
+
+## Duplicados funcionales detectados
+
+El dataset trae el mismo ejercicio con nombres distintos. Se clasificaron
+idénticos a propósito, pero **E4 no debe ofrecerlos como opciones separadas**:
+
+| grupo | ids | ejercicio real |
+|---|---|---|
+| flexión contra la pared | `0659`, `0658` | idénticos palabra por palabra en mecánica |
+| dominada estándar | `1763`, `0678`, `0720` | los tres describen una dominada común |
+| puente lateral con pierna | `1774`, `1775` | uno dice «abduction», otro «adduction»; el texto describe lo mismo |
+
+El riesgo es concreto: ofrecer tres veces la flexión contra la pared a un perfil
+muy restringido da **falsa sensación de variedad justo donde el catálogo es más
+pobre**. Hace falta un campo `duplicate_of` o un agrupador en E4.
+
+---
+
+## `dumbbell biceps curl squat` — la corrección más importante del lote
+
+`1655` se llama *curl squat* y E1 lo clasificó como patrón `squat`. **El texto no
+menciona sentadilla en ningún momento**: es un curl de bíceps de pie y nada más.
+
+Si se hubiera aceptado a E1, el motor habría excluido el ejercicio para lesión de
+rodilla y prótesis de cadera sin ningún motivo. Quedó con `knee_injury`,
+`knee_pain` y `hip_replacement` en `safe_for`.
+
+Es el mejor ejemplo hasta ahora de que **un error de E1 puede quitar opciones, no
+sólo agregar riesgo**. Las dos direcciones importan.
+
+---
+
+## Correcciones a E1 en los lotes 23-24
+
+| id | ejercicio | E1 dijo | Correcto | Motivo |
+|---|---|---|---|---|
+| 0720 | side-to-side chin | `standing` | `hanging` | tercer caso del sesgo de suspensión |
+| 1771 | bodyweight kneeling triceps extension | `kneeling` | `plank` | *"extend your legs straight behind you"* |
+| 1775 | side plank hip adduction | `plank` | `side_lying` | *"lying on your side"* |
+| 2135 | weighted front plank | `prone` | `plank` | el cuerpo se levanta y se sostiene |
+| 1655 | dumbbell biceps curl squat | `squat` | `isolation` | el texto no describe sentadilla |
+
+**El sesgo de suspensión de E1 ya es sistemático** (`0688`, `0678`, `0720`): lee la
+frase de aproximación —*"stand in front of the bar"*— como posición de ejecución.
+Conviene revisar de oficio todas las entradas de `hanging` que E1 marcó como
+`standing`.
+
+Confianzas reducidas:
+
+| id | ejercicio | confidence | motivo |
+|---|---|---|---|
+| 0339 | dumbbell lying femoral | **0,55** | texto mecánicamente incoherente — la más baja del proyecto |
+| 1689 | push and pull bodyweight | 0,60 | describe la misma fase dos veces |
+| 0458 | floor fly (with barbell) | 0,60 | una apertura con barra recta es imposible |
+| 1655 | dumbbell biceps curl squat | 0,60 | el nombre dice squat, el texto es sólo curl |
+| 1775 | side plank hip adduction | 0,65 | el nombre dice aducción, el texto describe abducción |
+| 3021 | scapula push-up | 0,65 | misma ambigüedad que `0688 scapular pull-up` |
+| 0720 | side-to-side chin | 0,70 | el nombre promete un movimiento que el texto no describe |
+
+---
+
+## `jack burpee` — quinto `safe_for` vacío y récord de exclusiones
+
+`0501` cerró con **23 contraindicaciones**, récord del dataset, y `safe_for` vacío.
+Es el único ejercicio del proyecto que satura cinco ejes fisiológicos a la vez:
+`impact` `high`, `metabolic_intensity` `high`, `temperature_load` `high`,
+`position_change` `high` y `orthostatic_load` `high`.
+
+Sirve como extremo superior de la escala. En el otro extremo, `1403 neck side
+stretch` con 28 `safe_for` y una sola contraindicación. Entre esos dos puntos cabe
+todo el catálogo.
