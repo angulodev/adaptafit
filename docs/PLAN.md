@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 15 completado
+**Última actualización:** 2026-07-23 · lote 16 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   ███████████████░░░░░░░░░░░░░░░   324 / 895   (36,2%)
+Clasificación manual   ████████████████░░░░░░░░░░░░░░   342 / 895   (38,2%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ███████████████░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 15** |
+| **Clasificación manual** | 🔄 **en curso — lote 16** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | **156** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | **188** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | **112** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | **163** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | **196** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | **114** |
 
 ---
 
@@ -431,3 +431,33 @@ cervical. La familia "manos detrás de la cabeza" queda completamente sustituibl
 `0697` describe rodillas al pecho (core), `1766` describe curl femoral en máquina.
 Mismo nombre, ejercicios diferentes. Clasificados por texto, no por nombre.
 Ambos a la cola prioritaria de E3.
+
+
+---
+
+## Nuevo máximo de riesgo: `skin the cat` (lote 16)
+
+**19 contraindicaciones duras**, supera a `handstand` (18). El cuerpo pasa invertido
+entre los brazos: rotación de hombro en rango extremo más inversión completa. Es el
+techo absoluto de la escala de riesgo del catálogo.
+
+## Rotación con hernia discal — el motor es más estricto que mi clasificación
+
+Clasifiqué `bent knee lying twist` (rotación pasiva, rodillas flexionadas, brazos a
+los costados) con `lumbar_disc` como *precaución* y 17 `safe_for`, esperando que
+fuera la única rotación disponible para hernia discal. **El motor lo excluye igual**,
+porque `joint_stress.lumbar_spine` es `moderate` y la severidad `lesión` corta en ese
+umbral.
+
+Comportamiento verificado:
+
+| Severidad | Rotaciones aptas |
+|---|---|
+| molestia | `crab twist toe touch`, `alternate heel touchers`, `bent knee lying twist` |
+| lesión | **ninguna** |
+
+Es el resultado correcto: con hernia activa la rotación lumbar se evita, punto. Pero
+importa registrar que **el umbral de `joint_stress` es más restrictivo que la lista
+de contraindicaciones**, y que las dos vías de exclusión pueden discrepar. La lección
+para E4: no alcanza con marcar `cautions` para que algo sobreviva — hay que revisar
+que el `joint_stress` sea coherente con esa intención.

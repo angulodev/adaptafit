@@ -10,7 +10,7 @@ los ejercicios de pie no aparecen. Nunca.
 
 ## Estado actual
 
-**Fase:** clasificación manual en curso — **324 de 895 (36,2%)** · lote 15
+**Fase:** clasificación manual en curso — **342 de 895 (38,2%)** · lote 16
 **Última actualización:** 2026-07-23
 
 📋 Plan detallado y registro de lotes: [`docs/PLAN.md`](docs/PLAN.md)
@@ -21,15 +21,15 @@ los ejercicios de pie no aparecen. Nunca.
 | Taxonomía v1.2 | 30 atributos · 62 condiciones en 3 capas | ✅ `enrichment/taxonomy/` |
 | Gold set | 54 ejercicios anotados a mano (14 few-shot + 40 validación) | ✅ `enrichment/gold/` |
 | **E1** — pre-seed heurístico | Reglas sobre el texto. 94,6% de `start_position` | ✅ `enrichment/output/e1_output.json` |
-| **Clasificación manual** | 324 de 895, lotes de 18, cola priorizada por valor | 🔄 **en curso** |
+| **Clasificación manual** | 342 de 895, lotes de 18, cola priorizada por valor | 🔄 **en curso** |
 | **E2** — clasificación IA | Alternativa: 895 de una. USD 7,79 (3,89 con Batch API) | ⏸ listo, opcional |
-| **Motor de filtrado** | Capas A/B/C + degradación. Probado sobre 324 | ✅ `engine.py` |
+| **Motor de filtrado** | Capas A/B/C + degradación. Probado sobre 342 | ✅ `engine.py` |
 | **E3** — revisión humana | Baja confianza + todo lo que toque contraindicaciones | ⬜ |
 | **E4** — grafo de sustituciones | Regresiones, progresiones, equivalencias | ⬜ |
 | Esquema Supabase | Tablas `gym_*` | ⬜ |
 | App | Vite + React | ⬜ |
 
-**Siguiente acción concreta:** lote 16 de clasificación (`workqueue.py --next 18`).
+**Siguiente acción concreta:** lote 17 de clasificación (`workqueue.py --next 18`).
 
 ---
 
