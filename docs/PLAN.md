@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 12 completado
+**Última actualización:** 2026-07-23 · lote 13 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   ████████████░░░░░░░░░░░░░░░░░░   270 / 895   (30,2%)
+Clasificación manual   █████████████░░░░░░░░░░░░░░░░░   288 / 895   (32,2%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ████████████░░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 12 de ~14** |
+| **Clasificación manual** | 🔄 **en curso — lote 13** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | **127** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | **153** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | **97** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | **138** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | **166** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | **103** |
 
 ---
 
@@ -325,3 +325,47 @@ sustituciones válidas en vez de buscarlas caso por caso.
 **Confirmación del eje de agarre:** `barbell reverse grip skullcrusher` repite
 exactamente el patrón del lote 10 — el agarre invertido desplaza carga del hombro
 hacia muñeca y codo. Ya son cuatro casos independientes.
+
+
+---
+
+## Reglas mecánicas de sustitución — consolidado tras lote 13
+
+Tres transformaciones con evidencia repetida. Son la base algorítmica de E4:
+en vez de un catálogo de excepciones caso por caso, E4 puede *derivar*
+sustituciones aplicando estas reglas.
+
+**1. Cambio de agarre** (5 casos confirmados)
+
+| Agarre | Hombro | Muñeca / codo |
+|---|---|---|
+| Pronado | alto | moderado |
+| Neutro / martillo | **moderado** | bajo |
+| Invertido / supinado | moderado | **alto** |
+| Cerrado / diamante | moderado | **alto** |
+
+**2. Flexionar el codo = regresión** (3 casos)
+`straight arm pullover` → `bent arm pullover` (laxity high → moderate).
+El par `0433`/`1316` es el caso más limpio: el propio dataset los nombra
+"straight arm" y "bent arm".
+
+**3. Elevar las manos = quitar la transición al suelo** (4 casos)
+`push-up` → `incline push-up`. Convierte `cannot_get_on_floor` de
+contraindicación a `safe_for` sin cambiar el patrón.
+
+**Regla negativa, igual de importante:** hay transformaciones que *no* son
+regresiones aunque lo parezcan. `reverse grip push-up` es más fácil para el
+pecho pero lleva la muñeca a `high`. E4 no debe asumir que "variante menos
+popular" equivale a "más accesible".
+
+## Extremos actualizados
+
+| | Ejercicio | Contraindic. duras |
+|---|---|---|
+| 1º | `handstand` | 18 |
+| 2º | `back lever` | 16 |
+| 3º | `front lever` | 15 |
+
+Los tres comparten el mismo perfil: isométrica máxima colgado o invertido,
+con `valsalva` alto. Confirma que el eje `sustained_isometric` × `valsalva_risk`
+identifica bien el extremo de riesgo cardiovascular.
