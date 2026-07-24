@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 8 completado
+**Última actualización:** 2026-07-23 · lote 9 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   ████████░░░░░░░░░░░░░░░░░░░░░░   198 / 895   (22,1%)
+Clasificación manual   █████████░░░░░░░░░░░░░░░░░░░░░   216 / 895   (24,1%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ████████░░░░░░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 8 de ~12** |
+| **Clasificación manual** | 🔄 **en curso — lote 9 de ~12** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -47,7 +47,7 @@ punto, lo hecho es lo más útil.
 | **06** | 2026-07-23 | 18 | 162 | 18,1% | 0 | `batch_manual_06.py` |
 | **07** | 2026-07-23 | 18 | 180 | 20,1% | 2 | `batch_manual_07.py` |
 | **08** | 2026-07-23 | 18 | 198 | 22,1% | 1 | `batch_manual_08.py` |
-| 09 | — | — | — | — | — | pendiente |
+| **09** | 2026-07-23 | 18 | 216 | 24,1% | 1 | `batch_manual_09.py` |
 | 10 | — | — | — | — | — | pendiente |
 | 11 | — | — | — | — | — | pendiente |
 | 12 | — | — | — | — | — | pendiente |
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) |
-|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | **98** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | **118** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | **76** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | **106** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | **127** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | **83** |
 
 ---
 
@@ -97,6 +97,7 @@ sistemática cuando la primera oración describe el montaje en vez de la posici�
 | dumbbell incline rear lateral raise | bench_incline | bench_prone | 05 |
 | barbell lying preacher curl | seated | bench_prone | 07 |
 | dumbbell close grip press | seated | bench_supine | 08 |
+| lower back curl | supine | prone ('lie on your stomach') | 09 |
 | inverse leg curl (pull-up cable) | overhead + hanging grip | isolation prono | 07 |
 
 **Patrón:** `bench_incline` vs `bench_prone` es el error más frecuente. Cuando el
@@ -218,3 +219,19 @@ trabajen el hombro sin posición overhead, en vez de dejar la zona sin entrenar.
 explícitas a advertencia, en vez de bloquearlas? Argumento a favor: dar opciones con
 alerta. Argumento en contra: una contraindicación explícita significa "no hagas esto
 con esta condición", y relajarla por autodiagnóstico de gravedad es riesgoso.
+
+**Hueco cerrado en el lote 9 — sin tocar el motor.** `dumbbell seated shoulder
+press (parallel grip)` usa agarre neutro, lo que reduce mucho la rotación interna
+del hombro. Clasificado con `shoulder_impingement` como *precaución* y no como
+contraindicación, es el único `vertical_push` del catálogo que sobrevive al filtro
+de pinzamiento leve. La solución vino de clasificar bien, no de relajar reglas —
+que es la respuesta correcta a A-07 en la práctica.
+
+**Extremos de la escala, ya anclados:**
+- Más accesible: `pelvic tilt` — **22 `safe_for`**, cero contraindicaciones salvo
+  las posturales. Único ejercicio de core seguro simultáneamente con hernia discal,
+  ciática, hernia abdominal, posparto y disfunción de suelo pélvico. Base de
+  cualquier progresión de core en rehabilitación.
+- Más restringido: `handstand` — **18 contraindicaciones duras**. Inversión completa
+  con todo el peso en muñecas: `head_below_heart`, `valsalva` alto, equilibrio alto
+  y `orthostatic_load` alto a la vez.
