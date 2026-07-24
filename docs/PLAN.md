@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 4 completado
+**Última actualización:** 2026-07-23 · lote 5 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   ████░░░░░░░░░░░░░░░░░░░░░░░░░░   126 / 895   (14,1%)
+Clasificación manual   █████░░░░░░░░░░░░░░░░░░░░░░░░░   144 / 895   (16,1%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ████░░░░░░░░░░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 4 de ~12** |
+| **Clasificación manual** | 🔄 **en curso — lote 5 de ~12** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -43,7 +43,7 @@ punto, lo hecho es lo más útil.
 | **02** | 2026-07-23 | 18 | 90 | 10,1% | 4 | `batch_manual_02.py` |
 | **03** | 2026-07-23 | 18 | 108 | 12,1% | 3 | `batch_manual_03.py` |
 | **04** | 2026-07-23 | 18 | 126 | 14,1% | 3 | `batch_manual_04.py` |
-| 05 | — | — | — | — | — | pendiente |
+| **05** | 2026-07-23 | 18 | 144 | 16,1% | 1 | `batch_manual_05.py` |
 | 06 | — | — | — | — | — | pendiente |
 | 07 | — | — | — | — | — | pendiente |
 | 08 | — | — | — | — | — | pendiente |
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) |
-|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | **62** |
-| Silla de ruedas | 21 | — | 47 | 60 | **72** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | **46** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) |
+|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | **73** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | **86** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | **53** |
 
 ---
 
@@ -94,6 +94,7 @@ sistemática cuando la primera oración describe el montaje en vez de la posici�
 | crab twist toe touch | seated | plank invertido (manos+pies) | 04 |
 | dumbbell one arm reverse grip press | seated | bench_supine | 04 |
 | bodyweight incline side plank | bench_incline | side_lying | 04 |
+| dumbbell incline rear lateral raise | bench_incline | bench_prone | 05 |
 
 **Patrón:** `bench_incline` vs `bench_prone` es el error más frecuente. Cuando el
 pecho queda apoyado contra el respaldo inclinado, la posición es prona, no
@@ -108,12 +109,20 @@ inclinada. Importa porque `bench_prone` excluye a quien no puede ponerse boca ab
 inclinarse la cabeza baja del corazón. Activa glaucoma, riesgo retinal y
 disautonomía. Igual en `dumbbell one arm reverse fly` y `decline shrug`.
 
-**Duplicados funcionales — el problema es peor de lo estimado.** Ya van **seis**
+**Duplicados funcionales — el problema es peor de lo estimado.** Ya van **siete**
 variantes del mismo fondo en banco (`triceps dip`, `elbow dips`, `bench dip on
-floor`, `triceps dips floor`, `weighted bench dip`, `weighted tricep dips`), dos
+floor`, `triceps dips floor`, `weighted bench dip`, `weighted tricep dips`,
+`bench dip (knees bent)`), siete presses de hombro sentado, tres pares `v. 2`
+con texto idéntico, dos
 elevaciones laterales idénticas (`0396`/`0395`) y dos Arnold press idénticos
 (`2137`/`0287`). El sufijo `v. 2` del dataset casi nunca implica una diferencia
 real. E4 los colapsa en `substitute_group`.
+
+**"Sentado" no significa "seguro".** `barbell seated good morning` se hace sentado
+pero tiene barra sobre la espalda, flexión de tronco, `axial_spinal_load` alto,
+`valsalva_risk` alto y `head_below_heart`. Es el ejercicio más riesgoso del lote 5.
+Confirma que filtrar solo por `start_position` sería insuficiente — que es
+exactamente por lo que existen las otras 29 dimensiones.
 
 **43 ejercicios comparten texto de instrucciones** (17 grupos, 3,2% del dataset).
 El peor: 10 abdominales distintos con el mismo texto. Cola prioritaria de E3.
