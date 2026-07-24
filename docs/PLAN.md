@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   █████████████░░░░░░░░░░░░░░░░░   378 / 895   (42,2%)
+Clasificación manual   ██████████████░░░░░░░░░░░░░░░░   396 / 895   (44,2%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   █████████████░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 18** |
+| **Clasificación manual** | 🔄 **en curso — lote 19** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -57,6 +57,7 @@ punto, lo hecho es lo más útil.
 | **16** | 2026-07-24 | 18 | 342 | 38,2% | — | `batch_manual_16.py` |
 | **17** | 2026-07-24 | 18 | 360 | 40,2% | 1 | `batch_manual_17.py` |
 | **18** | 2026-07-24 | 18 | 378 | 42,2% | 1 | `batch_manual_18.py` |
+| **19** | 2026-07-24 | 18 | 396 | 44,2% | 1 | `batch_manual_19.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -68,11 +69,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | **173** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | **206** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | **124** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | **176** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | **209** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | **125** |
 
 ---
 
@@ -652,3 +653,116 @@ Confianzas reducidas en este lote:
 | 1415 | dumbbell one arm seated neutral wrist curl | 0,70 | el nombre dice neutro, el texto dice supinado |
 | 1733 | dumbbell incline two arm extension | 0,65 | el texto describe un press, no una extensión |
 | 1274 | deep push up | 0,65 | el texto omite las mancuernas que definen el ejercicio |
+
+---
+
+## `drop push up` — el hallazgo que justifica no clasificar por músculo objetivo
+
+`1275 drop push up` está catalogado como ejercicio de **pectorales**. Quedó
+**contraindicado para rodilla**: `knee_injury`, `knee_replacement`, `knee_pain`,
+`cannot_kneel` y `osteoarthritis`, con `joint_stress.knee` en `high` e
+`impact_level` en `moderate`.
+
+El motivo está en una sola frase del texto: *"quickly drop your knees to the
+ground"*. Es un impacto directo de rótula contra el suelo, repetido cada
+repetición.
+
+Ningún sistema que filtre por grupo muscular habría detectado esto. Es la
+demostración más limpia hasta ahora de por qué la taxonomía clasifica
+**mecánica**, no anatomía de destino.
+
+---
+
+## Progresiones que invierten el veredicto (lote 19)
+
+Dos pares más donde agregar un solo elemento cambia la clasificación de seguridad.
+Van directo al grafo de E4 como aristas dirigidas.
+
+**Par 3 — el puente de glúteo.**
+
+| id | ejercicio | flexión de cadera | prótesis de cadera |
+|---|---|---|---|
+| 0668 | rear decline bridge | extensión pura | **`safe_for`** |
+| 3561 | glute bridge march (L17) | rodilla al pecho, >90° | contraindicación |
+
+El puente simple se prescribe en rehabilitación post-artroplastia. Agregarle la
+marcha viola la precaución posterior.
+
+**Par 4 — el puente lateral.**
+
+| id | ejercicio | `joint_stress.hip` | hernia discal | sacroilíaca |
+|---|---|---|---|---|
+| 0705 | side bridge v. 2 (L18) | `moderate` | `safe_for` | precaución |
+| 1774 | side bridge hip abduction | `high` | precaución | **contraindicación** |
+
+La abducción en carga mete torque frontal sobre la sacroilíaca. La base sigue
+siendo espinal-neutra, pero deja de ser el ejercicio de rehabilitación que es el
+puente lateral simple.
+
+**Par 5 — la suspensión.**
+
+`1764 hanging leg hip raise` es `1761 hanging oblique knee raise` sin rotación.
+Eso devuelve `lumbar_pain` y `si_joint_pain` de contraindicación a precaución.
+Sustitución directa para quien tolera flexión pero no torsión.
+
+---
+
+## `inverted row on bench` — piso de accesibilidad del patrón `horizontal_pull`
+
+`2298` cerró con **13 `safe_for`**, incluidos `lumbar_disc` y `sciatica`. Tracción
+horizontal tumbado boca arriba en el suelo: no exige pararse, no carga la columna,
+no requiere transferencia a banco.
+
+Es la contraparte de tirón de `push-up (wall)`. Con los dos, el catálogo ya tiene
+suelo de accesibilidad para empuje **y** tracción horizontal:
+
+```
+horizontal_push → push-up (wall)         [no requiere suelo]
+horizontal_pull → inverted row on bench  [requiere bajar al suelo]
+```
+
+Queda pendiente un tirón horizontal que **no** requiera bajar al suelo. Para un
+perfil con `cannot_get_on_floor` + `cannot_stand`, el patrón sigue sin piso.
+Es un hueco concreto a buscar en los lotes restantes.
+
+Segundo hallazgo de accesibilidad del lote: `2470 dumbbell lying on floor rear
+delt raise`, con 14 `safe_for` — la versión sin banco de toda la familia de
+deltoides posterior.
+
+---
+
+## Primer patrón `carry` del proyecto
+
+`2133 farmers walk` es el primer `movement_pattern: carry` clasificado. Perfil
+poco habitual: `axial_spinal_load` moderado, `sustained_isometric` alto,
+`grip_duration` alto y `metabolic_intensity` alta, todo de pie y en movimiento.
+
+Salió con **19 `cautions`**, la lista más larga del proyecto, y sólo 8
+contraindicaciones. Es el patrón donde casi todos los sistemas participan un poco
+sin que ninguno llegue a crítico — exactamente el caso que la Capa C fue diseñada
+para manejar: no se oculta, se advierte.
+
+---
+
+## Corrección a E1 en el lote 19
+
+| id | ejercicio | E1 dijo | Correcto | Motivo |
+|---|---|---|---|---|
+| 1330 | dumbbell reverse grip incline bench one arm row | `bench_incline` | `standing` | *"stand facing the bench... bend at the waist and place your knee and hand on the bench"* |
+
+**Esta corrección no era cosmética.** Con `bench_incline` el motor lo habría
+tratado como un remo con el torso apoyado y lo habría ofrecido a perfiles con
+hernia discal. Es el remo clásico a una mano: de pie, con el torso en voladizo.
+Quedó con `lumbar_disc` y `sciatica` en contraindicaciones.
+
+Contrasta directamente con `1317` del lote 18, donde la corrección fue en sentido
+opuesto (`bench_incline` → `bench_prone`) y **habilitó** el ejercicio para hernia
+discal. Los dos son remos con barra/mancuerna y bench en el nombre; el apoyo del
+torso decide.
+
+Confianzas reducidas en este lote:
+
+| id | ejercicio | confidence | motivo |
+|---|---|---|---|
+| 0397 | dumbbell seated neutral wrist curl | 0,65 | tercer conflicto nombre/texto de la familia de muñeca |
+| 3298 | straddle planche | 0,65 | el texto no describe una planche real |
