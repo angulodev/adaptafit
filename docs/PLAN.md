@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ████████████████░░░░░░░░░░░░░░   486 / 895   (54,3%)
+Clasificación manual   █████████████████░░░░░░░░░░░░░   504 / 895   (56,3%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ████████████████░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 24** |
+| **Clasificación manual** | 🔄 **en curso — lote 25** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -63,6 +63,7 @@ punto, lo hecho es lo más útil.
 | **22** | 2026-07-24 | 18 | 450 | 50,3% | 1 | `batch_manual_22.py` |
 | **23** | 2026-07-24 | 18 | 468 | 52,3% | 2 | `batch_manual_23.py` |
 | **24** | 2026-07-24 | 18 | 486 | 54,3% | 1 | `batch_manual_24.py` |
+| **25** | 2026-07-24 | 18 | 504 | 56,3% | 2 | `batch_manual_25.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -74,11 +75,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | **188** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | **221** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | **138** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | **189** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | **225** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | **140** |
 
 ---
 
@@ -1193,3 +1194,124 @@ Es el único ejercicio del proyecto que satura cinco ejes fisiológicos a la vez
 Sirve como extremo superior de la escala. En el otro extremo, `1403 neck side
 stretch` con 28 `safe_for` y una sola contraindicación. Entre esos dos puntos cabe
 todo el catálogo.
+
+---
+
+## Nuevo eje de restricción: la superficie inestable (lote 25)
+
+Aparecieron las tres primeras entradas sobre pelota de estabilidad —`1659`,
+`1746`, `0353`— y traen un tipo de restricción que el catálogo no tenía.
+
+El par más limpio: `0353` es **el mismo curl de concentración que `1669`**, sólo
+que sentado en pelota en vez de banco.
+
+| | `1669` (banco) | `0353` (pelota) |
+|---|---|---|
+| `difficulty` | 1 | 2 |
+| `requires_balance` | — | `moderate` |
+| `sustained_isometric` | — | `moderate` |
+| `lumbar_disc` | `safe_for` | precaución |
+| contraindicaciones nuevas | — | `limited_balance`, `vertigo`, `multiple_sclerosis`, `cannot_sit_unsupported` |
+
+Lo relevante: **el riesgo no viene del ejercicio sino del asiento**. `vertigo` y
+`multiple_sclerosis` entran por riesgo de caída, no por demanda del movimiento.
+Es el mismo razonamiento de «contraindicación por consecuencia» que se fijó con
+el guillotine press en el lote 18.
+
+`1746` es el peor de los tres: peso **sobre la cabeza** en superficie inestable,
+con la caída hacia atrás y una mancuerna detrás de la nuca.
+
+---
+
+## Dos soluciones excluyentes para el problema de muñeca
+
+`0660 push-up close-grip off dumbbell` agarra las mancuernas apoyadas en el suelo,
+lo que mantiene la muñeca **neutra** en vez de extendida.
+
+| id | cómo resuelve la muñeca | `wrist_injury` | `carpal_tunnel` | `limited_grip` |
+|---|---|---|---|---|
+| 1467 | apoyo en antebrazos | `safe_for` | `safe_for` | `safe_for` |
+| 0660 | agarre neutro sobre mancuernas | precaución | **`safe_for`** | **contra** |
+
+Las dos rutas sirven, pero son **mutuamente excluyentes**: `1467` no exige agarre
+y `0660` sí. Para un perfil con túnel carpiano *y* fuerza de agarre reducida, la
+única salida sigue siendo `1467` o `0659 push-up (wall)`.
+
+---
+
+## `leg up hamstring stretch` es la maniobra de Lasègue
+
+`1576` parece inofensivo —`difficulty` 1, estiramiento en el suelo— pero elevar la
+pierna recta con la cadera flexionada **es literalmente la prueba clínica que se
+usa para provocar el dolor ciático**. `sciatica` quedó en contraindicaciones.
+
+Es el segundo caso del proyecto donde un estiramiento suave contraindica algo
+importante, después de `1405 back pec stretch` (aducción horizontal = maniobra de
+pinzamiento). Regla que se consolida: **los estiramientos reproducen maniobras de
+provocación clínica**; la intensidad baja no implica seguridad.
+
+---
+
+## Tercera limitación del enum: la plancha invertida
+
+`3663 reverse plank with leg lift` es boca arriba, con el cuerpo suspendido entre
+manos y talones. No hay valor de `start_position` que lo describa; quedó `supine`
+por orientación.
+
+Propuestas acumuladas para **v1.3**:
+
+| propuesta | tipo | disparador |
+|---|---|---|
+| `inverted` | valor de `start_position` | `0471` handstand push-up (L17) |
+| `spinal_lateral_flexion` | campo nuevo | `0407` dumbbell side bend (L22) |
+| `reverse_plank` | valor de `start_position` | `3663` (L25) |
+
+---
+
+## Duplicados funcionales — grupos 4 y 5
+
+| grupo | ids | nota |
+|---|---|---|
+| flexión con patada lateral | `0661`, `0642` | «inside» y «outside leg kick» describen el mismo gesto |
+| elevación de rodillas colgado | `1764`, `2355` | idénticos |
+| plancha con toque de hombro | `3699`, `3239` | idénticos |
+
+Ya son **siete grupos** de duplicados detectados. La cadena de suspensión, una vez
+deduplicada, tiene sólo tres niveles reales:
+
+```
+1764 = 2355  (rodillas)  →  2333 (piernas rectas)  →  1761 (con rotación)
+                          ↘  0826 (barras paralelas, sin overhead)
+```
+
+---
+
+## `dumbbell burpee` — nuevo récord de exclusiones
+
+`1201` cerró con **28 contraindicaciones** y `safe_for` vacío (el sexto). Es
+`0501 jack burpee` más carga, más press sobre la cabeza y más agarre.
+
+Curiosidad que vale como referencia de escala: **empata exactamente en 28 con el
+`safe_for` de `1403 neck side stretch`**. Los dos extremos del catálogo tienen el
+mismo tamaño, en direcciones opuestas.
+
+---
+
+## Corrección a E1 en el lote 25
+
+| id | ejercicio | E1 dijo | Correcto | Motivo |
+|---|---|---|---|---|
+| 0466 | gironda sternum chin | `standing` | `hanging` | **cuarto caso** del sesgo de suspensión |
+| 3239 | kneeling plank tap shoulder | `kneeling` | `plank` | *"extend your legs behind you… into a plank position"* |
+
+Con `0688`, `0678`, `0720` y ahora `0466`, el sesgo de suspensión de E1 está
+confirmado como sistemático. **Acción pendiente para E3:** revisar de oficio todas
+las entradas donde E1 puso `standing` y el texto contiene *"hang"* o *"grab the
+bar"*.
+
+`0466` además es la única dominada del catálogo con `lumbar_disc` y
+`cervical_injury` en contraindicaciones: llevar el **esternón** a la barra obliga
+a arquear la columna en el aire.
+
+Confianzas reducidas: `0065` (0,60 — sostener una barra recta con una mano en
+supinación), `1746` (0,70 — el nombre dice *supine*, el texto dice sentado).
