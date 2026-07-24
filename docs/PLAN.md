@@ -2,14 +2,14 @@
 
 Documento de seguimiento. Se actualiza con cada lote ejecutado.
 
-**Última actualización:** 2026-07-23 · lote 10 completado
+**Última actualización:** 2026-07-23 · lote 11 completado
 
 ---
 
 ## Estado global
 
 ```
-Clasificación manual   ██████████░░░░░░░░░░░░░░░░░░░░   234 / 895   (26,1%)
+Clasificación manual   ███████████░░░░░░░░░░░░░░░░░░░   252 / 895   (28,2%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████░░░░░░░░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 10 de ~12** |
+| **Clasificación manual** | 🔄 **en curso — lote 11 de ~14** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -49,7 +49,7 @@ punto, lo hecho es lo más útil.
 | **08** | 2026-07-23 | 18 | 198 | 22,1% | 1 | `batch_manual_08.py` |
 | **09** | 2026-07-23 | 18 | 216 | 24,1% | 1 | `batch_manual_09.py` |
 | **10** | 2026-07-23 | 18 | 234 | 26,1% | 1 | `batch_manual_10.py` |
-| 11 | — | — | — | — | — | pendiente |
+| **11** | 2026-07-23 | 18 | 252 | 28,2% | 0 | `batch_manual_11.py` |
 | 12 | — | — | — | — | — | pendiente |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
@@ -62,11 +62,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | **110** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | **131** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | **86** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | **119** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | **143** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | **93** |
 
 ---
 
@@ -269,3 +269,34 @@ contraindicación dura: el equilibrio unipodal sobre superficie inestable depend
 referencia visual. Tiene una paradoja que conviene que la app maneje con cuidado —
 es un ejercicio *de* equilibrio, así que quien más lo necesitaría es justamente
 quien no puede hacerlo sin supervisión.
+
+
+---
+
+## Cadena completa del fondo (lote 11)
+
+Con `reverse dip` y `ring dips` clasificados, la familia del fondo queda cerrada de
+punta a punta — y es el primer patrón con progresión completa lista para E4:
+
+| Nivel | Ejercicio | Dif. |
+|---|---|---|
+| Regresión | `incline scapula push up` | 1 |
+| Base | `bench dip (knees bent)` y 10 duplicados | 2 |
+| Progresión | `three bench dip` / `weighted bench dip` | 3 |
+| Avanzado | `weighted three bench dips` / `reverse dip` | 4 |
+| Techo | `ring dips` | 5 |
+
+Los once duplicados del fondo en banco, que parecían ruido del dataset, resultan
+ser el eslabón medio de una cadena real. Colapsarlos en `substitute_group` sigue
+siendo correcto, pero la cadena de progresión sí tiene valor.
+
+## Tren inferior: el hueco persiste (lote 11)
+
+Con 252 clasificados, el perfil de movilidad reducida sigue teniendo **solo dos
+`hinge`** y cero `squat` o `lunge`. `hip raise (bent knee)` fue el mejor hallazgo
+del lote — único `hinge` con `lumbar_spine` en `low` y **15 `safe_for`** — pero el
+patrón sigue siendo el punto débil estructural del catálogo para perfiles sentados.
+
+Conclusión de producto: la app debe declarar la limitación explícitamente. Una
+rutina de tren inferior para movilidad reducida se construye con aislamiento y
+puente de glúteo, no con patrones compuestos, y eso hay que decirlo.
