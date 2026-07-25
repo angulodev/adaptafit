@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ██████████████████████░░░░░░░░   666 / 895   (74,4%)
+Clasificación manual   ███████████████████████░░░░░░░   684 / 895   (76,4%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████████�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 34** |
+| **Clasificación manual** | 🔄 **en curso — lote 35** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -73,6 +73,7 @@ punto, lo hecho es lo más útil.
 | **32** | 2026-07-24 | 18 | 630 | 70,4% | 2 | `batch_manual_32.py` |
 | **33** | 2026-07-24 | 18 | 648 | 72,4% | 1 | `batch_manual_33.py` |
 | **34** | 2026-07-24 | 18 | 666 | 74,4% | 2 | `batch_manual_34.py` |
+| **35** | 2026-07-24 | 18 | 684 | 76,4% | 1 | `batch_manual_35.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -84,11 +85,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) | L26 (522) | L27 (540) | L28 (558) | L29 (576) | L30 (594) | L31 (612) | L32 (630) | L33 (648) | L34 (666) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | 189 | 193 | 194 | 197 | 197 | 197 | 197 | 197 | 197 | **197** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | 225 | 230 | 235 | 241 | 241 | 241 | 241 | 241 | 241 | **241** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | 140 | 143 | 144 | 144 | 144 | 146 | 146 | 147 | 148 | **149** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) | L26 (522) | L27 (540) | L28 (558) | L29 (576) | L30 (594) | L31 (612) | L32 (630) | L33 (648) | L34 (666) | L35 (684) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | 189 | 193 | 194 | 197 | 197 | 197 | 197 | 197 | 197 | 197 | **197** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | 225 | 230 | 235 | 241 | 241 | 241 | 241 | 241 | 241 | 241 | **241** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | 140 | 143 | 144 | 144 | 144 | 146 | 146 | 147 | 148 | 149 | **150** |
 
 ---
 
@@ -1706,9 +1707,9 @@ reales: pronado, supinado y lastrado.
 
 | Perfil | L28 | L29 | Δ |
 |---|---|---|---|
-| Movilidad reducida | 197 | 197 | 0 | 197 | 197 | 197 | 197 | **197** |
-| Silla de ruedas | 241 | 241 | 0 | 241 | 241 | 241 | 241 | **241** |
-| Disautonomía sin advertencia | 144 | 144 | 0 | 146 | 146 | 147 | 148 | **149** |
+| Movilidad reducida | 197 | 197 | 0 | 197 | 197 | 197 | 197 | 197 | **197** |
+| Silla de ruedas | 241 | 241 | 0 | 241 | 241 | 241 | 241 | 241 | **241** |
+| Disautonomía sin advertencia | 144 | 144 | 0 | 146 | 146 | 147 | 148 | 149 | **150** |
 
 Dieciocho ejercicios clasificados y **ninguno alcanzable** por los tres perfiles de
 referencia. Es la primera vez que ocurre en 29 lotes.
@@ -1818,9 +1819,9 @@ entra en tensión con el sesgo conservador.
 
 | Perfil | L28 | L29 | L30 |
 |---|---|---|---|
-| Movilidad reducida | 197 | 197 | 197 | 197 | 197 | 197 | **197** |
-| Silla de ruedas | 241 | 241 | 241 | 241 | 241 | 241 | **241** |
-| Disautonomía sin advertencia | 144 | 144 | 146 | 146 | 147 | 148 | **149** |
+| Movilidad reducida | 197 | 197 | 197 | 197 | 197 | 197 | 197 | **197** |
+| Silla de ruedas | 241 | 241 | 241 | 241 | 241 | 241 | 241 | **241** |
+| Disautonomía sin advertencia | 144 | 144 | 146 | 146 | 147 | 148 | 149 | **150** |
 
 Dos lotes seguidos sin mover movilidad reducida ni silla de ruedas. 36 ejercicios
 clasificados, +2 de cobertura en total.
@@ -2376,3 +2377,110 @@ por muestreo, no darse por completa.
 
 Van **27 grupos**. La familia de fondos tiene cinco entradas para un ejercicio; la de
 dominadas, nueve para cuatro variantes reales de agarre.
+
+---
+
+## El apoyo externo mencionado en el texto debe rebajar el filtro de equilibrio
+
+`1387 one leg floor calf raise` es el **segundo caso** tras `3636 high knee against
+wall`. El texto dice *"place your hands on a wall or sturdy object for balance"*, y
+eso mantiene `limited_balance` en precaución **pese a ser apoyo unipodal**.
+
+El contraste directo lo confirma:
+
+| id | ejercicio | apoyo mencionado | `limited_balance` |
+|---|---|---|---|
+| 0795 | standing single leg curl | manos en la cadera | **contraindicación** |
+| 1387 | one leg floor calf raise | manos en la pared | precaución |
+
+Mismo apoyo unipodal, distinto veredicto. **Regla propuesta para E2/E3:** si el texto
+menciona explícitamente un apoyo (*wall*, *chair*, *sturdy object*, *for balance*),
+`requires_balance` baja un escalón y `limited_balance` no puede ser contraindicación.
+
+Es una regla de alto rendimiento: convierte ejercicios inaccesibles en accesibles sin
+cambiar nada del movimiento.
+
+---
+
+## Tercera flexión lateral — la propuesta de v1.3 deja de ser anecdótica
+
+`0096 barbell side bent v.2` se suma a `0407` (mancuerna, L22) y `0794` (sin carga,
+L29).
+
+Tres casos independientes, con tres niveles de carga distintos, y **ninguno de los
+campos actuales describe lo que hace el ejercicio**. Los tres quedaron como
+`core_rotation` con `spinal_flexion` moderado, que es incorrecto en los dos campos.
+
+Propuestas acumuladas para **v1.3**, por número de casos:
+
+| propuesta | casos | ids |
+|---|---|---|
+| `spinal_lateral_flexion` (campo nuevo) | **3** | `0407`, `0794`, `0096` |
+| `inverted` (valor de `start_position`) | 1 | `0471` |
+| `reverse_plank` (valor de `start_position`) | 1 | `3663` |
+
+---
+
+## La escala completa del patrón `squat`
+
+Con `0852 weighted squat` queda cerrada:
+
+| id | variante | carga | rodilla | osteoporosis |
+|---|---|---|---|---|
+| 3221 | rango parcial | ninguna | precaución | precaución |
+| 0413 | mancuernas a los lados | media | contra | precaución |
+| 0852 | peso al frente | media, adelantada | contra | **contra** |
+| 0054 | barra en la espalda | alta, axial | contra | contra |
+
+**Dos ejes independientes**: el rango decide la rodilla, la posición de la carga
+decide la columna. Es la cadena de sustitución más completa del proyecto y sirve de
+plantilla para el resto de los patrones en E4.
+
+---
+
+## `dumbbell clean` — el primer olímpico que no queda con `safe_for` vacío
+
+`0295` mantiene el salto, la recepción y la muñeca en hiperextensión de `0648 power
+clean`, pero al no haber barra desaparecen `cervical_injury` y las restricciones de
+rango de hombro. `no_overhead` entra en `safe_for` porque las mancuernas paran a la
+altura del hombro.
+
+Confirma el principio ya visto en las bisagras y las sentadillas: **el implemento no
+cambia el patrón, pero sí qué estructuras quedan expuestas**.
+
+---
+
+## Corrección a E1: tercer caso de `upright row`
+
+`0119` → `horizontal_pull` donde corresponde `vertical_pull`. Con `0120` y `0437`,
+son tres de tres. Sesgo confirmado y cerrado.
+
+Estado de los sesgos de E1 (todos detectables por texto):
+
+| sesgo | casos | estado |
+|---|---|---|
+| fondos → `horizontal_push` | 5 | cerrado |
+| suspensión → `standing` | 4 | cerrado |
+| apertura posterior → `horizontal_push` | 4 | cerrado |
+| `upright row` → `horizontal_pull` | **3** | cerrado |
+| horizontal → `supine` | 3 | cerrado |
+| primera frase = posición | 3 | cerrado |
+| *(sin patrón)* `2987` chin-up → `horizontal_push` | 1 | aislado |
+
+**22 casos documentados en seis patrones**, más uno fuera de catálogo.
+
+---
+
+## Duplicados — grupos 28 a 31
+
+| grupo | ids |
+|---|---|
+| remo inclinado con barra | `0076`, `0574`, `0027` |
+| salto vertical desde flexión | `3220`, `3223`, `3222` |
+| remo al mentón con barra | `0120`, `0119` |
+| estiramiento pectoral de pie | `1405`, `1167`, `1271` |
+| zancada con mancuernas | `0336`, `0381` |
+
+Van **31 grupos**. El remo inclinado con barra tiene seis entradas para un solo
+ejercicio real, y ninguna es apta para hernia discal — es el patrón con menos
+variedad útil del catálogo.
