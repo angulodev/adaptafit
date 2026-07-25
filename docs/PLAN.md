@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ███████████████████░░░░░░░░░░░   558 / 895   (62,3%)
+Clasificación manual   ███████████████████░░░░░░░░░░░   576 / 895   (64,4%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████████�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 28** |
+| **Clasificación manual** | 🔄 **en curso — lote 29** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -67,6 +67,7 @@ punto, lo hecho es lo más útil.
 | **26** | 2026-07-24 | 18 | 522 | 58,3% | 2 | `batch_manual_26.py` |
 | **27** | 2026-07-24 | 18 | 540 | 60,3% | 3 | `batch_manual_27.py` |
 | **28** | 2026-07-24 | 18 | 558 | 62,3% | 1 | `batch_manual_28.py` |
+| **29** | 2026-07-24 | 18 | 576 | 64,4% | 2 | `batch_manual_29.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -78,11 +79,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) | L26 (522) | L27 (540) | L28 (558) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | 189 | 193 | 194 | **197** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | 225 | 230 | 235 | **241** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | 140 | 143 | 144 | **144** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) | L26 (522) | L27 (540) | L28 (558) | L29 (576) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | 189 | 193 | 194 | 197 | **197** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | 225 | 230 | 235 | 241 | **241** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | 140 | 143 | 144 | 144 | **144** |
 
 ---
 
@@ -1693,3 +1694,115 @@ hombro, con lastre.
 La familia pelota va por **once entradas**. La de dominadas, por **siete** (`1763`,
 `0678`, `0720`, `1429`, `1327`, `0627`, `0674`) que se reducen a tres ejercicios
 reales: pronado, supinado y lastrado.
+
+---
+
+## Lote 29: el primero que suma **cero** cobertura
+
+| Perfil | L28 | L29 | Δ |
+|---|---|---|---|
+| Movilidad reducida | 197 | 197 | **0** |
+| Silla de ruedas | 241 | 241 | **0** |
+| Disautonomía sin advertencia | 144 | 144 | **0** |
+
+Dieciocho ejercicios clasificados y **ninguno alcanzable** por los tres perfiles de
+referencia. Es la primera vez que ocurre en 29 lotes.
+
+No es un problema de clasificación: el lote trajo levantamientos olímpicos,
+pliometría, dominadas lastradas y barra sobre la espalda. **La cola priorizada por
+valor se está agotando** — lo que queda son ejercicios cada vez más cargados y
+técnicos, que por construcción no llegan a perfiles restringidos.
+
+**Implicación para la planificación:** el rendimiento marginal de seguir
+clasificando a mano, medido en cobertura para los perfiles que importan, tiende a
+cero. Los 320 restantes servirán para completar el catálogo de perfiles sanos y
+para el grafo de sustitución, no para ampliar lo que Estefani puede hacer. Vale
+reconsiderar el orden: **E3 y E4 sobre lo ya clasificado rinden más que el lote 30**.
+
+---
+
+## Primeros ejercicios con `axial_spinal_load: high`
+
+`0054 barbell lunge`, `0648 power clean` y `0786 squat jerk` son los primeros del
+proyecto con carga axial alta — barra sobre la espalda o recibida desde el suelo.
+
+El contraste con su equivalente sin carga axial es directo:
+
+| | `1658` lunge con curl | `0054` barbell lunge |
+|---|---|---|
+| `axial_spinal_load` | — | `high` |
+| `lumbar_spine` | `moderate` | `high` |
+| `cervical_spine` | — | `moderate` (la barra apoya en C7) |
+| `valsalva_risk` | `moderate` | `high` |
+| `osteoporosis` | precaución | **contraindicación** |
+| `lumbar_disc` | precaución | **contraindicación** |
+
+Mismo patrón de movimiento, cinco contraindicaciones nuevas de columna sólo por
+dónde va el peso. Es el mismo principio que separó los dos `carry` en el lote 28.
+
+---
+
+## Noveno y décimo `safe_for` vacío
+
+`0648 power clean` (26 contraindicaciones) y `0786 squat jerk` (27, segundo récord
+detrás de `1201 dumbbell burpee`).
+
+`0786` es además **el único `vertical_push` con `axial_spinal_load: high`** del
+catálogo — y ese patrón **sigue sin piso de accesibilidad identificado**. Es el
+hueco abierto desde el lote 26.
+
+---
+
+## `barbell curl` — por qué existe la barra EZ
+
+`0031` fija la muñeca en supinación completa sin posibilidad de acomodar el
+antebrazo. `wrist_injury` pasa a contraindicación, cuando en **todos** los curls con
+mancuerna del proyecto estaba en precauciones.
+
+Es la razón clínica de que exista la barra EZ, y queda documentado como arista de
+sustitución: para muñeca sensible, `0031` → cualquier curl con mancuerna o barra EZ.
+
+---
+
+## `wrist rollerer` — otro caso de mecánica sobre músculo objetivo
+
+`0859` está catalogado como ejercicio de **antebrazos**. Salió con
+`shoulder_impingement` en contraindicaciones y `shoulder` en `high`.
+
+El motivo: mantener los brazos extendidos al frente durante todo el enrollado es un
+isométrico de deltoides anterior a 90°. El antebrazo trabaja, pero el hombro es el
+que decide si el ejercicio es viable.
+
+Tercer caso del patrón, después de `1275 drop push up` (pectorales → rodilla) y
+`0864` (delts → no rota la columna).
+
+---
+
+## Cuarta confirmación del sesgo de apertura posterior
+
+`0386 dumbbell rotation reverse fly` → E1 dijo `horizontal_push`. **Cuatro de
+cuatro** (`0993`, `0378`, `0383`, `0386`).
+
+`0386` merece nota aparte: rota los brazos a pronación en el punto alto, que es la
+maniobra de **«lata vacía»** — posición de máximo pinzamiento. Es el único de los
+cuatro rear fly donde `rotator_cuff` pasa a contraindicación.
+
+Y `3667 side lying hip adduction` acumula **dos** errores de la fuente a la vez:
+E1 dijo `supine` (tercer caso de ese sesgo, tras `0408` y `0613`) **y** el nombre
+dice *adduction* donde el texto describe abducción (segundo caso, tras `1775`).
+
+---
+
+## Dos conflictos nombre/texto que podrían estar subestimando el riesgo
+
+Hasta ahora, creerle al texto siempre daba la clasificación más conservadora. En
+este lote aparecen dos casos donde puede ser al revés:
+
+| id | el nombre implica | el texto describe | riesgo |
+|---|---|---|---|
+| 1367 | *rear* pull-up (barra tras la nuca) | pecho a la barra | si el nombre acierta, `cervical_injury` debería estar en contra |
+| 1401 | muscle-up (con transición a fondo) | dominada al pecho | si el nombre acierta, `safe_for` debería estar vacío |
+
+Ambos quedaron clasificados por el texto, con confianza 0,60 y 0,65, y van a E3
+con **prioridad alta**. Es la primera vez que la regla «mandan las instrucciones»
+entra en tensión con el sesgo conservador.
