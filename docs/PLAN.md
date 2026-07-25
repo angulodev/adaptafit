@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   █████████████████░░░░░░░░░░░░░   522 / 895   (58,3%)
+Clasificación manual   ██████████████████░░░░░░░░░░░░   540 / 895   (60,3%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   █████████████████░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 26** |
+| **Clasificación manual** | 🔄 **en curso — lote 27** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -65,6 +65,7 @@ punto, lo hecho es lo más útil.
 | **24** | 2026-07-24 | 18 | 486 | 54,3% | 1 | `batch_manual_24.py` |
 | **25** | 2026-07-24 | 18 | 504 | 56,3% | 2 | `batch_manual_25.py` |
 | **26** | 2026-07-24 | 18 | 522 | 58,3% | 2 | `batch_manual_26.py` |
+| **27** | 2026-07-24 | 18 | 540 | 60,3% | 3 | `batch_manual_27.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -76,11 +77,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) | L26 (522) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | 189 | **193** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | 225 | **230** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | 140 | **143** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) | L26 (522) | L27 (540) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | 189 | 193 | **194** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | 225 | 230 | **235** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | 140 | 143 | **144** |
 
 ---
 
@@ -1454,3 +1455,120 @@ Y la familia de curls de muñeca acumula **cinco entradas con nombre que no
 coincide con la descripción** (`0393`, `1415`, `0397`, `0365`, `0366`). Ya no son
 casos sueltos: es un problema sistemático de la fuente que E3 debe revisar en
 bloque.
+
+---
+
+## Cruzamos el 60 % (lote 27)
+
+540 de 895. El motor entrega 194 ejercicios al perfil de movilidad reducida y 235
+al de silla de ruedas.
+
+---
+
+## `standing pelvic tilt` — segundo del ranking absoluto
+
+`1364` cerró con **25 `safe_for` y dos contraindicaciones**, sólo por detrás de
+`1403 neck side stretch`.
+
+Es la versión de pie de `1422 pelvic tilt into bridge`, y comparte con él lo más
+valioso: `lumbar_pain` en `safe_for`, por ser rehabilitación lumbar estándar. Pero
+**sin exigir bajar al suelo**, así que alcanza un perfil que `1422` no puede.
+
+Ranking de accesibilidad actualizado:
+
+| id | ejercicio | `safe_for` | contra |
+|---|---|---|---|
+| 1403 | neck side stretch | 28 | 1 |
+| 1364 | standing pelvic tilt | 25 | 2 |
+| 0716 | side push neck stretch | 23 | 3 |
+| 1355 | one arm against wall | 19 | 3 |
+| 0993 | band reverse fly | 18 | 3 |
+
+Los cinco primeros son estiramientos, isométricos o movilidad. **El catálogo
+accesible se sostiene sobre movimiento de baja carga, no sobre versiones fáciles
+de ejercicios de fuerza.** Es un dato a tener en cuenta al diseñar rutinas: para
+un perfil muy restringido, una sesión honesta se parece más a fisioterapia que a
+gimnasio.
+
+---
+
+## El mismo implemento en distinto rol invierte el perfil
+
+La familia pelota llegó a ocho entradas, y `1660` rompe el patrón:
+
+| id | rol de la pelota | `limited_balance` | `vertigo` | rodilla |
+|---|---|---|---|---|
+| 1659, 0390, 1650, 1656, 1668 | asiento | contra | contra | `safe_for` |
+| 1652 | asiento + una pierna | contra | contra | `safe_for` |
+| **1660** | **apoyo de codos** | **`safe_for`** | — | **contra** |
+
+En `1660` la pelota deja de ser superficie inestable y pasa a ser soporte. Eso
+elimina todo el bloque de inestabilidad y a cambio mete el filtro de rodilla por
+arrodillarse. **El equipamiento no determina el perfil de restricción; el rol que
+cumple, sí.**
+
+`1652` merece nota aparte: es el único de la familia donde `elderly_65plus` y
+`osteoporosis` suben a contraindicación. No por el peso —mínimo— sino porque una
+caída desde sentado, con mancuernas en las manos y sin poder amortiguar, es
+fractura de cadera. Contraindicación por consecuencia otra vez.
+
+---
+
+## `modified push up to lower arms` no es la versión fácil de `1467`
+
+Parece la progresión suave de `1467 push-up on lower arms`. Es lo contrario.
+
+| | `1467` | `1421` |
+|---|---|---|
+| mecánica | se apoya en antebrazos | baja de manos a antebrazos **y vuelve a subir** |
+| `wrist_injury` | **`safe_for`** | contraindicación |
+| `elbow` | `high` | `high` |
+| `position_change` | `moderate` | `high` |
+| artritis / artrosis | precaución | **contraindicación** |
+
+`1467` protege la muñeca; `1421` la castiga igual que una flexión normal **y
+además** suma el impacto del codo contra el suelo. Nombres parecidos, perfiles
+opuestos. Es exactamente el tipo de par que E4 no debe tratar como progresión.
+
+---
+
+## Correcciones a E1 en el lote 27
+
+| id | ejercicio | E1 dijo | Correcto | Impacto |
+|---|---|---|---|---|
+| 0378 | dumbbell rear fly | `horizontal_push` | `horizontal_pull` | **segunda vez** que E1 confunde apertura posterior con empuje |
+| 1430 | chest dip (on cage) | `overhead_position: true` | `false` | habría excluido el ejercicio para todo perfil sin rango overhead |
+| 0613 | lying (side) quads stretch | `supine` | `side_lying` | mismo error que `0408` en el lote 17 |
+
+El de `1430` es el más costoso: en los fondos los brazos están **abajo**,
+sosteniendo el cuerpo. Marcarlo como overhead habría quitado uno de los pocos
+empujes disponibles justo al perfil que menos opciones tiene.
+
+Con `0993` (L26) y `0378`, la confusión **apertura posterior → empuje** ya es un
+patrón de E1, igual que el sesgo de suspensión. Acción para E3: revisar todo lo
+que E1 marcó `horizontal_push` cuyo texto contenga *"squeeze your shoulder blades
+together"*.
+
+---
+
+## Duplicados — el grupo más grande hasta ahora
+
+**Cinco** curls sentado en pelota que difieren sólo en agarre y lateralidad, sin
+una sola diferencia de restricción: `1659`, `0390`, `1650`, `1656`, `1668`.
+
+Otros grupos nuevos de este lote:
+
+| grupo | ids |
+|---|---|
+| chin-up | `1327`, `0627` |
+| flexión a un brazo / arquero | `3294`, `0725` |
+| fondos en paralelas | `2462`, `1430` |
+| pulldown con banda | `1013`, `0974` |
+| curl predicador | `1646`, `1663`, `0452`, `1414` |
+
+Van **quince grupos** de duplicados detectados. El dataset tiene bastante menos
+variedad real de la que sugiere su tamaño, y eso afecta directamente al diseño de
+E4: sin deduplicar, una rutina puede ofrecer cinco veces el mismo curl.
+
+**Recomendación concreta:** añadir un campo `duplicate_of` en la fase E3 y
+resolverlo antes de construir el grafo de sustitución.
