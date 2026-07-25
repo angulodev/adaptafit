@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ██████████████████░░░░░░░░░░░░   540 / 895   (60,3%)
+Clasificación manual   ███████████████████░░░░░░░░░░░   558 / 895   (62,3%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████████�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 27** |
+| **Clasificación manual** | 🔄 **en curso — lote 28** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -66,6 +66,7 @@ punto, lo hecho es lo más útil.
 | **25** | 2026-07-24 | 18 | 504 | 56,3% | 2 | `batch_manual_25.py` |
 | **26** | 2026-07-24 | 18 | 522 | 58,3% | 2 | `batch_manual_26.py` |
 | **27** | 2026-07-24 | 18 | 540 | 60,3% | 3 | `batch_manual_27.py` |
+| **28** | 2026-07-24 | 18 | 558 | 62,3% | 1 | `batch_manual_28.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -77,11 +78,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) | L26 (522) | L27 (540) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | 189 | 193 | **194** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | 225 | 230 | **235** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | 140 | 143 | **144** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) | L26 (522) | L27 (540) | L28 (558) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | 189 | 193 | 194 | **197** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | 225 | 230 | 235 | **241** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | 140 | 143 | 144 | **144** |
 
 ---
 
@@ -1572,3 +1573,123 @@ E4: sin deduplicar, una rutina puede ofrecer cinco veces el mismo curl.
 
 **Recomendación concreta:** añadir un campo `duplicate_of` en la fase E3 y
 resolverlo antes de construir el grafo de sustitución.
+
+---
+
+## `two toe touch` — tercer estiramiento que es maniobra de provocación (lote 28)
+
+`3231` es tocarse los pies de pie con las piernas rectas. Salió con `lumbar_disc`,
+`sciatica` y `osteoporosis` en contraindicaciones.
+
+Combina **flexión lumbar completa sin apoyo** con **estiramiento isquiotibial** —
+exactamente el mecanismo clásico de herniación discal. Y la flexión espinal de pie
+es el gesto que produce fracturas vertebrales por compresión en osteoporosis.
+
+La regla ya está consolidada con tres casos:
+
+| id | estiramiento | maniobra clínica que reproduce | contraindica |
+|---|---|---|---|
+| 1405 | back pec stretch | aducción horizontal (test de pinzamiento) | `shoulder_impingement` |
+| 1576 | leg up hamstring stretch | Lasègue (test ciático) | `sciatica` |
+| 3231 | two toe touch | flexión lumbar cargada | `lumbar_disc`, `osteoporosis` |
+
+**Los estiramientos no son la categoría segura por defecto.** `difficulty` 1-2 y
+`valsalva` `none` no implican ausencia de riesgo estructural.
+
+---
+
+## Los dos `carry` del proyecto, comparados
+
+`3548 dumbbell single arm overhead carry` es el segundo patrón `carry` clasificado.
+El contraste con `2133 farmers walk` es limpio:
+
+| | `2133` farmers walk | `3548` overhead carry |
+|---|---|---|
+| posición de la carga | abajo, a los lados | **sobre la cabeza, un lado** |
+| `requires_balance` | `moderate` | `high` |
+| `joint_laxity_risk` | `low` | `high` |
+| contraindicaciones | 8 | **15** |
+
+Sostener carga overhead **en movimiento** es la posición más inestable del hombro.
+Mismo patrón, misma acción —caminar con peso— y casi el doble de exclusiones sólo
+por dónde va la carga.
+
+---
+
+## `1679` vs `1652` — cuando el nombre promete más que el texto
+
+`1679` se llama *"…on exercise ball **with leg raised**"* pero el texto dice
+`"feet flat on the ground"` y la otra mano en la cadera. No hay elevación de
+pierna en ningún lado.
+
+Se clasificó por el texto, o sea idéntico a `1668`. Contrasta directamente con
+`1652`, donde el texto **sí** describe la pierna elevada y por eso sube a
+`requires_balance: high` con `elderly_65plus` y `osteoporosis` en
+contraindicaciones.
+
+Si el nombre de `1679` fuera el correcto, su perfil debería ser el de `1652`.
+Queda en confianza 0,65 y va a E3 — es el tipo de caso donde el error de la fuente
+**quita** una restricción real.
+
+---
+
+## `1730` y `1737` — sentado con el torso paralelo al suelo
+
+Los dos son kickbacks sentados con el tronco horizontal. Eso dispara
+`head_below_heart: true` y arrastra glaucoma y desprendimiento de retina a
+contraindicaciones, **en un ejercicio de brazo trivial**.
+
+Detalle adicional: la columna en voladizo **desde sentado** da `lumbar` `high`,
+peor que la misma posición de pie, porque no hay cadera que reparta la carga. Los
+dos salen con `lumbar_disc` contraindicado.
+
+---
+
+## Corrección a E1: tercera vez con el mismo error
+
+| id | ejercicio | E1 dijo | Correcto |
+|---|---|---|---|
+| 0383 | dumbbell reverse fly | `horizontal_push` | `horizontal_pull` |
+
+Con `0993` (L26), `0378` (L27) y ahora `0383`, **E1 clasifica sistemáticamente
+toda apertura posterior como empuje**. Son tres de tres.
+
+Sesgos de E1 confirmados hasta ahora:
+
+| sesgo | casos | acción para E3 |
+|---|---|---|
+| suspensión → `standing` | `0688`, `0678`, `0720`, `0466` | revisar todo `standing` cuyo texto diga *"hang"* |
+| apertura posterior → `horizontal_push` | `0993`, `0378`, `0383` | revisar todo `horizontal_push` con *"squeeze your shoulder blades"* |
+| posición horizontal → `supine` | `0408`, `0613` | revisar todo `supine` cuyo texto diga *"on your side"* |
+| primera frase = posición | `1771`, `3239`, `1655` | revisar cuando el texto cambia de posición a mitad |
+
+Los cuatro son mecánicos y detectables por búsqueda de texto. **Se pueden resolver
+en bloque con un script antes de E3**, en vez de ejercicio por ejercicio.
+
+---
+
+## Séptimo y octavo `safe_for` vacío
+
+`3327 full planche push-up` y `3286 weighted muscle up`.
+
+`3327` es el primero de la familia planche donde el texto **sí** describe una
+planche real (*"lift your feet off the ground, balancing on your hands"*), a
+diferencia de `3300` y `3298`. Es el ejercicio de empuje más exigente del catálogo.
+
+`3286` es el único ejercicio del proyecto que combina `vertical_pull` y
+`vertical_push` en el mismo gesto — y la transición pasa por el punto más débil del
+hombro, con lastre.
+
+---
+
+## Duplicados — grupos 16 a 18
+
+| grupo | ids |
+|---|---|
+| rear fly de pie | `0378`, `0383` |
+| carrera en el lugar | `0684`, `3656` |
+| curl alternado en pelota | `1650`, `1676` |
+
+La familia pelota va por **once entradas**. La de dominadas, por **siete** (`1763`,
+`0678`, `0720`, `1429`, `1327`, `0627`, `0674`) que se reducen a tres ejercicios
+reales: pronado, supinado y lastrado.
