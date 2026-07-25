@@ -260,3 +260,42 @@ restricción de Capa A separada. La persona declara si puede transferirse o no.
 
 *Por qué:* asumir por ella era paternalista en un sentido u otro. Muchos usuarios de
 silla transfieren sin problema; otros no. Es un dato, no una inferencia.
+
+---
+
+### D-018 · El texto de instrucciones no sirve para detectar duplicados
+**2026-07-25**
+
+Tras encontrar seis pares aparentemente duplicados durante los lotes 36-38
+(0360/0361, 0313/2402, 0333/0420, 2796/0431, 2803/0413, 0286/0414) se escribió
+`scripts/find_duplicates.py` para medir cuántos había en total, comparando el texto
+de `instructions.en` con `SequenceMatcher`.
+
+**La hipótesis no se sostuvo.** Resultados sobre los 895 de equipo de casa:
+
+| Umbral | Grupos | Redundantes | Clasificaciones evitables |
+|---|---|---|---|
+| 0,90 | 30 | 60 | ~11 |
+| 0,95 | 24 | 44 | ~7 |
+| 0,99 | 14 | 23 | ~2 |
+
+A 0,90 el script agrupa `janda sit-up`, `frog crunch`, `cocoons` y `quarter sit-up`
+como si fueran lo mismo. No lo son. Las instrucciones del dataset están redactadas
+con plantilla, así que **la similitud de texto mide el estilo de redacción, no el
+movimiento**. Como señal de duplicado es ruido.
+
+*Lo que sí quedó confirmado a 0,99 —duplicados reales, colapsables en el índice:*
+`0454`/`1628` (mismo nombre exacto), `1461`/`1462` (misma sentadilla, dos ángulos de
+cámara), `0684`/`0685` (run), `0287`/`2137` (arnold press).
+
+*El hallazgo que importa es otro:* varios ejercicios tienen instrucciones que **no
+corresponden a su nombre** — `2803 dumbbell supported squat` describe una sentadilla
+sin apoyo, `0286 dumbbell alternate side press` describe un press alternado normal,
+`2796 dumbbell step-up lunge` describe un step-up. La clasificación se hace sobre el
+texto, así que el registro queda bien; lo que engaña es el nombre que ve el usuario.
+
+*Decisión:* no se colapsa nada automáticamente. `find_duplicates.py` queda como
+herramienta de apoyo para E3 con umbral 0,99, y E3 revisa además la coherencia
+nombre-instrucción de los registros marcados con `confidence <= 0.75`.
+
+*Regla general:* la cola no se acorta. Se sigue clasificando los 895.
