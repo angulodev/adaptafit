@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   █████████████████░░░░░░░░░░░░░   504 / 895   (56,3%)
+Clasificación manual   █████████████████░░░░░░░░░░░░░   522 / 895   (58,3%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   █████████████████░�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 25** |
+| **Clasificación manual** | 🔄 **en curso — lote 26** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -64,6 +64,7 @@ punto, lo hecho es lo más útil.
 | **23** | 2026-07-24 | 18 | 468 | 52,3% | 2 | `batch_manual_23.py` |
 | **24** | 2026-07-24 | 18 | 486 | 54,3% | 1 | `batch_manual_24.py` |
 | **25** | 2026-07-24 | 18 | 504 | 56,3% | 2 | `batch_manual_25.py` |
+| **26** | 2026-07-24 | 18 | 522 | 58,3% | 2 | `batch_manual_26.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -75,11 +76,11 @@ familiar. Los 895 completos requieren correr E2.
 
 Ejercicios disponibles según perfil, a medida que crece el catálogo:
 
-| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | **189** |
-| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | **225** |
-| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | **140** |
+| Perfil | gold (54) | L01 (72) | L02 (90) | L03 (108) | L04 (126) | L05 (144) | L06 (162) | L07 (180) | L08 (198) | L09 (216) | L10 (234) | L11 (252) | L12 (270) | L13 (288) | L14 (306) | L15 (324) | L16 (342) | L17 (360) | L18 (378) | L19 (396) | L20 (414) | L21 (432) | L22 (450) | L23 (468) | L24 (486) | L25 (504) | L26 (522) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Movilidad reducida | 15 | 26 | 39 | 50 | 62 | 73 | 80 | 90 | 98 | 106 | 110 | 119 | 127 | 138 | 147 | 156 | 163 | 167 | 173 | 176 | 179 | 181 | 184 | 186 | 188 | 189 | **193** |
+| Silla de ruedas | 21 | — | 47 | 60 | 72 | 86 | 95 | 108 | 118 | 127 | 131 | 143 | 153 | 166 | 176 | 188 | 196 | 200 | 206 | 209 | 212 | 214 | 217 | 219 | 221 | 225 | **230** |
+| Disautonomía (sin advertencia) | 11 | — | 28 | 35 | 46 | 53 | 59 | 69 | 76 | 83 | 86 | 93 | 97 | 103 | 108 | 112 | 114 | 121 | 124 | 125 | 126 | 127 | 131 | 134 | 138 | 140 | **143** |
 
 ---
 
@@ -1315,3 +1316,141 @@ a arquear la columna en el aire.
 
 Confianzas reducidas: `0065` (0,60 — sostener una barra recta con una mano en
 supinación), `1746` (0,70 — el nombre dice *supine*, el texto dice sentado).
+
+---
+
+## `band underhand pulldown` — el hallazgo más importante hasta ahora (lote 26)
+
+Hasta este lote, **las nueve entradas de `vertical_pull` del proyecto eran
+dominadas**. Todas con `grip_required: hanging_bodyweight`, todas contraindicadas
+para agarre limitado, muñeca y túnel carpiano, todas exigiendo poder colgar el
+peso corporal entero.
+
+`1013 band underhand pulldown` rompe eso: tracción vertical con banda, de pie,
+agarre ligero.
+
+| | familia de dominadas | `1013` |
+|---|---|---|
+| `difficulty` | 4-5 | **1** |
+| `grip_required` | `hanging_bodyweight` | `light` |
+| `wrist_injury` | contraindicación | **`safe_for`** |
+| `carpal_tunnel` | contraindicación | **`safe_for`** |
+| `lumbar_disc` | `safe_for` | `safe_for` |
+| `safe_for` total | 10 | **17** |
+
+Es el piso de accesibilidad del patrón y la sustitución obligada de toda la
+familia. **Con esto, los cuatro patrones principales tienen suelo:**
+
+```
+horizontal_push → 0659 push-up (wall)         · sin suelo, sin agarre
+horizontal_pull → 0497 inverted row v.2       · sin suelo, requiere estar de pie
+                → 2298 inverted row on bench  · sin estar de pie, requiere suelo
+vertical_pull   → 1013 band underhand pulldown · sin colgarse
+vertical_push   → (pendiente)
+```
+
+Queda `vertical_push` sin piso identificado. Es el hueco a buscar en los lotes
+restantes.
+
+---
+
+## La banda como eje de accesibilidad
+
+Seis entradas con banda en este lote muestran un patrón consistente: **la banda
+convierte `grip_required` de `firm` a `light`**, y eso mueve `wrist_injury` y
+`carpal_tunnel` de contraindicación a `safe_for`.
+
+| ejercicio con banda | equivalente con peso | qué cambia |
+|---|---|---|
+| `0978` band front raise | `0376` dumbbell raise | muñeca y túnel a `safe_for`, 16 `safe_for` |
+| `0993` band reverse fly | familia de remos | 18 `safe_for`, columna fuera del cuadro |
+| `1013` band underhand pulldown | familia de dominadas | ver arriba |
+
+Contraejemplo importante: `0971 band assisted wheel rollerout` y `0985 band
+kneeling twisting crunch` son de los más restrictivos del lote. **La banda no hace
+seguro un ejercicio; sólo elimina la demanda de agarre.** Si el patrón ya es
+agresivo, sigue siéndolo.
+
+---
+
+## `band standing crunch` — primer `core_flexion` sin suelo
+
+Los seis ejercicios de flexión de tronco clasificados hasta ahora (`0832`, `0992`,
+`3640`, `3202`, `0972`, `1495`) exigían tumbarse. `1005` es el primero de pie.
+
+Segundo detalle: al no llevar las manos detrás de la cabeza, `cervical_injury` y
+`neck_pain` entran en `safe_for` — único del grupo. Sigue contraindicado para
+hernia discal, porque la flexión cargada es flexión cargada de pie o en el suelo.
+
+---
+
+## Una opción en el texto cambia una contraindicación
+
+`1495 oblique crunch v.2` dice *"place your hands behind your head **or** cross
+them over your chest"*.
+
+Esa alternativa evita la tracción manual del cuello, así que `cervical_spine` baja
+a `moderate` y `cervical_injury` queda en precauciones — mientras que en `3640`,
+`3202` y `0972`, donde las manos detrás de la cabeza son obligatorias, el cuello
+sale a contraindicación.
+
+**Criterio para E2/E3:** cuando el texto ofrece una variante más segura como
+opción explícita, se clasifica por la variante segura y se anota. Es la única
+excepción razonable al sesgo conservador.
+
+---
+
+## `close grip chin-up` — la dominada más amable con el hombro
+
+`1327` es la única variante de la familia donde `shoulder_impingement` baja de
+contraindicación a precaución. El agarre supinado y cerrado rota el húmero
+externamente y mantiene los codos pegados.
+
+El precio se traslada al codo: `elbow` a `high` y epicondilitis a
+contraindicación. Es la sustitución directa de `1429 wide grip pull-up` para
+hombros sensibles.
+
+El ancho de agarre se comporta igual en empuje y en tracción:
+
+| ancho | tracción | empuje |
+|---|---|---|
+| cerrado | `1327` chin-up · hombro `moderate` | `2398`, `0660` · hombro `moderate` |
+| ancho | `1429` wide pull-up · hombro `high` | `1311` wide push-up · hombro `high` |
+
+---
+
+## `one arm against wall` — 19 `safe_for`
+
+`1355` es un isométrico de dorsal empujando la pared: sin carga, sin agarre, sin
+suelo, sin recorrido articular. Tres contraindicaciones.
+
+Es al patrón de tracción lo que `0659 push-up (wall)` es al de empuje, con la
+salvedad de que aquí la activación es isométrica y no hay rango de movimiento.
+
+---
+
+## Correcciones a E1 en el lote 26
+
+| id | ejercicio | E1 dijo | Correcto | Impacto |
+|---|---|---|---|---|
+| 0993 | band reverse fly | `horizontal_push` | `horizontal_pull` | como *push* habría competido con las flexiones en vez de complementarlas |
+| 0864 | dumbbell upright shoulder external rotation | `core_rotation` | `isolation` | no rota la columna, rota el hombro |
+
+Son los dos primeros errores de E1 en **`movement_pattern`** y no en
+`start_position`. Ambos habrían roto el grafo de sustitución de E4 sin afectar la
+seguridad — el mismo tipo de fallo silencioso que `1655 curl squat` en el lote 24.
+
+---
+
+## Duplicados — grupos 8 y 9
+
+| grupo | ids | nota |
+|---|---|---|
+| puente de glúteo simple | `0668`, `3013` | idénticos |
+| curl de concentración en banco | `1669`, `0403` | `0403` dice «reverse grip», el texto describe supinado normal |
+| curl en pelota | `1659`, `0390` | martillo vs supinado, sin diferencia de restricciones |
+
+Y la familia de curls de muñeca acumula **cinco entradas con nombre que no
+coincide con la descripción** (`0393`, `1415`, `0397`, `0365`, `0366`). Ya no son
+casos sueltos: es un problema sistemático de la fuente que E3 debe revisar en
+bloque.
