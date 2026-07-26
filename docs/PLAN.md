@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   █████████████████████████████░   864 / 895   (96,5%)
+Clasificación manual   ██████████████████████████████   882 / 895   (98,5%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████████�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 45** |
+| **Clasificación manual** | 🔄 **en curso — lote 46** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -84,6 +84,7 @@ punto, lo hecho es lo más útil.
 | **43** | 2026-07-26 | 18 | 828 | 92,5% | 6 | `batch_manual_43.py` |
 | **44** | 2026-07-26 | 18 | 846 | 94,5% | 7 | `batch_manual_44.py` |
 | **45** | 2026-07-26 | 18 | 864 | 96,5% | 9 | `batch_manual_45.py` |
+| **46** | 2026-07-26 | 18 | 882 | 98,5% | 11 | `batch_manual_46.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -2905,3 +2906,117 @@ resiste la toalla. `confidence` 0,75.
 
 El único perfil que se mueve es `one_arm_only`, y se mueve por las correcciones
 de la auditoría, no por los ejercicios nuevos.
+
+---
+
+## Lote 46 — la cola pesada, como estaba previsto
+
+882 de 895 (98,5%). Quedan 14 en cola. Validado con `validate_batch.py`:
+**0 errores sobre las 882 fichas.**
+
+Diez de los dieciocho son sentadillas con barra. Es exactamente lo que
+anticipaba la meseta de cobertura: lo que quedaba en la cola era trabajo de pie,
+cargado y sin vía de adaptación.
+
+Como las diez comparten el mismo núcleo de riesgo (`axial: high`,
+`valsalva: high`, rodilla/cadera/lumbar en `high`), se factorizaron tres
+constantes en el archivo del lote — `SQUAT_CONTRA`, `SQUAT_CAUT`, `SQUAT_SAFE`.
+Lo que diferencia una sentadilla de otra **no es la pierna, es dónde se apoya la
+barra**.
+
+### Dónde va la barra decide la accesibilidad
+
+| Variante | Hombro | Muñeca | Codo | Contra |
+|---|---|---|---|---|
+| `1436` barra alta | moderate | moderate | — | 13 |
+| `0063` / `0098` trasera | moderate | moderate | — | 13 |
+| `0127` / `1545` zercher | moderate | **low** | **high** | 15 |
+| `0024` / `0029` / `0039` frontal | **high** | **high** | moderate | 17 |
+| `1435` barra baja (lote 45) | **high** | moderate | — | 17 |
+| `0069` overhead | **high** | **high** | moderate | **18** |
+
+El intercambio más limpio del catálogo: **la zercher es la única sentadilla apta
+para `wrist_injury` y `carpal_tunnel`**, porque la barra descansa en el pliegue
+del codo y la muñeca no soporta nada. A cambio es la única con `elbow: high`.
+Para E4, zercher y frontal son sustitutos mutuos según qué articulación esté
+comprometida arriba.
+
+---
+
+## Corrección: me equivoqué al describir el overhead squat
+
+Escribí en la ficha de `0069` que era el único ejercicio del catálogo con siete
+de ocho articulaciones en `moderate` o `high`. Al verificarlo contra los datos
+antes de publicarlo, **las dos cifras estaban mal**: son ocho de ocho, y no es
+único — `power clean`, `squat jerk`, `snatch pull`, `barbell one arm snatch` y
+`barbell clean and press` también llegan a 8/8, y esos tienen hasta 32
+contraindicaciones frente a las 18 del overhead squat.
+
+El razonamiento quedó reescrito con la cifra correcta y con la distinción que sí
+se sostiene: los olímpicos son explosivos, el overhead squat es lento y
+sostenido.
+
+**Nota de método:** la afirmación sonaba plausible y encajaba con la narrativa
+del lote. Conviene consultar los datos antes de escribir superlativos en los
+razonamientos, porque quedan en el dataset como si fueran hechos verificados.
+
+---
+
+## Cinco familias de duplicados en un solo lote
+
+| Familia | Fichas |
+|---|---|
+| Front squat | `0024`, `0029`, `0039` |
+| Zercher | `0127`, `1545` |
+| Sentadilla trasera | `0063`, `1436` (+ `0101`, `1435` previas) |
+| Curl invertido con barra | `0113` (+ `0636` del lote 44) |
+| Curl de concentración | `2414` (+ `0421`, `0418`) |
+
+Los tres front squat describen palabra por palabra la misma barra apoyada en el
+pecho con los codos al frente. `0127` y `1545` son casi idénticos carácter a
+carácter. **E4 va a poder colapsar bastante más de lo que sugería el conteo de
+895.**
+
+---
+
+## Dos textos físicamente imposibles
+
+- `0023 barbell alternate biceps curl` — *"hold a barbell in each hand"* y
+  después alternar brazos. Una barra no se sostiene con una mano ni se alterna.
+- `2414 barbell standing concentration curl` — *"hold a barbell in one hand"*.
+
+Ambos con `confidence` 0,60. Se clasificaron con la única lectura ejecutable
+(curl con barra bilateral y curl unilateral respectivamente). `2414` además
+manda apoyar la mano contraria en el muslo, así que por D-020 queda fuera de
+`one_arm_only` — tercer caso del mismo patrón tras `0421` y `0418`.
+
+---
+
+## D-020 y la regla del apoyo, combinadas
+
+`0987 band one arm single leg split squat` es el primer caso donde las dos
+reglas actúan a la vez y en direcciones opuestas:
+
+- **Regla del apoyo:** es unipodal con pie trasero elevado, pero el texto pide
+  sujetarse de un soporte → `balance` baja a `moderate` y `limited_balance`
+  queda en `cautions`.
+- **D-020:** el apoyo se toma **con una sola mano**, así que la segunda queda
+  libre → sigue siendo apto para `one_arm_only`.
+
+Es exactamente el contraste con `0356` del lote 43, donde el apoyo consumía la
+segunda mano y sí perdía `one_arm_only`. **La regla no es "hay apoyo", es
+"cuántas manos consume el apoyo".** Conviene dejarlo escrito así en D-020.
+
+---
+
+## Cobertura
+
+| Perfil | L45 | L46 |
+|---|---|---|
+| Movilidad reducida | 197 | 197 |
+| Silla de ruedas | 241 | 241 |
+| Disautonomía sin advertencia | 150 | 150 |
+| Un solo brazo funcional | 421 | 425 |
+
+Diecisiete lotes seguidos sin mover los tres primeros perfiles. `one_arm_only`
+sube cuatro por `1001`, `0986`, `0987` y `1369`, todos ejercicios sin barra.
