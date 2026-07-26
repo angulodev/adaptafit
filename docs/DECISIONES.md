@@ -299,3 +299,40 @@ herramienta de apoyo para E3 con umbral 0,99, y E3 revisa además la coherencia
 nombre-instrucción de los registros marcados con `confidence <= 0.75`.
 
 *Regla general:* la cola no se acorta. Se sigue clasificando los 895.
+
+---
+
+### D-019 · Cuando el nombre y las instrucciones se contradicen, gana la lectura más restrictiva
+**2026-07-25**
+
+D-018 dejó constancia de que varios registros tienen instrucciones que no corresponden
+a su nombre. Durante los lotes 40 y 41 aparecieron suficientes casos como para
+necesitar una regla, no un criterio caso a caso:
+
+| Ejercicio | Nombre dice | Texto dice |
+|---|---|---|
+| `0429` standing reverse curl | agarre pronado | palmas al cuerpo (neutro) |
+| `1675` reverse spider curl | pronado + codo en banco | de pie, neutro, sin banco |
+| `0026` barbell bench squat | sentadilla al banco | sentadilla libre desde rack |
+| `0589` lever one arm bent over row | polea, un brazo | barra, bilateral |
+| `2812` step-up split squat | split squat | step-up |
+| `3644` weighted lunge with swing | swing balístico | descripción imprecisa |
+
+*Regla:* se clasifica por el TEXTO cuando el texto es completo y coherente (D-018).
+Cuando ambas lecturas son plausibles y difieren en riesgo, se toma **la más
+restrictiva**.
+
+*Por qué:* la asimetría de costos. Advertir de más le quita a alguien un ejercicio que
+podría haber hecho —molesto, recuperable, y el usuario puede ignorar la advertencia.
+Advertir de menos le entrega a una persona con lesión un ejercicio contraindicado.
+No son errores del mismo tamaño y el sistema no debe tratarlos como si lo fueran.
+
+*Efecto práctico:* `0429` y `1675` quedan clasificados como reverse curl real —muñeca
+`high`, `carpal_tunnel` contraindicado— aunque el texto sugiera agarre neutro. `0026`
+queda como sentadilla con barra al hombro, `difficulty` 4, no como sentadilla al banco
+de `difficulty` 1.
+
+*Pendiente para E3:* los registros con `confidence <= 0.75` son la lista de trabajo.
+Cada uno necesita que un humano mire el nombre, el texto y —si existe— el gif, y
+decida cuál de los dos está mal. Hasta entonces el catálogo sobre-advierte, que es
+el lado correcto en el que equivocarse.
