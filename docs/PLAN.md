@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   █████████████████████████████░   846 / 895   (94,5%)
+Clasificación manual   █████████████████████████████░   864 / 895   (96,5%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████████�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 44** |
+| **Clasificación manual** | 🔄 **en curso — lote 45** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -83,6 +83,7 @@ punto, lo hecho es lo más útil.
 | **42** | 2026-07-26 | 18 | 810 | 90,5% | — | `batch_manual_42.py` |
 | **43** | 2026-07-26 | 18 | 828 | 92,5% | 6 | `batch_manual_43.py` |
 | **44** | 2026-07-26 | 18 | 846 | 94,5% | 7 | `batch_manual_44.py` |
+| **45** | 2026-07-26 | 18 | 864 | 96,5% | 9 | `batch_manual_45.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -2759,3 +2760,148 @@ borde del escalón, y una caída por escalera es un desenlace de otra magnitud.
 | **Un solo brazo funcional** | — | **412** |
 
 La meseta sigue. Los 50 restantes son de pie y cargados; no van a moverla.
+
+---
+
+## Lote 45 — el validador deja de ser manual
+
+864 de 895 (96,5%). Quedan 32 en cola.
+
+La comprobación que veníamos pegando a mano en cada lote ahora vive en
+**`enrichment/scripts/validate_batch.py`**. Corre la taxonomía completa, los
+invariantes estructurales y las reglas derivadas:
+
+```
+python3 validate_batch.py 45      # valida un lote antes de aplicarlo
+python3 validate_batch.py --all   # audita las 864 fichas
+```
+
+Además de lo que ya revisábamos, añade tres invariantes que nunca habíamos
+comprobado:
+
+- `overhead_position: true` obliga a `no_overhead` en contraindicaciones.
+- `requires_standing: true` obliga a `cannot_stand` en contraindicaciones.
+- `confidence < 0,70` obliga a razonamiento escrito.
+
+**Estado actual: 0 errores sobre las 864 fichas**, 7 advertencias abiertas.
+
+---
+
+## D-020 refinada dos veces por sus propios falsos positivos
+
+La primera versión del chequeo automático marcaba `one_arm_only` como error
+siempre que `laterality` no fuera `unilateral`. Dio **25 falsos positivos** y
+la razón es conceptual: **`laterality` puede referirse a las piernas.** Una
+elevación de talón bilateral no ocupa las manos y es perfectamente apta para
+alguien con un solo brazo funcional.
+
+Segunda versión: error sólo si además hay agarre. También falló, porque
+`grip_required` no distingue **agarre que carga** de **agarre que estabiliza**.
+En `0284 donkey calf raise` las manos se apoyan en una pared para equilibrio y
+basta una.
+
+**Criterio final, ya en el script:** el agarre carga si el patrón es de tren
+superior (`vertical_pull`, `horizontal_pull`, `vertical_push`,
+`horizontal_push`) o si `grip_required` es `firm`. Todo lo demás es apoyo y
+genera advertencia, no error.
+
+### Lo que encontró una vez afinada
+
+| Ficha | Problema |
+|---|---|
+| `3116` band fixed back underhand pulldown | jalón a dos manos |
+| `0104` barbell standing back wrist curl | barra a dos manos |
+| `1013` band underhand pulldown | jalón a dos manos |
+| `0974` band close-grip pulldown | jalón a dos manos |
+| **`1297` isometric chest squeeze** | **las palmas se presionan entre sí** |
+| `1000` band single leg reverse calf raise | `laterality` mal puesta (error propio del lote 43) |
+| `0056` barbell lying close-grip triceps ext. | `overhead_position` sin `no_overhead` |
+
+`1297` es el hallazgo incómodo: lo teníamos identificado como **suelo de
+accesibilidad para empuje horizontal**, con una de las listas `safe_for` más
+largas del catálogo. Y una de esas entradas estaba mal — la resistencia del
+ejercicio *es* la segunda mano. Sin ella el ejercicio no existe. Que el error
+estuviera justo en la ficha que más recomendaría el motor es el argumento más
+fuerte a favor de automatizar estas comprobaciones.
+
+En `0056` se agregó `no_overhead` a contraindicaciones por sesgo conservador,
+pero **la decisión correcta es probablemente la contraria**: tumbado en banco el
+hombro no pasa de 90 grados, así que `overhead_position` debería ser `false` y
+el ejercicio recuperarse. Queda en E3 con `confidence` 0,75.
+
+---
+
+## La familia toe touch, completa
+
+Tres variantes del mismo gesto, ahora clasificadas las tres:
+
+| | Piernas | Otros vectores | Contraindicaciones |
+|---|---|---|---|
+| `3218` hands clasped | flexionadas | — | 6 |
+| `3215` hands reversed clasped | rectas | manos sobre la cabeza | 12 |
+| `3214` arms apart circular | rectas | pierna en el aire, rotación | 13 |
+
+Mismo patrón de flexión lumbar, y la accesibilidad se duplica o se hunde según
+lo que se le apile encima. `3218` sirve a bastante gente; `3214` casi a nadie.
+**Para E4 son la cadena de regresión natural del patrón `hinge` sin carga.**
+
+---
+
+## El espectro completo de la elevación de talón
+
+Seis fichas del mismo gesto, ordenadas por accesibilidad:
+
+| Ficha | Apoyo | Carga | `balance` | Contra |
+|---|---|---|---|---|
+| `1382` / `3240` pelota contra pared | espalda completa | mancuernas | low | 4 |
+| `3241` pelota, tenis en tobillos | espalda completa | mancuernas | low | 4 |
+| `1490` escalón | barandilla opcional | ninguna | moderate | 5 |
+| `0727` unipodal | ninguno | mancuerna | high | 6 |
+| `0111` barra en la espalda | ninguno | barra | high | **10** |
+
+Mismo músculo, mismo rango, de cuatro a diez contraindicaciones. Lo que decide
+no es el ejercicio sino **el apoyo declarado y el implemento**. Es la cadena de
+sustitución más limpia que ha aparecido en todo el proyecto y debería entrar en
+E4 tal cual.
+
+---
+
+## El dataset declara mal el equipo, otra vez
+
+Tercer y cuarto caso confirmados: `2403` necesita *arm blaster*, `3240` y
+`3241` necesitan pelota de pilates **y** pelota de tenis. Todos declaran sólo
+`dumbbell`. Se suma a `1382` (lote 44) y a `3156`/`3162`, que dicen
+`body weight` y piden mancuerna.
+
+**Consecuencia práctica:** el filtro por equipo disponible en casa va a ofrecer
+ejercicios que el usuario no puede montar. No es un problema de seguridad, pero
+sí de confianza. Hay que auditar `equipment` contra el texto antes de la UI.
+
+`2401` y `2403` son el caso más absurdo: misma familia, mismo accesorio en el
+nombre, y sólo uno lo menciona en las instrucciones.
+
+---
+
+## `3161` — el tirón horizontal más accesible del catálogo
+
+Versión unilateral de `3165` con toalla. Sin carga externa la bisagra baja de
+contraindicación a `cautions`, y al usar una sola mano entra además en
+`one_arm_only`. **Es el único tirón horizontal que sirve simultáneamente a
+hernia discal, un solo brazo funcional y ausencia total de equipo.**
+
+Objeción honesta para E3: con una sola mano y sin anclaje no queda claro qué
+resiste la toalla. `confidence` 0,75.
+
+---
+
+## Cobertura
+
+| Perfil | L44 | L45 |
+|---|---|---|
+| Movilidad reducida | 197 | 197 |
+| Silla de ruedas | 241 | 241 |
+| Disautonomía sin advertencia | 150 | 150 |
+| Un solo brazo funcional | 412 | 421 |
+
+El único perfil que se mueve es `one_arm_only`, y se mueve por las correcciones
+de la auditoría, no por los ejercicios nuevos.
