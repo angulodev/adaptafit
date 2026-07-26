@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ████████████████████████████░░   828 / 895   (92,5%)
+Clasificación manual   █████████████████████████████░   846 / 895   (94,5%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████████�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 43** |
+| **Clasificación manual** | 🔄 **en curso — lote 44** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -82,6 +82,7 @@ punto, lo hecho es lo más útil.
 | **41** | 2026-07-26 | 18 | 792 | 88,5% | — | `batch_manual_41.py` |
 | **42** | 2026-07-26 | 18 | 810 | 90,5% | — | `batch_manual_42.py` |
 | **43** | 2026-07-26 | 18 | 828 | 92,5% | 6 | `batch_manual_43.py` |
+| **44** | 2026-07-26 | 18 | 846 | 94,5% | 7 | `batch_manual_44.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -2614,3 +2615,147 @@ para perfiles sin restricción, no cobertura para perfiles restringidos.
 
 Disautonomía baja dos: `0101` y `3167` agregan cambios de posición repetidos con
 `orthostatic_load` alto y entran como `flagged`.
+
+---
+
+## Lote 44 — auditoría D-020 ejecutada
+
+846 de 895 (94,5%). Quedan 50 en cola.
+
+La regla D-020 se escribió en el lote 43 con un solo contraejemplo. Este lote la
+puso a prueba sobre los 828 ya clasificados y sobre tres casos nuevos.
+
+### Resultado de la auditoría
+
+De **103** ejercicios con `one_arm_only` en `safe_for`, la búsqueda por texto
+marcó 36 candidatos, de los cuales **8 eran violaciones reales**. Los otros 28
+fueron falsos positivos de dos tipos, ambos instructivos:
+
+- **`on a bench`** — el banco sostiene el torso o el antebrazo, no la segunda
+  mano. No hay conflicto.
+- **`switch to the other arm`** — instrucción de alternancia al final de la
+  serie, no un rol de apoyo. Este casi provoca que se corrigieran `0424` y
+  `0425`, dos fichas correctas de los lotes 43 y 44. **La lección: al auditar
+  por regex hay que descontar las frases de alternancia antes de decidir.**
+
+Las 8 violaciones reales son de dos subtipos:
+
+| Subtipo | Ejercicios |
+|---|---|
+| El texto pide mancuerna **en cada mano** | `0406`, `0285`, `0415`, `1511` |
+| La mano libre tiene **rol explícito de apoyo** | `1680`, `0422`, `1679`, `0418` |
+
+A los 8 se les retiró `one_arm_only` de `safe_for`, se les anotó la corrección
+en `_reasoning` y se les bajó `confidence` a 0,90 como máximo.
+
+El subtipo de "mancuerna en cada mano" es el más preocupante porque no es un
+matiz: son ejercicios **bilaterales** que estaban marcados como aptos para quien
+tiene un solo brazo funcional. `0418` es exactamente el mismo caso que `0421`
+de este lote, que sí se clasificó bien — señal de que la regla, una vez
+explícita, funciona.
+
+**Cobertura del perfil `one_arm_only`: 412 ejercicios elegibles** tras la
+corrección. Es la primera vez que se mide este perfil.
+
+---
+
+## D-020 se confirma y se extiende
+
+El lote trajo el par de control que faltaba:
+
+- `0421` concentration curl — *"place your free hand on your thigh for
+  support"* → **fuera** de `one_arm_only`.
+- `0425` reverse curl — el texto no menciona la mano libre en ningún rol →
+  **dentro** de `one_arm_only`.
+
+Mismo músculo, misma postura, misma lateralidad, misma dificultad. La única
+diferencia es una frase. La regla discrimina por texto, no por `laterality`,
+que es justo lo que se buscaba.
+
+**Matiz nuevo:** en `0421` y `0418` el apoyo es en el **propio muslo**, no en un
+objeto externo, y no afecta el equilibrio en nada. Es plausible que sea
+prescindible y que ambos deban recuperar `one_arm_only`. Van a E3 marcados como
+*apoyo posiblemente decorativo* — no se resuelve por texto.
+
+---
+
+## D-021 en acción: `0851 weighted sissy squat`
+
+La contradicción más cara del lote. Una sissy squat real lleva las rodillas muy
+por delante de los pies con el torso inclinado hacia atrás: de los ejercicios de
+mayor cizalla rotuliana que existen. El texto describe una sentadilla goblet
+común.
+
+Aplicando D-021 se toma la lectura restrictiva en el campo de seguridad
+(`knee: high`) aunque la regla 5 pediría clasificar el texto. `confidence` 0,60,
+el más bajo del lote y prioridad alta en E3.
+
+---
+
+## La familia "curl con truco de equilibrio"
+
+Nueve de los 18 ejercicios del lote son curls de bíceps. Dos de ellos revelan un
+patrón que conviene tratar explícitamente en E4:
+
+| | `1649` curl + pie en pelota | `1653` curl + stork stance |
+|---|---|---|
+| Contraindicaciones | 8 | 6 |
+| `safe_for` | 10 | 13 |
+| Origen del riesgo | tren inferior | tren inferior |
+
+Un curl de bíceps con ocho contraindicaciones, **todas de rodilla, cadera y
+tobillo**. El ejercicio de brazo no cambió; le agregaron un pie sobre una
+superficie inestable. La diferencia entre ambos mide exactamente el costo de la
+pelota frente a un tercer punto de apoyo estable.
+
+**Regla para E4:** cuando un aislado de brazo tiene contraindicaciones de tren
+inferior, el sustituto correcto no es otro curl más fácil — es **el mismo curl
+sin el truco de equilibrio** (`0968` o `1670`). Sustituir por patrón sería
+buscar en la dirección equivocada.
+
+---
+
+## `1377` / `1407` y una decisión sobre `plantar_fasciitis`
+
+Dos estiramientos de gemelo contra la pared, duplicados funcionales exactos: la
+única diferencia textual es *"bend your front knee slightly"* contra *"bend your
+left knee and lean forward"*. Se clasificaron idénticos a propósito para que E4
+los colapse sin ambigüedad.
+
+Ambos entran en `safe_for` de `plantar_fasciitis`, **en contra del sesgo
+conservador habitual**. El estiramiento de gastrocnemio contra pared es
+tratamiento de primera línea para fascitis plantar, no un riesgo. Es de los
+pocos casos del proyecto donde el sesgo restrictivo daría un resultado
+clínicamente equivocado.
+
+---
+
+## El apoyo, otra vez, como variable dominante
+
+Tres elevaciones de talón en el mismo lote, ordenadas por accesibilidad:
+
+| | Apoyo | `requires_balance` | Contraindicaciones |
+|---|---|---|---|
+| `1382` pelota contra pared | espalda completa | low | 4 |
+| `1490` escalón | barandilla *"if needed"* | moderate | 5 |
+| `0727` unipodal con mancuerna | ninguno | high | 6 |
+
+Mismo músculo, mismo gesto. El apoyo declarado en el texto es lo que decide si
+el ejercicio sirve o no a un perfil con equilibrio limitado.
+
+En `1490` hay una decisión que vale registrar: `visual_impairment` pasó a
+**contraindicación** y no a `cautions`. El riesgo no es el ejercicio sino el
+borde del escalón, y una caída por escalera es un desenlace de otra magnitud.
+
+---
+
+## Cobertura
+
+| Perfil | L43 | L44 |
+|---|---|---|
+| Movilidad reducida | 197 | 197 |
+| Silla de ruedas | 241 | 241 |
+| Disautonomía sin advertencia | 150 | 150 |
+| **Un solo brazo funcional** | — | **412** |
+
+La meseta sigue. Los 50 restantes son de pie y cargados; no van a moverla.
