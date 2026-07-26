@@ -91,8 +91,17 @@ def main():
     total_home = sum(1 for x in src.values() if x["equipment"] in HOME)
 
     if args.status or not args.next:
-        pct = len(done) / total_home * 100
-        print(f"clasificados : {len(done)} de {total_home} ({pct:.1f}%)")
+        # Solo cuenta lo clasificado DENTRO del alcance "casa". El seed de
+        # ejemplos gold incluye alguna ficha con equipo fuera de HOME (p.ej.
+        # 1712, equipment "assisted"), que inflaba el numerador y producia
+        # porcentajes por encima del 100%.
+        done_home = {i for i in done
+                     if i in src and src[i]["equipment"] in HOME}
+        pct = len(done_home) / total_home * 100
+        print(f"clasificados : {len(done_home)} de {total_home} ({pct:.1f}%)")
+        fuera = len(done) - len(done_home)
+        if fuera:
+            print(f"(+{fuera} clasificado fuera del alcance casa, no computa)")
         print(f"en cola      : {len(queue)}")
         return
 

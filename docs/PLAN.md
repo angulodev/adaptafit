@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ██████████████████████████████   882 / 895   (98,5%)
+Clasificación manual   ██████████████████████████████   895 / 895   (100%) ✅
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████████�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 46** |
+| **Clasificación manual** | ✅ **completa — 895/895, lote 47** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -85,6 +85,7 @@ punto, lo hecho es lo más útil.
 | **44** | 2026-07-26 | 18 | 846 | 94,5% | 7 | `batch_manual_44.py` |
 | **45** | 2026-07-26 | 18 | 864 | 96,5% | 9 | `batch_manual_45.py` |
 | **46** | 2026-07-26 | 18 | 882 | 98,5% | 11 | `batch_manual_46.py` |
+| **47** | 2026-07-26 | 14 | **895** | **100%** | 6 | `batch_manual_47.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -3020,3 +3021,129 @@ segunda mano y sí perdía `one_arm_only`. **La regla no es "hay apoyo", es
 
 Diecisiete lotes seguidos sin mover los tres primeros perfiles. `one_arm_only`
 sube cuatro por `1001`, `0986`, `0987` y `1369`, todos ejercicios sin barra.
+
+---
+
+# Lote 47 — CLASIFICACIÓN MANUAL COMPLETA: 895 / 895
+
+Cola cerrada. 47 lotes, 842 fichas escritas a mano más 54 del seed gold.
+`validate_batch.py --all`: **0 errores**, 2 advertencias abiertas.
+
+---
+
+## El contador estaba mal y decía 100,1%
+
+Al cerrar la cola el estado marcó **896 de 895**. El descuadre venía
+arrastrándose desde hacía varios lotes (ya se había visto un «86 en cola»
+cuando tocaban 85) y nunca se había investigado.
+
+Causa: `workqueue.py` calculaba el numerador sobre **todo** lo clasificado y el
+denominador sólo sobre los ejercicios con equipo dentro del alcance «casa».
+`1712 assisted side lying adductor stretch` entró en el seed de ejemplos gold
+pero su `equipment` es `assisted`, fuera de `HOME`. Contaba arriba y no abajo.
+
+Corregido: el estado ahora intersecta lo hecho con el alcance y reporta aparte
+lo que queda fuera. **895 de 895 (100%), +1 fuera de alcance.**
+
+Vale la pena registrarlo porque el síntoma era visible desde hacía semanas y se
+había normalizado como ruido de redondeo.
+
+---
+
+## El duplicado que cierra el argumento
+
+`1461 barbell full squat (back pov)` y `1462 barbell full squat (side pov)`
+tienen textos **idénticos carácter por carácter**. Lo único que distingue las
+dos fichas es el ángulo de cámara del vídeo de origen.
+
+No es un caso aislado: este lote trajo también `0109` / `0637` (misma extensión
+de tríceps, una con barra olímpica) y `2810` / `0099` (misma zancada, una
+alternando). Sumados a las cinco familias del lote 46, **la deduplicación en E4
+va a reducir el catálogo bastante más de lo que sugiere el número 895.**
+
+---
+
+## La escala de implemento, demostrada con tres pares controlados
+
+Los curls de este lote aíslan la variable del implemento dejando todo lo demás
+constante. Es la confirmación más limpia de una regla que veníamos aplicando
+desde el lote 12 sin haberla probado:
+
+| Par | Diferencia única | Muñeca | Contra |
+|---|---|---|---|
+| `2404` vs `2407` | EZ → barra recta (mismo arm blaster) | moderate → **high** | 4 → 6 |
+| `2741` vs `1629` | EZ → barra recta (mismo agarre ancho) | moderate → **high** | 4 → 5 |
+| `0106` vs `1629` | agarre cerrado vs ancho (misma barra) | high = high | 6 → 5 |
+
+Dos lecturas:
+
+1. **La barra recta cuesta dos contraindicaciones frente a la EZ**, siempre las
+   mismas: `wrist_injury` y `carpal_tunnel`.
+2. **Cualquier desviación del ancho natural fuerza la muñeca**, hacia dentro o
+   hacia fuera. Los dos extremos dan `wrist: high`.
+
+`2404 ez-bar biceps curl (with arm blaster)` queda como **el curl con barra más
+accesible del catálogo** (4 contraindicaciones): la EZ permite semipronación y
+el arm blaster elimina el balanceo lumbar. Sustituto por defecto en E4 para
+cualquier curl con barra recta.
+
+---
+
+## Una nota honesta sobre `2798` y la capa C
+
+`2798 barbell squat jump step rear lunge` es el único ejercicio del catálogo que
+combina `impact: high` con `axial: high` y `valsalva: high`: salto pliométrico
+con barra cargada en la espalda.
+
+`osteoporosis` se mantuvo en `cautions` por coherencia con el contrato de la
+capa C, que advierte pero nunca excluye en silencio. **Es la decisión
+consistente, pero en este caso concreto la advertencia se queda corta.** Saltar
+con barra cargada teniendo osteoporosis no es un matiz a considerar.
+
+No lo cambio unilateralmente porque rompería el contrato de capas en una sola
+ficha. Queda anotado para cuando se defina la **severidad de los avisos**: la
+capa C probablemente necesita dos niveles, «considerar» y «desaconsejado
+enfáticamente», en vez de uno solo.
+
+---
+
+## Estado final del dataset
+
+**Cobertura por perfil** (equipo `casa_basica`, nivel 2):
+
+| Perfil | Elegibles |
+|---|---|
+| No puede hacer overhead | 547 |
+| No puede bajar al suelo | 517 |
+| Equilibrio limitado | 474 |
+| Un solo brazo funcional | 425 |
+| Agarre limitado | 297 |
+| Silla de ruedas | 241 |
+| Movilidad reducida (perfil Estefani) | 197 |
+| Disautonomía, sin advertencia | 150 |
+
+**Calidad:** 77 de 842 fichas (9,1%) con `confidence < 0,75`. Esa es la cola de
+trabajo de E3, y está bien acotada.
+
+**Distribución de posiciones:** 359 de pie, 146 sentado, 79 banco supino, 63
+supino, 49 plancha. El sesgo hacia bipedestación del catálogo original es lo que
+explica la meseta de cobertura para perfiles con movilidad reducida.
+
+---
+
+## Qué sigue
+
+La clasificación ya no es el cuello de botella. Por orden de valor:
+
+1. **E4 — grafo de sustituciones.** Es lo que desbloquea producto. Ya hay
+   material acumulado: la cadena de elevación de talón (4→10 contraindicaciones
+   según apoyo e implemento), la familia toe touch (6→12→13), el intercambio
+   zercher/frontal por muñeca vs codo, la escala de implemento probada arriba, y
+   los pares suelo-de-accesibilidad por hemisferio (`1670` / `1759`).
+2. **Deduplicación.** Reduce el catálogo antes de que nada toque la UI.
+3. **E3 — 77 fichas de baja confianza**, más las decisiones anotadas: `0056`
+   (`overhead_position` probablemente debería ser `false`), `0421` / `0418`
+   (apoyo en el muslo posiblemente prescindible), severidad de la capa C.
+4. **Auditoría de `equipment`.** Cinco casos confirmados de equipo mal
+   declarado. No es seguridad, pero el filtro por equipo disponible va a
+   ofrecer ejercicios que el usuario no puede montar.
