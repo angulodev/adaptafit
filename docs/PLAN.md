@@ -9,7 +9,7 @@ Documento de seguimiento. Se actualiza con cada lote ejecutado.
 ## Estado global
 
 ```
-Clasificación manual   ███████████████████████░░░░░░░   684 / 895   (76,4%)
+Clasificación manual   ████████████████████████████░░   828 / 895   (92,5%)
 ```
 
 | Fase | Estado |
@@ -19,7 +19,7 @@ Clasificación manual   ██████████████████�
 | E1 — pre-seed heurístico | ✅ 94,6% `start_position` |
 | Motor de filtrado | ✅ funcionando |
 | Cola de trabajo priorizada | ✅ |
-| **Clasificación manual** | 🔄 **en curso — lote 35** |
+| **Clasificación manual** | 🔄 **en curso — lote 43** |
 | E2 — clasificación IA (opcional) | ⏸ listo, USD 7,79 |
 | E3 — revisión humana | ⬜ |
 | E4 — grafo de sustituciones | ⬜ |
@@ -74,6 +74,14 @@ punto, lo hecho es lo más útil.
 | **33** | 2026-07-24 | 18 | 648 | 72,4% | 1 | `batch_manual_33.py` |
 | **34** | 2026-07-24 | 18 | 666 | 74,4% | 2 | `batch_manual_34.py` |
 | **35** | 2026-07-24 | 18 | 684 | 76,4% | 1 | `batch_manual_35.py` |
+| **36** | 2026-07-25 | 18 | 702 | 78,4% | — | `batch_manual_36.py` |
+| **37** | 2026-07-25 | 18 | 720 | 80,4% | — | `batch_manual_37.py` |
+| **38** | 2026-07-25 | 18 | 738 | 82,5% | — | `batch_manual_38.py` |
+| **39** | 2026-07-25 | 18 | 756 | 84,5% | — | `batch_manual_39.py` |
+| **40** | 2026-07-25 | 18 | 774 | 86,5% | — | `batch_manual_40.py` |
+| **41** | 2026-07-26 | 18 | 792 | 88,5% | — | `batch_manual_41.py` |
+| **42** | 2026-07-26 | 18 | 810 | 90,5% | — | `batch_manual_42.py` |
+| **43** | 2026-07-26 | 18 | 828 | 92,5% | 6 | `batch_manual_43.py` |
 
 **Meta realista:** ~200-250 clasificados (lote 10-12) antes de que el contexto
 de conversación se agote. Con eso la app es plenamente funcional para uso
@@ -2484,3 +2492,125 @@ Estado de los sesgos de E1 (todos detectables por texto):
 Van **31 grupos**. El remo inclinado con barra tiene seis entradas para un solo
 ejercicio real, y ninguna es apta para hernia discal — es el patrón con menos
 variedad útil del catálogo.
+
+---
+
+## Lote 43 — el registro de lotes estaba desactualizado
+
+828 de 895 (92,5%). Quedan 67 en cola.
+
+**Nota de mantenimiento:** la tabla de *Registro de lotes* y la barra de
+progreso estaban congeladas en el lote 35 (684). Los lotes 36 a 42 se
+commitearon con sus archivos y su JSON pero sin actualizar `PLAN.md` ni
+`README.md`. Se reconstruyeron las siete filas faltantes desde el historial de
+commits (fechas y acumulados verificados uno a uno) antes de agregar la del 43.
+
+---
+
+## D-020 — unilateral no implica `one_arm_only`
+
+Veníamos aplicando una equivalencia implícita: si `laterality` es `unilateral`,
+entonces el ejercicio entra en `safe_for` de `one_arm_only`. El lote 43 rompe la
+regla con un contraejemplo limpio.
+
+`0356 dumbbell one arm lateral raise with support` es unilateral, pero el texto
+pide apoyar **la otra mano** en un banco o pared. El brazo libre no está libre:
+está sosteniendo al usuario. Para alguien con un solo brazo funcional el
+ejercicio es inejecutable, no accesible.
+
+**Regla:** `one_arm_only` entra en `safe_for` sólo si el segundo brazo no
+aparece en el texto en ningún rol — ni cargando, ni estabilizando, ni apoyando.
+Buscar `other hand`, `support`, `stable surface` antes de asignarlo.
+
+Hay que auditar los lotes anteriores por este patrón. Se agrega a la lista de E3.
+
+---
+
+## D-021 — conflicto entre la regla 1 y la regla 5 de la taxonomía
+
+`0107 barbell standing front raise over head` puso en evidencia una colisión que
+no estaba resuelta en el contrato:
+
+- **Regla 5:** si el nombre y las instrucciones se contradicen, priorizar las
+  instrucciones. El texto dice *slightly above shoulder level* → `oh=False`.
+- **Regla 1:** ante duda en un campo de seguridad, elegir el valor más
+  restrictivo. `overhead_position` es filtro duro de Capa A → `oh=True`.
+
+**Resolución adoptada:** la regla 1 gana sobre la regla 5 cuando el campo en
+disputa es un filtro duro de Capa A o una contraindicación. La regla 5 sigue
+mandando en todo lo demás (patrón, agarre, lateralidad, dificultad). El costo de
+equivocarse es asimétrico: un falso `no_overhead` quita un ejercicio de una
+lista; un falso "sí puede" manda a alguien con manguito rotador a levantar peso
+sobre la cabeza.
+
+Aplicado también a `2805`, donde el texto se contradice consigo mismo.
+
+---
+
+## El suelo de accesibilidad, por hemisferio
+
+Dos ejercicios de este lote son espejos exactos y merecen quedar marcados como
+sustitutos por defecto en E4:
+
+| | `1670` curl de pie a una mano | `1759` pistol squat |
+|---|---|---|
+| Contraindicaciones | 3 | 11 |
+| `safe_for` | 18 | 13 |
+| Dificultad | 1 | 5 |
+| Es `safe_for` de | todo el tren inferior | todo el tren superior |
+
+El curl no toca la pierna; el pistol no toca el brazo. `1759` es `safe_for` de
+`limited_grip` y `one_arm_only` justamente porque no necesita agarre ni carga
+externa — un ejercicio de dificultad 5 que sirve a perfiles que quedan fuera de
+casi todo el resto del catálogo.
+
+---
+
+## `3165 bodyweight standing row (with towel)` — traccion horizontal sin equipo
+
+Autorresistencia con toalla, sin ancla y sin carga. Eso cambia por completo la
+lectura de la bisagra: sin peso en las manos, `lumbar_disc` y `sciatica` bajan
+de contraindicación a `cautions`, algo que ningún otro remo del catálogo
+consigue. Es el equivalente en tracción horizontal del `isometric chest squeeze`
+que se identificó como piso de empuje horizontal.
+
+Su hermano `3167` (la misma toalla pero en sentadilla) pierde nueve `safe_for`
+sólo por agregar el descenso. Es la medida exacta de lo que cuesta acoplar un
+patrón de pierna a un ejercicio de brazo.
+
+---
+
+## Pérdidas de accesibilidad por nombres que mienten
+
+Tres casos del lote donde el nombre promete una versión accesible que el texto
+no describe:
+
+- `0379 dumbbell rear lateral raise (support head)` — la versión real apoya la
+  frente en un banco inclinado y elimina la bisagra. El texto no menciona apoyo
+  alguno. Clasificado sin apoyo, queda contraindicado para columna y cuello.
+- `2293 dumbbell standing zottman preacher curl` — encadena tres técnicas
+  incompatibles en un solo nombre.
+- `1000 band single leg reverse calf raise` — el texto describe una elevación de
+  talón normal, no una inversa.
+
+Los tres van a E3 con `confidence` entre 0,65 y 0,75. `0379` es el más caro: la
+versión con apoyo sería de las más accesibles del catálogo y hoy figura como
+contraindicada.
+
+---
+
+## Cobertura: confirmada la meseta
+
+| Perfil | L35 | L43 |
+|---|---|---|
+| Movilidad reducida | 197 | 197 |
+| Silla de ruedas | 241 | 241 |
+| Disautonomía sin advertencia | 152 | 150 |
+
+Ocho lotes sin mover la aguja. Ya no es ruido: la cola restante son 67
+ejercicios de pie, cargados y avanzados. **El valor de accesibilidad del
+enriquecimiento ya está capturado.** Lo que queda es completitud del catálogo
+para perfiles sin restricción, no cobertura para perfiles restringidos.
+
+Disautonomía baja dos: `0101` y `3167` agregan cambios de posición repetidos con
+`orthostatic_load` alto y entran como `flagged`.
