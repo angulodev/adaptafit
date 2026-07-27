@@ -63,11 +63,22 @@
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+<script>
+/* Babel 7.26 usa por defecto el runtime automatico de JSX, que emite
+   `import ... from "react/jsx-runtime"`. Dentro de un <script> clasico eso
+   lanza "Cannot use import statement outside a module" y la pagina queda en
+   blanco sin mostrar ningun error. Registramos un preset con runtime clasico
+   (React.createElement), que es lo que expone React por UMD. Tiene que ir
+   antes de que Babel escanee los scripts de tipo text/babel. */
+Babel.registerPreset("react-clasico", {
+  presets: [[Babel.availablePresets["react"], { runtime: "classic" }]]
+});
+</script>
 </head>
 <body>
 <div id="root"></div>
 
-<script type="text/babel" data-presets="react">
+<script type="text/babel" data-presets="react-clasico">
 const {useState,useEffect,useMemo,useRef} = React;
 
 /* ---------- utilidades ---------- */
