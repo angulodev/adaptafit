@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AdaptaFit — ejercicios que sí puedes hacer</title>
+<meta name="description" content="Marca tus restricciones y mira qué queda disponible.">
+<meta name="theme-color" content="#0F2A1D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F2A1D; --deep:#375534; --mid:#6B9071; --soft:#AEC3B0; --pale:#E3EED4;
+    --paper:#F4F8EC;
+    --amber:#8A5A00; --amber-bg:#F6E7C4;
+    --clay:#8C4A3F; --clay-bg:#F0DED9;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:Inter,system-ui,sans-serif; font-size:16px; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  h1,h2,h3,.display{font-family:"Bricolage Grotesque",Inter,sans-serif;letter-spacing:-.02em;line-height:1.08}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  button{font:inherit;color:inherit;cursor:pointer}
+  :focus-visible{outline:3px solid var(--deep);outline-offset:2px;border-radius:6px}
+  .wrap{max-width:560px;margin:0 auto;padding:0 18px}
+
+  /* fichas de condicion */
+  .chip{
+    border:1.5px solid var(--soft); background:#fff; color:var(--deep);
+    border-radius:999px; padding:9px 14px; font-size:14.5px; font-weight:500;
+    transition:background .13s,border-color .13s,color .13s;
+    text-align:left;
+  }
+  .chip:hover{border-color:var(--mid)}
+  .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--pale)}
+
+  .card{background:#fff;border:1px solid var(--soft);border-radius:var(--r)}
+
+  /* mapa corporal */
+  .zone{cursor:pointer;transition:opacity .15s}
+  .zone:hover{opacity:.82}
+  .zone.sel{stroke:var(--ink);stroke-width:2.5}
+  .body-base{fill:#fff;stroke:var(--soft);stroke-width:1.5}
+
+  .bar{height:6px;border-radius:99px;background:var(--soft);overflow:hidden}
+  .bar>i{display:block;height:100%;background:var(--deep)}
+
+  .sheet{animation:up .22s cubic-bezier(.2,.8,.2,1)}
+  @keyframes up{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  .scroll-x{overflow-x:auto;scrollbar-width:none}
+  .scroll-x::-webkit-scrollbar{display:none}
+</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+const {useState,useEffect,useMemo,useRef} = React;
+
+/* ---------- utilidades ---------- */
+const CAPA_INFO = {
+  A_movilidad:{
+    titulo:"Cómo te mueves",
+    ayuda:"Estas descartan un ejercicio por completo. Si no puedes adoptar la postura, no hay forma de adaptarlo."
+  },
+  B_lesion_articular:{
+    titulo:"Articulaciones",
+    ayuda:"Descartan los ejercicios que cargan esa articulación por encima de tu umbral."
+  },
+  C_sistemica:{
+    titulo:"Salud general",
+    ayuda:"No descartan nada. Marcan con un aviso los ejercicios que conviene revisar antes."
+  }
+};
+
+function useCatalogo(){
+  const [d,setD]=useState(null), [err,setErr]=useState(null);
+  useEffect(()=>{
+    fetch("./catalog.json")
+      .then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+      .then(setD).catch(e=>setErr(e.message));
+  },[]);
+  return [d,err];
+}
+
+/* Filtro. Replica engine.py: una contraindicación descarta, una precaución avisa. */
+function filtrar(cat, sel, equipos){
+  const s = new Set(sel);
+  const out = [];
+  for(const e of cat.exercises){
+    if(equipos.length && !equipos.includes(e.eq)) continue;
+    if(e.c.some(c=>s.has(c))) continue;
+    const avisos = e.w.filter(c=>s.has(c));
+    out.push(avisos.length ? {...e, avisos} : {...e, avisos:[]});
+  }
+  return out;
+}
+
+/* ---------- mapa corporal ---------- */
+/* Figura esquemática propia. No es ilustración anatómica: son zonas legibles.  */
+const FRENTE = {
+  hombros:[["ellipse",{cx:63,cy:80,rx:17,ry:13}],["ellipse",{cx:137,cy:80,rx:17,ry:13}]],
+  pecho:[["rect",{x:72,y:70,width:56,height:40,rx:14}]],
+  core:[["rect",{x:76,y:114,width:48,height:52,rx:12}]],
+  biceps:[["rect",{x:44,y:92,width:20,height:52,rx:10}],["rect",{x:136,y:92,width:20,height:52,rx:10}]],
+  antebrazos:[["rect",{x:40,y:148,width:19,height:52,rx:9}],["rect",{x:141,y:148,width:19,height:52,rx:9}]],
+  caderas:[["rect",{x:72,y:170,width:56,height:26,rx:12}]],
+  cuadriceps:[["rect",{x:75,y:200,width:22,height:74,rx:11}],["rect",{x:103,y:200,width:22,height:74,rx:11}]],
+  cardio:[["circle",{cx:100,cy:90,r:11}]]
+};
+const ESPALDA = {
+  espalda:[["rect",{x:72,y:70,width:56,height:46,rx:14}]],
+  triceps:[["rect",{x:44,y:92,width:20,height:52,rx:10}],["rect",{x:136,y:92,width:20,height:52,rx:10}]],
+  lumbar:[["rect",{x:76,y:120,width:48,height:44,rx:12}]],
+  gluteos:[["rect",{x:72,y:168,width:56,height:32,rx:14}]],
+  isquios:[["rect",{x:75,y:204,width:22,height:70,rx:11}],["rect",{x:103,y:204,width:22,height:70,rx:11}]],
+  gemelos:[["rect",{x:77,y:280,width:19,height:56,rx:9}],["rect",{x:104,y:280,width:19,height:56,rx:9}]]
+};
+const ZONA_ES = {pecho:"Pecho",hombros:"Hombros",biceps:"Bíceps",triceps:"Tríceps",
+  antebrazos:"Antebrazos",core:"Abdomen",espalda:"Espalda",lumbar:"Lumbar",
+  gluteos:"Glúteos",cuadriceps:"Cuádriceps",isquios:"Isquios",gemelos:"Gemelos",
+  caderas:"Caderas",cardio:"Cardio",otros:"Otros"};
+
+function tono(n,max){
+  if(n===0) return "#EDEDE6";
+  const t = max ? n/max : 0;
+  if(t>.66) return "var(--ink)";
+  if(t>.33) return "var(--deep)";
+  if(t>.12) return "var(--mid)";
+  return "var(--soft)";
+}
+
+function MapaCuerpo({conteo,cara,setCara,zonaSel,setZona}){
+  const zonas = cara==="frente"?FRENTE:ESPALDA;
+  const max = Math.max(1,...Object.values(conteo));
+  return (
+    <div>
+      <div className="flex justify-center gap-1 mb-1">
+        {[["frente","Frente"],["espalda","Espalda"]].map(([k,l])=>(
+          <button key={k} onClick={()=>setCara(k)} aria-pressed={cara===k}
+            className="chip" style={{padding:"6px 16px",fontSize:13.5}}>{l}</button>
+        ))}
+      </div>
+      <svg viewBox="0 0 200 360" className="w-full" style={{maxHeight:"46vh"}}
+           role="img" aria-label="Mapa del cuerpo con las zonas disponibles">
+        {/* silueta base */}
+        <g className="body-base">
+          <circle cx="100" cy="36" r="19"/>
+          <rect x="92" y="52" width="16" height="16" rx="5"/>
+          <rect x="70" y="66" width="60" height="132" rx="18"/>
+          <rect x="42" y="86" width="24" height="118" rx="12"/>
+          <rect x="134" y="86" width="24" height="118" rx="12"/>
+          <rect x="73" y="196" width="26" height="146" rx="13"/>
+          <rect x="101" y="196" width="26" height="146" rx="13"/>
+        </g>
+        {Object.entries(zonas).map(([z,formas])=>{
+          const n = conteo[z]||0;
+          const act = zonaSel===z;
+          return (
+            <g key={z} className={"zone"+(act?" sel":"")} onClick={()=>setZona(act?null:z)}
+               role="button" tabIndex="0"
+               onKeyDown={ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();setZona(act?null:z)}}}
+               aria-label={`${ZONA_ES[z]}: ${n} ejercicios`}>
+              {formas.map(([tag,at],i)=>React.createElement(tag,{key:i,...at,
+                fill:tono(n,max), stroke:act?"var(--ink)":"none", strokeWidth:act?2.5:0}))}
+            </g>
+          );
+        })}
+      </svg>
+      <div className="flex items-center justify-center gap-3 text-[11px] mono" style={{color:"var(--deep)"}}>
+        <span className="flex items-center gap-1"><i style={{width:11,height:11,borderRadius:3,background:"#EDEDE6",display:"inline-block"}}/>nada</span>
+        <span className="flex items-center gap-1"><i style={{width:11,height:11,borderRadius:3,background:"var(--soft)",display:"inline-block"}}/>poco</span>
+        <span className="flex items-center gap-1"><i style={{width:11,height:11,borderRadius:3,background:"var(--deep)",display:"inline-block"}}/>bastante</span>
+        <span className="flex items-center gap-1"><i style={{width:11,height:11,borderRadius:3,background:"var(--ink)",display:"inline-block"}}/>mucho</span>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- pantalla de perfil ---------- */
+function Perfil({cat,sel,setSel,equipos,setEquipos,vivos,ir}){
+  const toggle=(i)=>setSel(s=>s.includes(i)?s.filter(x=>x!==i):[...s,i]);
+  const togEq=(e)=>setEquipos(s=>s.includes(e)?s.filter(x=>x!==e):[...s,e]);
+  return (
+    <div className="pb-32">
+      <header className="wrap pt-9 pb-6">
+        <p className="mono text-[11px] tracking-[.18em] uppercase" style={{color:"var(--mid)"}}>AdaptaFit</p>
+        <h1 className="display text-[34px] font-extrabold mt-2">Dinos qué evitar.<br/>Nosotros quitamos el resto.</h1>
+        <p className="mt-3 text-[15px]" style={{color:"var(--deep)"}}>
+          Marca solo lo que te afecta. Puedes dejar todo sin marcar y ver el catálogo completo.
+        </p>
+      </header>
+
+      {Object.entries(cat.layers).map(([capa,idxs])=>(
+        <section key={capa} className="wrap mb-7">
+          <h2 className="display text-[19px] font-semibold">{CAPA_INFO[capa].titulo}</h2>
+          <p className="text-[13.5px] mt-1 mb-3" style={{color:"var(--mid)"}}>{CAPA_INFO[capa].ayuda}</p>
+          <div className="flex flex-wrap gap-2">
+            {idxs.map(i=>(
+              <button key={i} className="chip" aria-pressed={sel.includes(i)} onClick={()=>toggle(i)}>
+                {cat.labels[i]}
+              </button>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      <section className="wrap mb-7">
+        <h2 className="display text-[19px] font-semibold">Qué tienes a mano</h2>
+        <p className="text-[13.5px] mt-1 mb-3" style={{color:"var(--mid)"}}>Sin marcar nada se muestra todo el equipo.</p>
+        <div className="flex flex-wrap gap-2">
+          {cat.equipos.map(e=>(
+            <button key={e} className="chip" aria-pressed={equipos.includes(e)} onClick={()=>togEq(e)}>{e}</button>
+          ))}
+        </div>
+      </section>
+
+      <div className="fixed bottom-0 inset-x-0 border-t"
+           style={{background:"var(--paper)",borderColor:"var(--soft)",paddingBottom:"env(safe-area-inset-bottom)"}}>
+        <div className="wrap py-3 flex items-center gap-3">
+          <div className="flex-1">
+            <p className="mono text-[22px] font-semibold leading-none">{vivos.length}</p>
+            <p className="text-[12.5px]" style={{color:"var(--mid)"}}>
+              {vivos.length===1?"ejercicio disponible":"ejercicios disponibles"}
+              {sel.length>0 && ` · ${sel.length} ${sel.length===1?"condición":"condiciones"}`}
+            </p>
+          </div>
+          <button onClick={ir} disabled={!vivos.length}
+            className="px-6 py-3 rounded-full font-semibold text-[15px] disabled:opacity-40"
+            style={{background:"var(--ink)",color:"var(--pale)"}}>
+            Ver resultados
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- ficha de ejercicio ---------- */
+function Ficha({e,cat,cerrar}){
+  return (
+    <div className="fixed inset-0 z-30 flex items-end justify-center" style={{background:"rgba(15,42,29,.45)"}}
+         onClick={cerrar}>
+      <div className="sheet w-full max-w-[560px] rounded-t-3xl p-5 pb-8 max-h-[85vh] overflow-y-auto"
+           style={{background:"var(--paper)"}} onClick={ev=>ev.stopPropagation()} role="dialog" aria-modal="true">
+        <div className="w-10 h-1 rounded-full mx-auto mb-4" style={{background:"var(--soft)"}}/>
+        <p className="mono text-[11px] uppercase tracking-[.14em]" style={{color:"var(--mid)"}}>
+          {ZONA_ES[e.z]} · {e.p}
+        </p>
+        <h2 className="display text-[24px] font-bold mt-1.5">{e.n}</h2>
+        <p className="text-[13px] mt-1" style={{color:"var(--mid)"}}>{e.eq} · dificultad {e.d} de 5</p>
+
+        {e.avisos.length>0 && (
+          <div className="mt-4 rounded-xl p-4" style={{background:"var(--amber-bg)"}}>
+            <p className="font-semibold text-[14px]" style={{color:"var(--amber)"}}>Revisa antes de hacerlo</p>
+            <ul className="mt-2 space-y-1 text-[14px]" style={{color:"var(--amber)"}}>
+              {e.avisos.map(i=><li key={i}>· {cat.labels[i]}</li>)}
+            </ul>
+            <p className="text-[12.5px] mt-2.5" style={{color:"var(--amber)"}}>
+              No está descartado, pero tu situación aconseja consultarlo o empezar muy suave.
+            </p>
+          </div>
+        )}
+
+        {e.s.length>0 && (
+          <div className="mt-4">
+            <p className="font-semibold text-[14px]">Seguro incluso con</p>
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {e.s.slice(0,14).map(i=>(
+                <span key={i} className="text-[12.5px] px-2.5 py-1 rounded-full"
+                      style={{background:"var(--pale)",color:"var(--deep)"}}>{cat.labels[i]}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-5 pt-4 border-t text-[12px] mono" style={{borderColor:"var(--soft)",color:"var(--mid)"}}>
+          id {e.i} · confianza {e.cf.toFixed(2)}
+          {e.v>1 && ` · agrupa ${e.v} fichas equivalentes`}
+        </div>
+        <button onClick={cerrar} className="mt-5 w-full py-3 rounded-full font-semibold"
+          style={{background:"var(--ink)",color:"var(--pale)"}}>Cerrar</button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- pantalla de resultados ---------- */
+function Resultados({cat,vivos,sel,volver}){
+  const [cara,setCara]=useState("frente");
+  const [zona,setZona]=useState(null);
+  const [abierto,setAbierto]=useState(null);
+  const [soloLimpios,setSolo]=useState(false);
+
+  const conteo = useMemo(()=>{
+    const c={}; for(const e of vivos) c[e.z]=(c[e.z]||0)+1; return c;
+  },[vivos]);
+
+  const lista = useMemo(()=>{
+    let l = zona ? vivos.filter(e=>e.z===zona) : vivos;
+    if(soloLimpios) l = l.filter(e=>!e.avisos.length);
+    return l.slice().sort((a,b)=>a.d-b.d||a.n.localeCompare(b.n,"es"));
+  },[vivos,zona,soloLimpios]);
+
+  const conAviso = vivos.filter(e=>e.avisos.length).length;
+
+  return (
+    <div className="pb-10">
+      <header className="wrap pt-6 pb-2 flex items-start gap-3">
+        <button onClick={volver} aria-label="Volver al perfil"
+          className="chip shrink-0" style={{padding:"7px 13px"}}>← Perfil</button>
+        <div className="min-w-0">
+          <p className="mono text-[26px] font-semibold leading-none">{vivos.length}</p>
+          <p className="text-[13px]" style={{color:"var(--mid)"}}>
+            ejercicios pasan tu filtro{conAviso>0 && `, ${conAviso} con aviso`}
+          </p>
+        </div>
+      </header>
+
+      <div className="wrap">
+        <MapaCuerpo conteo={conteo} cara={cara} setCara={setCara} zonaSel={zona} setZona={setZona}/>
+      </div>
+
+      <div className="wrap mt-5 flex items-center gap-2 flex-wrap">
+        {zona && (
+          <button className="chip" aria-pressed="true" onClick={()=>setZona(null)}>
+            {ZONA_ES[zona]} ✕
+          </button>
+        )}
+        {conAviso>0 && (
+          <button className="chip" aria-pressed={soloLimpios} onClick={()=>setSolo(v=>!v)}>
+            Ocultar los que tienen aviso
+          </button>
+        )}
+        <span className="mono text-[12px] ml-auto" style={{color:"var(--mid)"}}>{lista.length}</span>
+      </div>
+
+      <ul className="wrap mt-3 space-y-2">
+        {lista.length===0 && (
+          <li className="card p-6 text-center">
+            <p className="font-semibold">Esta zona se queda vacía</p>
+            <p className="text-[14px] mt-1" style={{color:"var(--mid)"}}>
+              Ninguno de los ejercicios de {zona?ZONA_ES[zona].toLowerCase():"aquí"} pasa tu filtro.
+              Prueba otra zona del mapa.
+            </p>
+          </li>
+        )}
+        {lista.slice(0,140).map(e=>(
+          <li key={e.i}>
+            <button onClick={()=>setAbierto(e)}
+              className="card w-full text-left p-3.5 flex items-center gap-3 hover:border-[var(--mid)]">
+              <span className="shrink-0 w-9 h-9 rounded-lg grid place-items-center mono text-[13px] font-semibold"
+                    style={{background:"var(--pale)",color:"var(--deep)"}}>{e.d}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-medium text-[15px] leading-tight truncate">{e.n}</span>
+                <span className="block text-[12.5px] mt-0.5" style={{color:"var(--mid)"}}>{e.eq} · {e.p}</span>
+              </span>
+              {e.avisos.length>0 && (
+                <span className="shrink-0 text-[11px] mono px-2 py-1 rounded-full"
+                      style={{background:"var(--amber-bg)",color:"var(--amber)"}}>aviso</span>
+              )}
+            </button>
+          </li>
+        ))}
+        {lista.length>140 && (
+          <li className="text-center text-[13px] py-3" style={{color:"var(--mid)"}}>
+            y {lista.length-140} más. Toca una zona del mapa para acotar.
+          </li>
+        )}
+      </ul>
+
+      {abierto && <Ficha e={abierto} cat={cat} cerrar={()=>setAbierto(null)}/>}
+    </div>
+  );
+}
+
+/* ---------- app ---------- */
+function App(){
+  const [cat,err]=useCatalogo();
+  const [sel,setSel]=useState([]);
+  const [equipos,setEquipos]=useState([]);
+  const [vista,setVista]=useState("perfil");
+
+  const vivos = useMemo(()=>cat?filtrar(cat,sel,equipos):[],[cat,sel,equipos]);
+
+  if(err) return (
+    <div className="wrap pt-24 text-center">
+      <h1 className="display text-[22px] font-bold">No se pudo cargar el catálogo</h1>
+      <p className="mt-2 text-[14px]" style={{color:"var(--mid)"}}>
+        Falta <span className="mono">catalog.json</span> junto a este archivo. Genéralo con
+        <span className="mono"> build_ui_catalog.py</span>.
+      </p>
+    </div>
+  );
+  if(!cat) return (
+    <div className="wrap pt-24 text-center" style={{color:"var(--mid)"}}>
+      <p className="mono text-[13px]">Cargando catálogo…</p>
+    </div>
+  );
+
+  return vista==="perfil"
+    ? <Perfil cat={cat} sel={sel} setSel={setSel} equipos={equipos} setEquipos={setEquipos}
+              vivos={vivos} ir={()=>{setVista("resultados");window.scrollTo(0,0)}}/>
+    : <Resultados cat={cat} vivos={vivos} sel={sel}
+                  volver={()=>{setVista("perfil");window.scrollTo(0,0)}}/>;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

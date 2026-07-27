@@ -3147,3 +3147,70 @@ La clasificación ya no es el cuello de botella. Por orden de valor:
 4. **Auditoría de `equipment`.** Cinco casos confirmados de equipo mal
    declarado. No es seguridad, pero el filtro por equipo disponible va a
    ofrecer ejercicios que el usuario no puede montar.
+
+---
+
+# Slice vertical — y el problema que destapó
+
+Primera interfaz en `ui/`. Perfil → mapa corporal → lista filtrada. Sin
+rutinas, sin persistencia. Catálogo deduplicado: **842 fichas → 694 ejercicios**
+(148 colapsados por firma de clasificación idéntica).
+
+---
+
+## D-022 — el filtro trata la ausencia de evidencia como seguridad
+
+Al simular el filtro sobre el catálogo exportado apareció esto:
+
+| Condición de capa A | Contra | `safe_for` | **Sin evaluar** |
+|---|---|---|---|
+| `cannot_stand` | 319 | 362 | 13 |
+| `no_overhead` | 137 | 508 | 49 |
+| `limited_grip` | 419 | 190 | 85 |
+| `cannot_get_on_floor` | 142 | 370 | 182 |
+| `cannot_lie_supine` | 121 | 301 | 272 |
+| `limited_balance` | 138 | 245 | 311 |
+| `cannot_kneel` | 13 | 306 | 375 |
+| `wheelchair` | 290 | 2 | **402** |
+| `one_arm_only` | 48 | 88 | **558** |
+| `cannot_sit_unsupported` | 26 | 5 | **663** |
+| `visual_impairment` | 26 | 0 | **668** |
+| `cannot_lie_on_side` | 13 | 9 | **672** |
+
+El motor funciona como **lista negra**: descarta si la condición aparece en
+`contraindications`, y deja pasar todo lo demás. Pero «lo demás» incluye cientos
+de ejercicios que **nadie evaluó nunca para esa condición**.
+
+Caso concreto: `one_arm_only`. Un curl bilateral con mancuernas no lleva
+`one_arm_only` en contraindicaciones — lleva `limited_grip`, o nada. Así que
+**pasa el filtro de alguien con un solo brazo funcional**. 558 ejercicios están
+en esa situación.
+
+### Por qué importa más de lo que parece
+
+Llevamos 17 lotes reportando «241 elegibles para silla de ruedas» como métrica
+de cobertura. Ese número descansa sobre 402 ejercicios que nadie miró desde la
+perspectiva de una silla de ruedas. **La cifra no es falsa, es que no significa
+lo que creíamos que significaba.**
+
+Y explica retroactivamente la meseta: la cobertura no dejó de subir porque el
+catálogo se agotara, sino porque el numerador ya estaba saturado de ejercicios
+que pasan por omisión.
+
+### Qué hacer
+
+Las condiciones de capa A no admiten lista negra. Si alguien no puede sostener
+nada con la mano izquierda, la pregunta no es «¿está prohibido?» sino
+«¿está demostrado que se puede?». Necesitan **lista blanca**: sólo pasa lo que
+tiene la condición explícita en `safe_for`.
+
+Eso hunde las cifras — `one_arm_only` pasaría de 646 a 88 — pero 88 verificados
+valen más que 646 sin comprobar. Y da un objetivo de trabajo claro y medible,
+que es justamente lo que a E3 le faltaba.
+
+Propuesta: lista blanca para capa A, lista negra para capa B, avisos para capa C.
+No es un ajuste de umbral, es un cambio de semántica por capa, y hay que
+decidirlo antes de tocar nada más.
+
+**El slice hizo su trabajo.** No descubrimos esto en 47 lotes de clasificación;
+lo descubrimos en la primera hora de tener datos en pantalla.
